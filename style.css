@@ -183,7 +183,7 @@ nav {
 }
 .hero-title {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(42px, 7vw, 96px);
+  font-size: 40;
   font-weight: 900;
   line-height: 1.0;
   letter-spacing: -0.02em;
