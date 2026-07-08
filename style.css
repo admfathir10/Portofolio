@@ -433,7 +433,7 @@ section { position: relative; }
 }
 /* GANTI FOTO SKILL DI SINI — sesuaikan nama file */
 .skill-card:nth-child(1)::after { background-image: url('images/display-photo.jpg'); }
-.skill-card:nth-child(2)::after { background-image: url('images/skill-video.jpg'); }
+.skill-card:nth-child(2)::after { background-image: url('images/Video.png'); }
 .skill-card:nth-child(3)::after { background-image: url('images/graphic.jpg'); }
 .skill-card:hover { background: var(--forest); --photo-opacity: 0.30; }
 .skill-card:hover::before { height: 100%; }
