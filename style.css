@@ -636,7 +636,7 @@ section { position: relative; }
   width: 80%; height: 1px;
   background: linear-gradient(to right, transparent, rgba(250,213,134,0.3) 20%, rgba(250,213,134,0.3) 80%, transparent);
 }
-.process-step { padding: 0 32px; position: relative; }
+.process-step { padding: 0 32px; position: relative; text-align: center; }
 .step-dot {
   width: 64px; height: 64px;
   border-radius: 50%;
@@ -644,7 +644,7 @@ section { position: relative; }
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 32px;
+  margin: 0 auto 32px auto; /* center horizontal */
   font-size: 24px;
   background: var(--black);
   position: relative;
@@ -659,7 +659,7 @@ section { position: relative; }
   opacity: 0.7;
 }
 .step-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 12px; }
-.step-desc { font-size: 14px; font-weight: 300; color: rgba(214,239,199,0.55); line-height: 1.7; }
+.step-desc { font-size: 14px; font-weight: 300; color: rgba(214,239,199,0.55); line-height: 1.7; text-align: left; }
 
 /* ── TESTIMONIAL ── */
 .testimonial { padding: 120px 48px; background: var(--forest); overflow: hidden; }
