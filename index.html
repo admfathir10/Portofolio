@@ -351,25 +351,90 @@
   </div>
 </section>
 
-<!-- TESTIMONIAL -->
+<!-- TESTIMONIAL SLIDER -->
 <section class="testimonial">
   <div class="testimonial-inner">
+
+    <!-- Label -->
+    <div class="section-label reveal" style="justify-content:center; margin-bottom:48px;">Testimoni</div>
+
+    <!-- Quote besar dekoratif -->
     <div class="quote-mark">"</div>
-    <blockquote class="testimonial-text reveal">
-      "Hasil fotonya luar biasa — bukan cuma gambar bagus, tapi benar-benar menangkap perasaan di hari terbaik hidup kami. Profesional, kreatif, dan sangat perhatian terhadap detail."
-    </blockquote>
-    <div class="testimonial-author reveal reveal-delay-1">
-      <div class="author-avatar">👰</div>
-      <div>
-        <div class="author-name">ANISA & RAHMAN</div>
-        <div class="author-role">Wedding Client — Nganjuk, 2021</div>
+
+    <!-- Slider wrapper -->
+    <div class="t-slider" id="tSlider">
+
+      <!-- ── SLIDE 1 — GANTI ISI SESUAI KLIEN KAMU ── -->
+      <div class="t-slide active">
+        <blockquote class="testimonial-text">
+          "Hasil fotonya luar biasa — bukan cuma gambar bagus, tapi benar-benar menangkap
+          perasaan di hari terbaik hidup kami. Profesional, kreatif, dan sangat perhatian
+          terhadap detail."
+        </blockquote>
+        <div class="testimonial-author">
+          <div class="author-avatar">👰</div>
+          <div>
+            <div class="author-name">ANISA &amp; RAHMAN</div>
+            <div class="author-role">Wedding Photography — Nganjuk, 2021</div>
+          </div>
+        </div>
       </div>
+
+      <!-- ── SLIDE 2 — GANTI ISI SESUAI KLIEN KAMU ── -->
+      <div class="t-slide">
+        <blockquote class="testimonial-text">
+          "Video cinematic-nya melampaui ekspektasi saya. Setiap frame terasa seperti
+          adegan film sungguhan. Editing-nya rapi, musiknya pas, dan semuanya selesai
+          tepat waktu. Sangat direkomendasikan!"
+        </blockquote>
+        <div class="testimonial-author">
+          <div class="author-avatar">🎬</div>
+          <div>
+            <div class="author-name">DIKA PRATAMA</div>
+            <div class="author-role">Videografi Marketing — Kediri, 2024</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SLIDE 3 — GANTI ISI SESUAI KLIEN KAMU ── -->
+      <div class="t-slide">
+        <blockquote class="testimonial-text">
+          "Desain logo dan konten sosmed yang dibuat benar-benar mencerminkan brand kami.
+          Responsif, paham brief dengan cepat, dan hasilnya selalu di atas ekspektasi.
+          Akan terus kerja sama!"
+        </blockquote>
+        <div class="testimonial-author">
+          <div class="author-avatar">🎨</div>
+          <div>
+            <div class="author-name">SARI INDAH</div>
+            <div class="author-role">Digital Creative — Surabaya, 2024</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /t-slider -->
+
+    <!-- Navigasi: panah kiri & kanan -->
+    <div class="t-nav">
+      <button class="t-arrow t-prev" id="tPrev" aria-label="Sebelumnya">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <!-- Dots -->
+      <div class="testimonial-dots">
+        <div class="t-dot active" data-index="0"></div>
+        <div class="t-dot" data-index="1"></div>
+        <div class="t-dot" data-index="2"></div>
+      </div>
+
+      <button class="t-arrow t-next" id="tNext" aria-label="Berikutnya">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
     </div>
-    <div class="testimonial-dots">
-      <div class="t-dot active"></div>
-      <div class="t-dot"></div>
-      <div class="t-dot"></div>
-    </div>
+
+    <!-- Progress bar auto-slide -->
+    <div class="t-progress"><div class="t-progress-bar" id="tProgressBar"></div></div>
+
   </div>
 </section>
 
