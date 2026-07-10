@@ -472,16 +472,17 @@
       </div>
     </div>
 
-    <!-- Form ini sudah disetel untuk Netlify Forms (gratis, tanpa server). -->
-    <form class="contact-form reveal reveal-delay-3" name="contact" method="POST" data-netlify="true">
-      <input type="hidden" name="form-name" value="contact">
+    <!-- Form — kirim via WhatsApp -->
+    <form class="contact-form reveal reveal-delay-3" name="contact" id="contactForm">
       <input type="hidden" name="layanan" id="layanan-hidden" value="">
       <div class="form-row">
-        <input type="text" name="nama" class="form-input" placeholder="Nama Anda" required>
-        <input type="email" name="email" class="form-input" placeholder="Alamat Email" required>
+        <input type="text" name="nama" id="inputNama" class="form-input" placeholder="Nama Anda" required>
+        <input type="email" name="email" id="inputEmail" class="form-input" placeholder="Alamat Email" required>
       </div>
-      <textarea name="pesan" class="form-textarea" placeholder="Ceritakan proyek atau kebutuhan Anda..."></textarea>
-      <button type="submit" class="btn-primary" style="align-self:center; cursor:none; border:none; font-size:11px;">Kirim Pesan →</button>
+      <textarea name="pesan" id="inputPesan" class="form-textarea" placeholder="Ceritakan proyek atau kebutuhan Anda..."></textarea>
+      <button type="button" onclick="kirimWA()" class="btn-primary btn-wa" style="align-self:center; cursor:none; border:none; font-size:11px;">
+        <i class="fa-brands fa-whatsapp"></i> Kirim via WhatsApp →
+      </button>
     </form>
     <!-- GANTI KONTAK DI SINI -->
     <div class="contact-info reveal reveal-delay-3">
