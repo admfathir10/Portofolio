@@ -112,14 +112,91 @@ window.addEventListener('scroll', function() {
 });
 
 
-// ---- 6. TESTIMONIAL DOTS ----
-var tDots = document.querySelectorAll('.t-dot');
-tDots.forEach(function(d) {
-  d.addEventListener('click', function() {
-    tDots.forEach(function(t) { t.classList.remove('active'); });
-    d.classList.add('active');
+// ---- 6. TESTIMONIAL AUTO-SLIDER ----
+(function() {
+  var slides      = document.querySelectorAll('.t-slide');
+  var dots        = document.querySelectorAll('.t-dot');
+  var prevBtn     = document.getElementById('tPrev');
+  var nextBtn     = document.getElementById('tNext');
+  var progressBar = document.getElementById('tProgressBar');
+  if (!slides.length) return;
+
+  var current  = 0;
+  var total    = slides.length;
+  var timer    = null;
+  var DURATION = 5000;
+
+  function goTo(index) {
+    var direction = index > current ? 'next' : 'prev';
+
+    slides[current].classList.remove('active');
+    slides[current].classList.add('leaving-' + direction);
+    dots[current].classList.remove('active');
+
+    current = (index + total) % total;
+
+    slides[current].classList.add('entering-' + direction);
+    slides[current].offsetHeight; // force reflow
+    slides[current].classList.add('active');
+    slides[current].classList.remove('entering-' + direction);
+    dots[current].classList.add('active');
+
+    setTimeout(function() {
+      slides.forEach(function(s) {
+        s.classList.remove('leaving-next', 'leaving-prev');
+      });
+    }, 600);
+
+    resetProgress();
+  }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(function() { goTo(current + 1); }, DURATION);
+  }
+
+  function resetProgress() {
+    if (!progressBar) return;
+    progressBar.style.transition = 'none';
+    progressBar.style.width = '0%';
+    progressBar.offsetHeight; // force reflow
+    progressBar.style.transition = 'width ' + DURATION + 'ms linear';
+    progressBar.style.width = '100%';
+  }
+
+  dots.forEach(function(dot) {
+    dot.addEventListener('click', function() {
+      var idx = parseInt(dot.getAttribute('data-index'));
+      if (idx !== current) { goTo(idx); startTimer(); }
+    });
   });
-});
+
+  if (prevBtn) prevBtn.addEventListener('click', function() { goTo(current - 1); startTimer(); });
+  if (nextBtn) nextBtn.addEventListener('click', function() { goTo(current + 1); startTimer(); });
+
+  // Pause saat hover
+  var section = document.querySelector('.testimonial');
+  if (section) {
+    section.addEventListener('mouseenter', function() { clearInterval(timer); });
+    section.addEventListener('mouseleave', function() { startTimer(); });
+  }
+
+  // Swipe mobile
+  var touchStartX = 0;
+  var slider = document.getElementById('tSlider');
+  if (slider) {
+    slider.addEventListener('touchstart', function(e) {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    slider.addEventListener('touchend', function(e) {
+      var diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) { goTo(diff > 0 ? current + 1 : current - 1); startTimer(); }
+    }, { passive: true });
+  }
+
+  resetProgress();
+  startTimer();
+})();
 
 
 // ---- 7. HERO LENS PARALLAX ----
