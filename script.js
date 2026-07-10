@@ -254,3 +254,47 @@ document.addEventListener('keydown', function(e) {
     closeYtModal();
   }
 });
+
+
+// ---- 9. KIRIM PESAN VIA WHATSAPP ----
+// GANTI NOMOR WA DI BAWAH INI (format: 62 + nomor tanpa 0 di depan)
+var WA_NUMBER = '6281249232255';
+
+function kirimWA() {
+  var nama    = document.getElementById('inputNama');
+  var email   = document.getElementById('inputEmail');
+  var pesan   = document.getElementById('inputPesan');
+  var layanan = document.getElementById('layanan-hidden');
+
+  // Validasi field wajib
+  if (!nama || !nama.value.trim()) {
+    alert('Mohon isi nama Anda terlebih dahulu.');
+    if (nama) nama.focus();
+    return;
+  }
+  if (!pesan || !pesan.value.trim()) {
+    alert('Mohon ceritakan proyek atau kebutuhan Anda.');
+    if (pesan) pesan.focus();
+    return;
+  }
+
+  // Ambil layanan yang dipilih dari service picker
+  var layananDipilih = layanan ? layanan.value : '';
+  var labelLayanan   = '';
+  if (layananDipilih === 'fotografi')       labelLayanan = 'Fotografi';
+  else if (layananDipilih === 'videografi') labelLayanan = 'Videografi';
+  else if (layananDipilih === 'digital-creative') labelLayanan = 'Digital Creative';
+  else if (layananDipilih === 'web-development')  labelLayanan = 'Web Development';
+  else labelLayanan = 'Belum dipilih';
+
+  // Susun teks pesan WhatsApp
+  var teks =
+    'Halo Aruma Studio! Saya tertarik dengan layanan Anda.' +
+    '\n\n*Nama:* ' + nama.value.trim() +
+    '\n*Email:* ' + (email && email.value.trim() ? email.value.trim() : '-') +
+    '\n*Layanan:* ' + labelLayanan +
+    '\n\n*Pesan:*\n' + pesan.value.trim();
+
+  // Buka WhatsApp
+  window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(teks), '_blank');
+}
