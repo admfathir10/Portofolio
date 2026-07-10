@@ -296,5 +296,5 @@ function kirimWA() {
     '\n\n*Pesan:*\n' + pesan.value.trim();
 
   // Buka WhatsApp
-  window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(teks), '_blank');
+  window.open('https://wa.me/+6281249232255' + WA_NUMBER + '?text=' + encodeURIComponent(teks), '_blank');
 }
