@@ -133,12 +133,12 @@ var WEBDEV_PROJECTS = [
   // },
 
   {
-    nama      : 'Aruma Studio',
-    kategori  : 'Portfolio',
-    deskripsi : 'Aplikasi ZonaPAI Berbasis Website untuk Integrasi Pembelajaran PAI antara Murid dan Guru',
+    nama      : 'ZonaPAI',
+    kategori  : 'Web App',
+    deskripsi : 'Aplikasi ZonaPAI Berbasis Website untuk Integrasi Pembelajaran PAI antara Murid dan Guru.',
     tech      : ['HTML', 'CSS', 'JavaScript'],
-    gambar    : 'images/Tingkatkan Ibadahmu bersama ZonaPAI.jpg',
-    link      : 'zonapai.infinityfree.me',
+    gambar    : 'images/zonapai.jpg',
+    link      : 'https://zonapai.infinityfree.me',
     tahun     : '2026',
   },
 
