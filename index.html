@@ -199,9 +199,9 @@
       </div>
     </div>
     <!-- Web Development — subtle mention -->
-    <div class="webdev-note reveal">
-      <span class="webdev-badge">+</span>
-      <p>Juga tersedia layanan <strong>Web Development</strong> — landing page, portfolio, aplikasi dan situs sederhana yang fungsional dan estetik.</p>
+    <div class="webdev-note reveal" onclick="window.open('webdev.html','_blank')" style="cursor:none;" onmouseenter="this.style.background='rgba(250,213,134,0.07)';this.style.borderColor='rgba(250,213,134,0.3)'" onmouseleave="this.style.background='';this.style.borderColor=''" >
+      <span class="webdev-badge">→</span>
+      <p>Juga tersedia layanan <strong>Web Development</strong> — landing page, portfolio, aplikasi dan situs sederhana yang fungsional dan estetik. <span style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--amber);text-transform:uppercase;margin-left:8px;">Lihat Portofolio →</span></p>
     </div>
   </div>
 </section>
@@ -225,88 +225,8 @@
          Hapus emoji-nya, lalu tambahkan style background-image, contoh:
          <div class="portfolio-item-bg p1" style="background-image:url('images/karya1.jpg'); background-size:cover; background-position:center;"></div>
          Kelas p1-p6 cuma warna gradasi fallback, boleh dihapus kalau sudah pakai foto asli. -->
-    <div class="portfolio-grid">
-      <div class="portfolio-item wide reveal" data-cat="foto">
-        <div class="portfolio-item-bg"style="background-image:url('images/WhatsApp Image 2026-07-10 at 09.56.09.jpeg'); background-size:cover; background-position:center;"></div>
-        <div class="portfolio-overlay">
-          <div class="portfolio-cat">Wedding Photography</div>
-          <div class="portfolio-title">Bridemaid Clan</div>
-        </div>
-      </div>
-      <!-- VIDEO ITEM — ganti data-youtube dengan ID video YouTube kamu -->
-      <!-- Cara ambil ID: dari link https://youtu.be/XXXX atau https://youtube.com/watch?v=XXXX → ambil bagian XXXX -->
-      <div class="portfolio-item portfolio-item--video reveal reveal-delay-1" data-cat="video"
-           data-youtube="CFcCZ8xbHtQ"
-           data-title="Short Movie"
-           data-desc="GTK Creative Camp — Laras Rilis Kediri Laris">
-        <!-- Thumbnail otomatis dari YouTube, ganti ID di data-youtube -->
-        <div class="portfolio-item-bg yt-thumb"style="background-image:url('https://img.youtube.com/vi/CFcCZ8xbHtQ/maxresdefault.jpg'); background-size:cover; background-position:center;"></div>
-        <div class="yt-play-btn">
-          <div class="yt-play-icon"><i class="fa-solid fa-play"></i></div>
-        </div>
-        <div class="portfolio-overlay">
-          <div class="portfolio-cat">Short Movie</div>
-          <div class="portfolio-title">GTK Creative Camp — Laras Rilis Kediri Laris</div>
-        </div>
-      </div>
-      <div class="portfolio-item reveal reveal-delay-2" data-cat="foto">
-        <div class="portfolio-item-bg"style="background-image:url('images/Sakiva.jpg'); background-size:cover; background-position:center;"></div>
-        <div class="portfolio-overlay">
-          <div class="portfolio-cat">Graduation Photography</div>
-          <div class="portfolio-title">Objective Complete</div>
-        </div>
-      </div>
-      <div class="portfolio-item reveal reveal-delay-1" data-cat="desain">
-        <div class="portfolio-item-bg"style="background-image:url('images/Salsa.jpg'); background-size:cover; background-position:center;"></div>
-        <div class="portfolio-overlay">
-          <div class="portfolio-cat">Product Photography</div>
-          <div class="portfolio-title">Anjukladang T-Shirt</div>
-        </div>
-      </div>
-      <div class="portfolio-item reveal reveal-delay-2" data-cat="foto">
-        <div class="portfolio-item-bg"style="background-image:url('images/wedding.JPG'); background-size:cover; background-position:center;"></div>
-        <div class="portfolio-overlay">
-          <div class="portfolio-cat">Wedding Photography</div>
-          <div class="portfolio-title">Dreamy Eternity</div>
-        </div>
-      </div>
-      <div class="portfolio-item wide reveal reveal-delay-3" data-cat="desain">
-        <div class="portfolio-item-bg"style="background-image:url('images/Maternity.jpg'); background-size:cover; background-position:center;"></div>
-        <div class="portfolio-overlay">
-          <div class="portfolio-cat">Maternity Photography</div>
-          <div class="portfolio-title">Greetings</div>
-        </div>
-      </div>
-      <!-- VIDEO ITEM kedua — ganti data-youtube dengan ID video YouTube kamu -->
-      <div class="portfolio-item portfolio-item--video reveal reveal-delay-1" data-cat="video"
-           data-youtube="bE8YqOOyi_4"
-           data-title="Casual Video"
-           data-desc="Modelling">
-        <div class="portfolio-item-bg yt-thumb"
-             style="background-image:url('images/Azzahra.jpg'); background-size:cover; background-position:center;">
-        </div>
-        <div class="yt-play-btn">
-          <div class="yt-play-icon"><i class="fa-solid fa-play"></i></div>
-        </div>
-        <div class="portfolio-overlay">
-          <div class="portfolio-cat">Casual Video</div>
-          <div class="portfolio-title">Modelling</div>
-        </div>
-      </div>
-      <div class="portfolio-item reveal reveal-delay-2" data-cat="foto">
-        <div class="portfolio-item-bg"style="background-image:url('images/Food.jpg'); background-size:cover; background-position:center;"></div>
-        <div class="portfolio-overlay">
-          <div class="portfolio-cat">Foodies Photography</div>
-          <div class="portfolio-title">Menu Artisan — Zabo Cafe Jombang</div>
-        </div>
-      </div>
-      <div class="portfolio-item reveal reveal-delay-3" data-cat="desain">
-        <div class="portfolio-item-bg"style="background-image:url('images/wind.jpg'); background-size:cover; background-position:center;"></div>
-        <div class="portfolio-overlay">
-          <div class="portfolio-cat">Brand Identity</div>
-          <div class="portfolio-title">Logo & Visual — Wind</div>
-        </div>
-      </div>
+    <!-- PORTOFOLIO OTOMATIS — diisi dari portofolio.js, tidak perlu edit index.html -->
+    <div class="portfolio-grid" id="portfolioGrid">
     </div>
     <div class="portfolio-more reveal">
       <a href="#contact" class="btn-secondary">Lihat Semua Karya →</a>
@@ -465,10 +385,11 @@
         <div class="service-name">Digital Creative</div>
         <div class="service-subs">Logo · Flyer · Social Media · Banner · Advertisement · Branding</div>
       </div>
-      <div class="service-card" data-service="web-development">
+      <div class="service-card" data-service="web-development" onclick="window.open('webdev.html','_blank')" title="Lihat Portofolio Web Development">
         <div class="service-icon">💻</div>
         <div class="service-name">Web Development</div>
         <div class="service-subs">Landing Page · Portfolio · Company Profile · etc</div>
+        <div style="margin-top:10px;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:0.14em;color:var(--amber);text-transform:uppercase;opacity:0.7;">Lihat Karya →</div>
       </div>
     </div>
 
@@ -540,6 +461,7 @@
   </div>
 </div>
 
+<script src="portofolio.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
