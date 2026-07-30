@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web Development — Aruma Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="portofolio.js" defer></script>
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:       #0D2B27;
+  --forest:      #184D47;
+  --forest-mid:  #1F5C54;
+  --amber:       #FAD586;
+  --amber-light: #FCE1A6;
+  --offwhite:    #D6EFC7;
+  --sage:        #4F7F63;
+  --text-muted:  #7CA88C;
+  --blue-tint:   #1A2E4A;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--offwhite);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CURSOR ── */
+.cursor {
+  position: fixed;
+  width: 10px; height: 10px;
+  background: var(--amber);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, width 0.3s, height 0.3s;
+}
+.cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1.5px solid rgba(250,213,134,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, border-color 0.3s;
+}
+.cursor.hovered { width: 6px; height: 6px; }
+.cursor-ring.hovered { width: 52px; height: 52px; border-color: var(--amber); }
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 48px;
+  background: rgba(13,43,39,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(250,213,134,0.06);
+}
+.nav-logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: var(--amber);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.nav-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.3s;
+  cursor: none;
+}
+.nav-back:hover { color: var(--amber); }
+.nav-back i { font-size: 12px; }
+
+/* ── HERO ── */
+.wd-hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 48px 100px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, #0D2B27 0%, #1A2E4A 50%, #0D2B27 100%);
+}
+.wd-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 70% 40%, rgba(250,213,134,0.06), transparent 65%),
+    radial-gradient(ellipse 40% 60% at 15% 70%, rgba(79,127,99,0.08), transparent 60%);
+}
+.wd-hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(250,213,134,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(250,213,134,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.wd-hero-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; width: 100%; }
+.wd-hero-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--amber);
+  opacity: 0.8;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.wd-hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 32px; height: 1px;
+  background: var(--amber);
+  opacity: 0.5;
+}
+.wd-hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 8vw, 110px);
+  font-weight: 900;
+  line-height: 0.95;
+  margin-bottom: 32px;
+}
+.wd-hero-title em { font-style: italic; color: var(--amber); }
+.wd-hero-desc {
+  font-size: clamp(14px, 1.4vw, 17px);
+  font-weight: 300;
+  color: rgba(214,239,199,0.55);
+  max-width: 520px;
+  line-height: 1.8;
+  margin-bottom: 48px;
+}
+.wd-stats {
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.wd-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.wd-stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 900;
+  color: var(--amber);
+}
+.wd-stat-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.wd-scroll {
+  position: absolute;
+  bottom: 40px; right: 48px;
+  writing-mode: vertical-rl;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.wd-scroll::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, var(--text-muted), transparent);
+}
+
+/* ── PROJECTS SECTION ── */
+.wd-projects {
+  padding: 120px 48px;
+  background: var(--forest);
+}
+.wd-projects-inner { max-width: 1200px; margin: 0 auto; }
+
+.wd-section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.wd-section-label::before {
+  content: '';
+  display: block;
+  width: 32px; height: 1px;
+  background: var(--amber);
+  opacity: 0.4;
+}
+.wd-section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 4.5vw, 56px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 64px;
+}
+.wd-section-title em { font-style: italic; color: var(--amber); }
+
+/* Project Grid */
+.wd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2px;
+}
+
+.wd-card {
+  background: var(--black);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  cursor: none;
+}
+.wd-card.visible { opacity: 1; transform: translateY(0); }
+
+.wd-card-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: linear-gradient(135deg, #1A2E4A, #0D2B27, #1A3A4A);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wd-card-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.wd-card:hover .wd-card-thumb img { transform: scale(1.06); }
+.wd-card-thumb-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  opacity: 0.25;
+}
+.wd-card-thumb-placeholder i { font-size: 40px; color: var(--amber); }
+.wd-card-thumb-placeholder span {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.wd-card-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(13,43,39,0.8));
+}
+
+.wd-card-body { padding: 28px 32px 32px; }
+.wd-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.wd-card-cat {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+  opacity: 0.8;
+}
+.wd-card-year {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+.wd-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--offwhite);
+}
+.wd-card-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(214,239,199,0.5);
+  line-height: 1.75;
+  margin-bottom: 20px;
+}
+.wd-card-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+.wd-tech-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: rgba(250,213,134,0.06);
+  border: 1px solid rgba(250,213,134,0.12);
+  padding: 4px 10px;
+}
+.wd-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(250,213,134,0.25);
+  padding-bottom: 2px;
+  transition: border-color 0.3s, gap 0.3s;
+  cursor: none;
+}
+.wd-card-link:hover { border-color: var(--amber); gap: 12px; }
+.wd-card-link i { font-size: 10px; }
+.wd-card-link-placeholder {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(124,168,140,0.3);
+  font-style: italic;
+}
+
+/* Kartu "Segera Hadir" */
+.wd-card.coming-soon .wd-card-thumb {
+  opacity: 0.4;
+}
+.wd-card.coming-soon .wd-card-body { opacity: 0.45; }
+
+/* Empty state */
+.wd-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 100px 32px;
+  opacity: 0.35;
+}
+.wd-empty i { font-size: 48px; color: var(--amber); margin-bottom: 20px; display: block; }
+.wd-empty p {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--offwhite);
+  margin-bottom: 8px;
+}
+.wd-empty span {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+/* ── STACK SECTION ── */
+.wd-stack {
+  padding: 100px 48px;
+  background: var(--black);
+  border-top: 1px solid rgba(250,213,134,0.06);
+}
+.wd-stack-inner { max-width: 1200px; margin: 0 auto; }
+.wd-stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 2px;
+  margin-top: 56px;
+}
+.wd-stack-item {
+  background: var(--forest);
+  padding: 28px 20px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.wd-stack-item.visible { opacity: 1; transform: translateY(0); }
+.wd-stack-item i { font-size: 28px; color: var(--amber); margin-bottom: 12px; display: block; opacity: 0.85; }
+.wd-stack-name {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--offwhite);
+  margin-bottom: 4px;
+}
+.wd-stack-type {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* ── CTA ── */
+.wd-cta {
+  padding: 120px 48px;
+  background: var(--forest);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.wd-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(250,213,134,0.05), transparent 70%);
+}
+.wd-cta-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+.wd-cta-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
+.wd-cta-title em { font-style: italic; color: var(--amber); }
+.wd-cta-desc {
+  font-size: 15px;
+  color: rgba(214,239,199,0.5);
+  line-height: 1.8;
+  margin-bottom: 48px;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--amber);
+  color: var(--black);
+  text-decoration: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 18px 40px;
+  transition: background 0.3s, gap 0.3s;
+  cursor: none;
+}
+.btn-primary:hover { background: var(--amber-light); gap: 18px; }
+
+/* ── FOOTER ── */
+footer {
+  padding: 40px 48px;
+  background: var(--black);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(250,213,134,0.08);
+}
+.footer-logo { font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 0.15em; color: var(--amber); }
+.footer-copy { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--text-muted); }
+
+/* ── DIVIDER ── */
+.wd-divider {
+  width: 48px; height: 2px;
+  background: var(--amber);
+  opacity: 0.4;
+  margin-bottom: 32px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 18px 24px; }
+  .wd-hero { padding: 0 24px 80px; }
+  .wd-projects, .wd-stack, .wd-cta { padding: 80px 24px; }
+  .wd-grid { grid-template-columns: 1fr; }
+  .wd-stats { gap: 28px; }
+  footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 24px; }
+  .wd-scroll { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">◆ Aruma Studio</a>
+  <a href="index.html" class="nav-back">
+    <i class="fa-solid fa-arrow-left"></i> Kembali ke Portofolio
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="wd-hero">
+  <div class="wd-hero-grid"></div>
+  <div class="wd-hero-content">
+    <div class="wd-hero-eyebrow">Web Development</div>
+    <h1 class="wd-hero-title">
+      Membangun<br>
+      <em>Website</em><br>
+      yang Berkarya
+    </h1>
+    <p class="wd-hero-desc">
+      Dari landing page yang memikat, portfolio yang bercerita, hingga company profile yang membangun kepercayaan — setiap baris kode ditulis dengan tujuan.
+    </p>
+    <div class="wd-stats" id="wdStats">
+      <!-- diisi oleh JS -->
+    </div>
+  </div>
+  <div class="wd-scroll">Scroll</div>
+</section>
+
+<!-- PROJECTS -->
+<section class="wd-projects">
+  <div class="wd-projects-inner">
+    <div class="wd-section-label">Proyek</div>
+    <h2 class="wd-section-title">Karya <em>Website</em></h2>
+    <div class="wd-grid" id="wdGrid">
+      <!-- diisi oleh JS -->
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section class="wd-stack">
+  <div class="wd-stack-inner">
+    <div class="wd-section-label">Teknologi</div>
+    <h2 class="wd-section-title">Tools & <em>Stack</em></h2>
+    <div class="wd-stack-grid" id="wdStack">
+      <!-- diisi oleh JS -->
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="wd-cta">
+  <div class="wd-cta-inner">
+    <div class="wd-divider"></div>
+    <h2 class="wd-cta-title">Punya Ide <em>Website?</em></h2>
+    <p class="wd-cta-desc">
+      Ceritakan visi Anda. Kita akan membangunnya bersama — fungsional, estetik, dan tepat sasaran.
+    </p>
+    <a href="index.html#contact" class="btn-primary">
+      Mulai Proyek <i class="fa-solid fa-arrow-right"></i>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">◆ ARUMA STUDIO</div>
+  <div class="footer-copy">© 2025 All Rights Reserved</div>
+</footer>
+
+<script>
+// ── CURSOR ──
+var cursor = document.getElementById('cursor');
+var ring   = document.getElementById('cursorRing');
+var mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', function(e) {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+});
+(function animateRing() {
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top  = ry + 'px';
+  requestAnimationFrame(animateRing);
+})();
+document.querySelectorAll('a, button, .wd-card').forEach(function(el) {
+  el.addEventListener('mouseenter', function() { cursor.classList.add('hovered'); ring.classList.add('hovered'); });
+  el.addEventListener('mouseleave', function() { cursor.classList.remove('hovered'); ring.classList.remove('hovered'); });
+});
+
+// ── RENDER dari portofolio.js ──
+window.addEventListener('DOMContentLoaded', function() {
+  var projects = (typeof WEBDEV_PROJECTS !== 'undefined') ? WEBDEV_PROJECTS : [];
+
+  // Stats
+  var statsEl = document.getElementById('wdStats');
+  if (statsEl) {
+    var total = projects.filter(function(p) { return !p.comingSoon; }).length;
+    statsEl.innerHTML =
+      '<div class="wd-stat"><span class="wd-stat-num">' + (total || '—') + '</span><span class="wd-stat-label">Proyek Selesai</span></div>' +
+      '<div class="wd-stat"><span class="wd-stat-num">100%</span><span class="wd-stat-label">Custom Code</span></div>' +
+      '<div class="wd-stat"><span class="wd-stat-num">∞</span><span class="wd-stat-label">Konsep Visual</span></div>';
+  }
+
+  // Grid proyek
+  var grid = document.getElementById('wdGrid');
+  if (grid) {
+    if (!projects.length) {
+      grid.innerHTML =
+        '<div class="wd-empty">' +
+          '<i class="fa-solid fa-code"></i>' +
+          '<p>Proyek segera hadir</p>' +
+          '<span>Tambahkan proyek di WEBDEV_PROJECTS dalam portofolio.js</span>' +
+        '</div>';
+    } else {
+      projects.forEach(function(p, i) {
+        var delay = i * 80;
+        var thumbHtml = p.gambar
+          ? '<img src="' + p.gambar + '" alt="' + (p.nama || '') + '" loading="lazy">'
+          : '<div class="wd-card-thumb-placeholder"><i class="fa-solid fa-globe"></i><span>' + (p.kategori || 'Website') + '</span></div>';
+
+        var linkHtml = p.link
+          ? '<a href="' + p.link + '" target="_blank" rel="noopener" class="wd-card-link">Lihat Website <i class="fa-solid fa-arrow-up-right-from-square"></i></a>'
+          : '<span class="wd-card-link-placeholder">Link segera tersedia</span>';
+
+        var techHtml = (p.tech || []).map(function(t) {
+          return '<span class="wd-tech-tag">' + t + '</span>';
+        }).join('');
+
+        var card = document.createElement('div');
+        card.className = 'wd-card' + (p.comingSoon ? ' coming-soon' : '');
+        card.style.transitionDelay = delay + 'ms';
+        card.innerHTML =
+          '<div class="wd-card-thumb">' + thumbHtml + '<div class="wd-card-thumb-overlay"></div></div>' +
+          '<div class="wd-card-body">' +
+            '<div class="wd-card-meta">' +
+              '<span class="wd-card-cat">' + (p.kategori || '') + '</span>' +
+              '<span class="wd-card-year">' + (p.tahun || '') + '</span>' +
+            '</div>' +
+            '<div class="wd-card-title">' + (p.nama || '') + '</div>' +
+            '<div class="wd-card-desc">' + (p.deskripsi || '') + '</div>' +
+            '<div class="wd-card-tech">' + techHtml + '</div>' +
+            linkHtml +
+          '</div>';
+        grid.appendChild(card);
+      });
+    }
+  }
+
+  // Tech stack
+  var stacks = [
+    { icon: 'fa-brands fa-html5',      name: 'HTML5',      type: 'Markup' },
+    { icon: 'fa-brands fa-css3-alt',   name: 'CSS3',       type: 'Styling' },
+    { icon: 'fa-brands fa-js',         name: 'JavaScript', type: 'Logic' },
+    { icon: 'fa-brands fa-react',      name: 'React',      type: 'Framework' },
+    { icon: 'fa-solid fa-database',    name: 'MySQL',      type: 'Database' },
+    { icon: 'fa-brands fa-git-alt',    name: 'Git',        type: 'Version Control' },
+    { icon: 'fa-brands fa-figma',      name: 'Figma',      type: 'Design' },
+    { icon: 'fa-solid fa-server',      name: 'Node.js',    type: 'Runtime' },
+  ];
+  var stackEl = document.getElementById('wdStack');
+  if (stackEl) {
+    stacks.forEach(function(s, i) {
+      var el = document.createElement('div');
+      el.className = 'wd-stack-item';
+      el.style.transitionDelay = (i * 60) + 'ms';
+      el.innerHTML =
+        '<i class="' + s.icon + '"></i>' +
+        '<div class="wd-stack-name">' + s.name + '</div>' +
+        '<div class="wd-stack-type">' + s.type + '</div>';
+      stackEl.appendChild(el);
+    });
+  }
+
+  // Scroll reveal
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.wd-card, .wd-stack-item').forEach(function(el) {
+    obs.observe(el);
+  });
+});
+</script>
+</body>
+</html>
