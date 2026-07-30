@@ -135,11 +135,11 @@ var WEBDEV_PROJECTS = [
   {
     nama      : 'Aruma Studio',
     kategori  : 'Portfolio',
-    deskripsi : 'Website portofolio personal untuk menampilkan karya fotografi, videografi, dan digital creative dengan desain sinematik.',
+    deskripsi : 'Aplikasi ZonaPAI Berbasis Website untuk Integrasi Pembelajaran PAI antara Murid dan Guru',
     tech      : ['HTML', 'CSS', 'JavaScript'],
-    gambar    : '',
-    link      : '',
-    tahun     : '2025',
+    gambar    : 'images/Tingkatkan Ibadahmu bersama ZonaPAI.jpg',
+    link      : 'zonapai.infinityfree.me',
+    tahun     : '2026',
   },
 
 ];
