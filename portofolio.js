@@ -78,10 +78,10 @@ var PORTOFOLIO = [
   },
   {
     kategori : 'foto',
-    gambar   : 'images/Togetherness.jpg',
+    gambar   : 'images/annisaf.jpg',
     label    : 'Graduation Photography',
-    judul    : 'Graduation of Ulva & Yunia - Universitas Kadiri',
-    wide     : false,
+    judul    : 'Graduation of Annisa - UIN Malang',
+    wide     : true,
   },
 
   // ── VIDEOGRAFI ────────────────────────────────────────────
@@ -102,13 +102,6 @@ var PORTOFOLIO = [
     judul     : 'Modelling',
     deskripsi : 'Modelling',
     wide      : false,
-  },
-  {
-    kategori : 'foto',
-    gambar   : 'images/annisaf.jpg',
-    label    : 'Graduation Photography',
-    judul    : 'Graduation of Annisa - UIN Malang',
-    wide     : true,
   },
 
   // ── DIGITAL CREATIVE ──────────────────────────────────────
