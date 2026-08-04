@@ -57,6 +57,13 @@ var PORTOFOLIO = [
   },
   {
     kategori : 'foto',
+    gambar   : 'images/Togetherness.jpg',
+    label    : 'Graduation Photography',
+    judul    : 'Graduation of Ulva & Yunia - UIN Malang',
+    wide     : false,
+  },
+  {
+    kategori : 'foto',
     gambar   : 'images/Maternity.jpg',
     label    : 'Maternity Photography',
     judul    : 'Greetings',
@@ -73,15 +80,8 @@ var PORTOFOLIO = [
     kategori : 'foto',
     gambar   : 'images/Togetherness.jpg',
     label    : 'Graduation Photography',
-    judul    : 'Graduation of Ulva & Yunia - UIN Malang',
-    wide     : true,
-  },
-  {
-    kategori : 'foto',
-    gambar   : 'images/annisaf.jpg',
-    label    : 'Graduation Photography',
-    judul    : 'Graduation of Annisa - UIN Malang',
-    wide     : true,
+    judul    : 'Graduation of Ulva & Yunia - Universitas Kadiri',
+    wide     : false,
   },
 
   // ── VIDEOGRAFI ────────────────────────────────────────────
@@ -102,6 +102,13 @@ var PORTOFOLIO = [
     judul     : 'Modelling',
     deskripsi : 'Modelling',
     wide      : false,
+  },
+  {
+    kategori : 'foto',
+    gambar   : 'images/annisaf.jpg',
+    label    : 'Graduation Photography',
+    judul    : 'Graduation of Annisa - UIN Malang',
+    wide     : true,
   },
 
   // ── DIGITAL CREATIVE ──────────────────────────────────────
@@ -241,5 +248,23 @@ var WEBDEV_PROJECTS = [
       '</div>';
 
     grid.appendChild(el);
+
+    // langsung tandai visible agar tidak perlu scroll trigger
+    setTimeout(function() { el.classList.add('visible'); }, 100 * i);
+  });
+
+  // re-attach filter ke kartu baru
+  document.querySelectorAll('.filter-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var filter = btn.getAttribute('data-filter');
+      document.querySelectorAll('.portfolio-item').forEach(function(item) {
+        if (filter === 'all' || item.getAttribute('data-cat') === filter) {
+          item.style.display = '';
+          item.classList.add('visible');
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
   });
 })();
