@@ -433,9 +433,15 @@ nav {
 .wd-stack-inner { max-width: 1200px; margin: 0 auto; }
 .wd-stack-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 2px;
   margin-top: 56px;
+}
+@media (max-width: 900px) {
+  .wd-stack-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 599px) {
+  .wd-stack-grid { grid-template-columns: repeat(2, 1fr); }
 }
 .wd-stack-item {
   background: var(--forest);
