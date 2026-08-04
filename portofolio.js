@@ -73,7 +73,7 @@ var PORTOFOLIO = [
     kategori : 'foto',
     gambar   : 'images/Togetherness.jpg',
     label    : 'Graduation Photography',
-    judul    : 'Ayu's Graduation - Universitas Kadiri',
+    judul    : 'Ulva\'s & Yunia\'s Graduation - Universitas Kadiri',
     wide     : false,
   },
 
