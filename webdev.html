@@ -264,19 +264,19 @@ nav {
 
 .wd-card-thumb {
   width: 100%;
-  aspect-ratio: 16/9;
-  background: linear-gradient(135deg, #1A2E4A, #0D2B27, #1A3A4A);
+  aspect-ratio: 4/3;
+  background: var(--forest);
   position: relative;
   overflow: hidden;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 }
 .wd-card-thumb img {
   width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: top center;  /* tampilkan dari atas — bagian header website terlihat */
-  background: #0D2B27;
+  object-fit: contain;
+  object-position: top center;
+  background: var(--forest);
   transition: transform 0.6s ease;
 }
 .wd-card:hover .wd-card-thumb img { transform: scale(1.03); }
@@ -520,8 +520,8 @@ footer {
   .wd-stats { gap: 28px; }
   footer { flex-direction: column; gap: 16px; text-align: center; padding: 28px 20px; }
   .wd-scroll { display: none; }
-  .wd-card-thumb { aspect-ratio: 16/9; }
-  .wd-card-thumb img { object-fit: cover; object-position: top center; }
+  .wd-card-thumb { aspect-ratio: 4/3; }
+  .wd-card-thumb img { object-fit: contain; object-position: top center; }
 }
 
 /* Mobile (< 600px): 1 kolom penuh lebar layar */
@@ -537,8 +537,8 @@ footer {
   .wd-scroll { display: none; }
 
   /* Thumbnail proporsional, tidak terlalu tinggi di mobile */
-  .wd-card-thumb { aspect-ratio: 16/9; }
-  .wd-card-thumb img { object-fit: cover; object-position: top center; }
+  .wd-card-thumb { aspect-ratio: 4/3; }
+  .wd-card-thumb img { object-fit: contain; object-position: top center; }
   .wd-card-body { padding: 16px 16px 20px; }
   .wd-card-title { font-size: 18px; }
 }
