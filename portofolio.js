@@ -69,6 +69,13 @@ var PORTOFOLIO = [
     judul    : 'Menu Artisan — Zabo Cafe Jombang',
     wide     : false,
   },
+    {
+    kategori : 'foto',
+    gambar   : 'images/Togetherness.jpg',
+    label    : 'Graduation Photography',
+    judul    : 'Ayu's Graduation - Universitas Kadiri',
+    wide     : false,
+  },
 
   // ── VIDEOGRAFI ────────────────────────────────────────────
   {
