@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<script src="portofolio.js" defer></script>
 
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -21,12 +20,11 @@
   --amber-light: #FCE1A6;
   --offwhite:    #D6EFC7;
   --sage:        #4F7F63;
+  --sage-light:  #96BB7C;
   --text-muted:  #7CA88C;
-  --blue-tint:   #1A2E4A;
 }
 
 html { scroll-behavior: smooth; }
-
 body {
   background: var(--black);
   color: var(--offwhite);
@@ -46,177 +44,168 @@ body {
   pointer-events: none;
   z-index: 9999;
   transform: translate(-50%, -50%);
-  transition: transform 0.1s ease, width 0.3s, height 0.3s;
+  transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
 }
 .cursor-ring {
   position: fixed;
-  width: 36px; height: 36px;
-  border: 1.5px solid rgba(250,213,134,0.5);
+  width: 40px; height: 40px;
+  border: 1px solid rgba(250,213,134,0.5);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9998;
   transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s, border-color 0.3s;
+  transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
 }
-.cursor.hovered { width: 6px; height: 6px; }
-.cursor-ring.hovered { width: 52px; height: 52px; border-color: var(--amber); }
+.cursor.hovered  { width: 20px; height: 20px; background: var(--amber-light); }
+.cursor-ring.hovered { width: 60px; height: 60px; opacity: 0.3; }
 
-/* ── NAV ── */
+/* ── NAV — sama persis dengan index.html ── */
 nav {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 24px 48px;
-  background: rgba(13,43,39,0.85);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(250,213,134,0.06);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to bottom, rgba(13,43,39,0.95) 0%, transparent 100%);
 }
 .nav-logo {
   font-family: 'Space Mono', monospace;
   font-size: 13px;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.15em;
   color: var(--amber);
   text-decoration: none;
-  text-transform: uppercase;
 }
 .nav-back {
   display: flex;
   align-items: center;
   gap: 8px;
   font-family: 'Space Mono', monospace;
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--offwhite);
   text-decoration: none;
-  transition: color 0.3s;
+  opacity: 0.6;
+  transition: opacity 0.3s, color 0.3s;
   cursor: none;
 }
-.nav-back:hover { color: var(--amber); }
-.nav-back i { font-size: 12px; }
+.nav-back:hover { opacity: 1; color: var(--amber); }
 
-/* ── HERO ── */
-.wd-hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 0 48px 100px;
+/* ── HERO — sama persis dengan index.html ── */
+.hero {
   position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 48px 80px;
   overflow: hidden;
-  background-size: cover;
-  background-position: center;
-  background-color: #0D2B27;
 }
-.wd-hero::before {
-  content: '';
+.hero-bg {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(rgba(13,43,39,0.72), rgba(13,43,39,0.72));
-  z-index: 0;
+    linear-gradient(to right, rgba(13,43,39,0.92) 40%, rgba(13,43,39,0.3) 100%),
+    linear-gradient(to top, rgba(13,43,39,0.9) 20%, transparent 60%),
+    var(--hero-photo, radial-gradient(ellipse 80% 60% at 70% 40%, #184D47 0%, #0D2B27 100%));
+  background-size: cover;
+  background-position: center;
 }
-.wd-hero-grid { z-index: 1; }
-.wd-hero-grid {
+.hero-pattern {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(250,213,134,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(250,213,134,0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
+    repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(250,213,134,0.03) 79px, rgba(250,213,134,0.03) 80px),
+    repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(250,213,134,0.03) 79px, rgba(250,213,134,0.03) 80px);
 }
-.wd-hero-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; width: 100%; }
-.wd-hero-eyebrow {
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+}
+.hero-eyebrow {
   font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.2em;
   color: var(--amber);
-  opacity: 0.8;
+  text-transform: uppercase;
   margin-bottom: 24px;
   display: flex;
   align-items: center;
   gap: 12px;
 }
-.wd-hero-eyebrow::before {
+.hero-eyebrow::before {
   content: '';
-  display: block;
-  width: 32px; height: 1px;
+  width: 40px; height: 1px;
   background: var(--amber);
-  opacity: 0.5;
+  flex-shrink: 0;
 }
-.wd-hero-title {
+.hero-title {
   font-family: 'Playfair Display', serif;
   font-size: clamp(30px, 7vw, 70px);
   font-weight: 900;
   line-height: 1.0;
+  letter-spacing: -0.02em;
   margin-bottom: 8px;
 }
-.wd-hero-title em { font-style: italic; color: var(--amber); }
-.wd-hero-desc {
-  font-size: clamp(10px, 1.4vw, 20px);
-  font-weight: 200;
-  color: rgba(214,239,199,0.55);
+.hero-title em { font-style: italic; color: var(--amber); display: block; }
+.hero-desc {
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(214,239,199,0.65);
   max-width: 460px;
   line-height: 1.8;
   margin-bottom: 48px;
 }
-.wd-stats {
+.hero-stats {
   display: flex;
   gap: 48px;
   flex-wrap: wrap;
 }
-.wd-stat {
+.hero-stat {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
-.wd-stat-num {
+.hero-stat-num {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(28px, 3vw, 42px);
+  font-size: clamp(28px, 3vw, 40px);
   font-weight: 900;
   color: var(--amber);
+  line-height: 1;
 }
-.wd-stat-label {
+.hero-stat-label {
   font-family: 'Space Mono', monospace;
   font-size: 9px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--text-muted);
 }
-.wd-scroll {
+.hero-scroll {
   position: absolute;
-  bottom: 40px; right: 48px;
-  writing-mode: vertical-rl;
-  font-family: 'Space Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  opacity: 0.5;
+  bottom: 32px; right: 48px;
+  z-index: 2;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
 }
-.wd-scroll::after {
+.hero-scroll::before {
   content: '';
-  display: block;
-  width: 1px;
-  height: 48px;
-  background: linear-gradient(to bottom, var(--text-muted), transparent);
+  height: 60px; width: 1px;
+  background: linear-gradient(to top, var(--amber), transparent);
 }
 
-/* ── PROJECTS SECTION ── */
-.wd-projects {
-  padding: 120px 48px;
-  background: var(--forest);
-}
-.wd-projects-inner { max-width: 1200px; margin: 0 auto; }
-
-.wd-section-label {
+/* ── SECTION COMMON ── */
+.section-label {
   font-family: 'Space Mono', monospace;
   font-size: 10px;
   letter-spacing: 0.2em;
@@ -228,85 +217,106 @@ nav {
   gap: 16px;
   margin-bottom: 16px;
 }
-.wd-section-label::before {
+.section-label::before {
   content: '';
   display: block;
   width: 32px; height: 1px;
   background: var(--amber);
   opacity: 0.4;
 }
-.wd-section-title {
+.section-title {
   font-family: 'Playfair Display', serif;
   font-size: clamp(32px, 4.5vw, 56px);
   font-weight: 900;
   line-height: 1.1;
   margin-bottom: 64px;
 }
-.wd-section-title em { font-style: italic; color: var(--amber); }
+.section-title em { font-style: italic; color: var(--amber); }
 
-/* Project Grid */
+/* ── PROJECTS ── */
+.wd-projects {
+  padding: 120px 48px;
+  background: var(--forest);
+}
+.wd-projects-inner { max-width: 1200px; margin: 0 auto; }
+
+/* GRID KARTU — 4:5 full image */
 .wd-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
-  gap: 2px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 3px;
 }
 
+/* ── KARTU — full image + hover overlay ── */
 .wd-card {
-  background: var(--black);
   position: relative;
   overflow: hidden;
+  aspect-ratio: 4/5;
+  background: var(--forest-mid);
+  cursor: none;
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 0.7s ease, transform 0.7s ease;
-  cursor: none;
 }
 .wd-card.visible { opacity: 1; transform: translateY(0); }
 
-.wd-card-thumb {
-  width: 100%;
-  aspect-ratio: 4/3;
-  background: var(--forest);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-}
-.wd-card-thumb img {
+/* gambar full cover */
+.wd-card-img {
+  position: absolute;
+  inset: 0;
   width: 100%; height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: top center;
-  background: var(--forest);
   transition: transform 0.6s ease;
 }
-.wd-card:hover .wd-card-thumb img { transform: scale(1.03); }
-.wd-card-thumb-placeholder {
+.wd-card:hover .wd-card-img { transform: scale(1.05); }
+
+/* placeholder kalau tidak ada gambar */
+.wd-card-placeholder {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  opacity: 0.25;
+  justify-content: center;
+  gap: 16px;
+  background: linear-gradient(135deg, #1A2E4A, #0D2B27);
 }
-.wd-card-thumb-placeholder i { font-size: 40px; color: var(--amber); }
-.wd-card-thumb-placeholder span {
+.wd-card-placeholder i { font-size: 48px; color: var(--amber); opacity: 0.3; }
+.wd-card-placeholder span {
   font-family: 'Space Mono', monospace;
   font-size: 9px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--text-muted);
-}
-.wd-card-thumb-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 40%, rgba(13,43,39,0.8));
+  opacity: 0.5;
 }
 
-.wd-card-body { padding: 28px 32px 32px; }
+/* gradient bawah — selalu ada */
+.wd-card-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 30%,
+    rgba(13,43,39,0.5) 60%,
+    rgba(13,43,39,0.95) 100%
+  );
+  transition: opacity 0.4s ease;
+}
+
+/* info bawah — selalu terlihat */
+.wd-card-info {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 28px 24px 24px;
+  z-index: 2;
+}
 .wd-card-meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 .wd-card-cat {
   font-family: 'Space Mono', monospace;
@@ -314,61 +324,76 @@ nav {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--amber);
-  opacity: 0.8;
+  opacity: 0.9;
 }
 .wd-card-year {
   font-family: 'Space Mono', monospace;
   font-size: 9px;
   letter-spacing: 0.1em;
-  color: var(--text-muted);
+  color: rgba(214,239,199,0.45);
 }
 .wd-card-title {
   font-family: 'Playfair Display', serif;
   font-size: 22px;
   font-weight: 700;
-  margin-bottom: 12px;
   color: var(--offwhite);
+  line-height: 1.2;
+  margin-bottom: 0;
+}
+
+/* detail hover — tersembunyi default, muncul saat hover */
+.wd-card-detail {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.4s ease, margin 0.4s ease;
+  margin-top: 0;
+}
+.wd-card:hover .wd-card-detail {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: 12px;
 }
 .wd-card-desc {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 300;
-  color: rgba(214,239,199,0.5);
-  line-height: 1.75;
-  margin-bottom: 20px;
+  color: rgba(214,239,199,0.6);
+  line-height: 1.7;
+  margin-bottom: 12px;
 }
 .wd-card-tech {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 24px;
+  gap: 5px;
+  margin-bottom: 14px;
 }
 .wd-tech-tag {
   font-family: 'Space Mono', monospace;
-  font-size: 9px;
+  font-size: 8px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-muted);
-  background: rgba(250,213,134,0.06);
-  border: 1px solid rgba(250,213,134,0.12);
-  padding: 4px 10px;
+  background: rgba(250,213,134,0.07);
+  border: 1px solid rgba(250,213,134,0.15);
+  padding: 3px 8px;
 }
 .wd-card-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   font-family: 'Space Mono', monospace;
   font-size: 9px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--amber);
   text-decoration: none;
-  border-bottom: 1px solid rgba(250,213,134,0.25);
+  border-bottom: 1px solid rgba(250,213,134,0.3);
   padding-bottom: 2px;
-  transition: border-color 0.3s, gap 0.3s;
+  transition: gap 0.3s, border-color 0.3s;
   cursor: none;
 }
-.wd-card-link:hover { border-color: var(--amber); gap: 12px; }
-.wd-card-link i { font-size: 10px; }
+.wd-card-link:hover { gap: 12px; border-color: var(--amber); }
+.wd-card-link i { font-size: 9px; }
 .wd-card-link-placeholder {
   font-family: 'Space Mono', monospace;
   font-size: 9px;
@@ -378,13 +403,17 @@ nav {
   font-style: italic;
 }
 
-/* Kartu "Segera Hadir" */
-.wd-card.coming-soon .wd-card-thumb {
-  opacity: 0.4;
+/* hover: perjelas gradient */
+.wd-card:hover .wd-card-gradient {
+  background: linear-gradient(
+    to bottom,
+    transparent 15%,
+    rgba(13,43,39,0.6) 45%,
+    rgba(13,43,39,0.98) 100%
+  );
 }
-.wd-card.coming-soon .wd-card-body { opacity: 0.45; }
 
-/* Empty state */
+/* empty state */
 .wd-empty {
   grid-column: 1 / -1;
   text-align: center;
@@ -392,21 +421,10 @@ nav {
   opacity: 0.35;
 }
 .wd-empty i { font-size: 48px; color: var(--amber); margin-bottom: 20px; display: block; }
-.wd-empty p {
-  font-family: 'Playfair Display', serif;
-  font-size: 20px;
-  color: var(--offwhite);
-  margin-bottom: 8px;
-}
-.wd-empty span {
-  font-size: 13px;
-  color: var(--text-muted);
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-}
+.wd-empty p { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--offwhite); margin-bottom: 8px; }
+.wd-empty span { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--text-muted); }
 
-/* ── STACK SECTION ── */
+/* ── TECH STACK ── */
 .wd-stack {
   padding: 100px 48px;
   background: var(--black);
@@ -437,10 +455,7 @@ nav {
   color: var(--offwhite);
   margin-bottom: 4px;
 }
-.wd-stack-type {
-  font-size: 11px;
-  color: var(--text-muted);
-}
+.wd-stack-type { font-size: 11px; color: var(--text-muted); }
 
 /* ── CTA ── */
 .wd-cta {
@@ -471,23 +486,29 @@ nav {
   line-height: 1.8;
   margin-bottom: 48px;
 }
+.wd-divider {
+  width: 48px; height: 2px;
+  background: var(--amber);
+  opacity: 0.4;
+  margin: 0 auto 32px;
+}
 .btn-primary {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  background: var(--amber);
-  color: var(--black);
-  text-decoration: none;
+  gap: 10px;
   font-family: 'Space Mono', monospace;
   font-size: 11px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
+  text-decoration: none;
+  color: var(--black);
+  background: var(--amber);
+  padding: 16px 32px;
   font-weight: 700;
-  padding: 18px 40px;
-  transition: background 0.3s, gap 0.3s;
+  transition: background 0.3s, transform 0.3s;
   cursor: none;
 }
-.btn-primary:hover { background: var(--amber-light); gap: 18px; }
+.btn-primary:hover { background: var(--amber-light); transform: translateY(-2px); }
 
 /* ── FOOTER ── */
 footer {
@@ -501,47 +522,26 @@ footer {
 .footer-logo { font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 0.15em; color: var(--amber); }
 .footer-copy { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--text-muted); }
 
-/* ── DIVIDER ── */
-.wd-divider {
-  width: 48px; height: 2px;
-  background: var(--amber);
-  opacity: 0.4;
-  margin-bottom: 32px;
-}
-
 /* ── RESPONSIVE ── */
-
-/* Tablet & iPad portrait (600-900px): 2 kolom, card lebih lebar */
-@media (min-width: 600px) and (max-width: 900px) {
-  nav { padding: 18px 20px; }
-  .wd-hero { padding: 0 20px 80px; }
-  .wd-projects, .wd-stack, .wd-cta { padding: 64px 20px; }
-  .wd-grid { grid-template-columns: repeat(2, 1fr); }
-  .wd-stats { gap: 28px; }
-  footer { flex-direction: column; gap: 16px; text-align: center; padding: 28px 20px; }
-  .wd-scroll { display: none; }
-  .wd-card-thumb { aspect-ratio: 4/3; }
-  .wd-card-thumb img { object-fit: contain; object-position: top center; }
+@media (max-width: 900px) {
+  nav { padding: 18px 24px; }
+  .hero { padding: 0 24px 72px; }
+  .wd-projects, .wd-stack, .wd-cta { padding: 80px 24px; }
+  .hero-scroll { display: none; }
 }
-
-/* Mobile (< 600px): 1 kolom penuh lebar layar */
 @media (max-width: 599px) {
-  nav { padding: 16px 16px; }
-  .nav-logo { font-size: 11px; }
-  .wd-hero { padding: 0 16px 72px; }
-  .wd-projects, .wd-stack, .wd-cta { padding: 52px 16px; }
-  .wd-section-title { font-size: 26px; }
-  .wd-grid { grid-template-columns: 1fr; }
-  .wd-stats { gap: 20px; flex-wrap: wrap; }
+  nav { padding: 16px; }
+  .hero { padding: 0 16px 64px; }
+  .wd-projects, .wd-stack, .wd-cta { padding: 56px 16px; }
+  .wd-grid { grid-template-columns: 1fr; gap: 3px; }
+  .hero-stats { gap: 24px; }
+  .section-title { font-size: 26px; margin-bottom: 40px; }
   footer { flex-direction: column; gap: 16px; text-align: center; padding: 24px 16px; }
-  .wd-scroll { display: none; }
-
-  /* Thumbnail proporsional, tidak terlalu tinggi di mobile */
-  .wd-card-thumb { aspect-ratio: 4/3; }
-  .wd-card-thumb img { object-fit: contain; object-position: top center; }
-  .wd-card-body { padding: 16px 16px 20px; }
-  .wd-card-title { font-size: 18px; }
 }
+
+/* reveal */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: none; }
 </style>
 </head>
 <body>
@@ -551,51 +551,48 @@ footer {
 
 <!-- NAV -->
 <nav>
-  <a href="index.html" class="nav-logo">◆ Aruma Studio</a>
+  <a href="index.html" class="nav-logo">ARUMA STUDIO</a>
   <a href="index.html" class="nav-back">
     <i class="fa-solid fa-arrow-left"></i> Kembali ke Portofolio
   </a>
 </nav>
 
-<!-- HERO -->
-<section class="wd-hero" style="background-image:url('images/webdev_hero.jpg'); background-size:cover; background-position:center;">
-  <div class="wd-hero-grid"></div>
-  <div class="wd-hero-content">
-    <div class="wd-hero-eyebrow">Web Development</div>
-    <h1 class="wd-hero-title">
-      Membangun<br>
-      <em>Website</em><br>
-      Meyakinkan Insights
+<!-- HERO — sama struktur dengan index.html -->
+<section class="hero">
+  <div class="hero-bg" style="--hero-photo:url('images/webdev_hero.jpg')"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Web Development</div>
+    <h1 class="hero-title">
+      Membangun
+      <em>Website</em>
+      yang Berkarya
     </h1>
-    <p class="wd-hero-desc">
+    <p class="hero-desc">
       Dari landing page yang memikat, portfolio yang bercerita, hingga company profile yang membangun kepercayaan — setiap baris kode ditulis dengan tujuan.
     </p>
-    <div class="wd-stats" id="wdStats">
-      <!-- diisi oleh JS -->
+    <div class="hero-stats" id="heroStats">
+      <!-- diisi JS -->
     </div>
   </div>
-  <div class="wd-scroll">Scroll</div>
+  <div class="hero-scroll">Scroll</div>
 </section>
 
 <!-- PROJECTS -->
 <section class="wd-projects">
   <div class="wd-projects-inner">
-    <div class="wd-section-label">Proyek</div>
-    <h2 class="wd-section-title">Karya <em>Website</em></h2>
-    <div class="wd-grid" id="wdGrid">
-      <!-- diisi oleh JS -->
-    </div>
+    <div class="section-label reveal">Proyek</div>
+    <h2 class="section-title reveal">Karya <em>Website</em></h2>
+    <div class="wd-grid" id="wdGrid"></div>
   </div>
 </section>
 
 <!-- TECH STACK -->
 <section class="wd-stack">
   <div class="wd-stack-inner">
-    <div class="wd-section-label">Teknologi</div>
-    <h2 class="wd-section-title">Tools & <em>Stack</em></h2>
-    <div class="wd-stack-grid" id="wdStack">
-      <!-- diisi oleh JS -->
-    </div>
+    <div class="section-label reveal">Teknologi</div>
+    <h2 class="section-title reveal">Tools & <em>Stack</em></h2>
+    <div class="wd-stack-grid" id="wdStack"></div>
   </div>
 </section>
 
@@ -604,9 +601,7 @@ footer {
   <div class="wd-cta-inner">
     <div class="wd-divider"></div>
     <h2 class="wd-cta-title">Punya Ide <em>Website?</em></h2>
-    <p class="wd-cta-desc">
-      Ceritakan visi Anda. Kita akan membangunnya bersama — fungsional, estetik, dan tepat sasaran.
-    </p>
+    <p class="wd-cta-desc">Ceritakan visi Anda. Kita akan membangunnya bersama — fungsional, estetik, dan tepat sasaran.</p>
     <a href="index.html#contact" class="btn-primary">
       Mulai Proyek <i class="fa-solid fa-arrow-right"></i>
     </a>
@@ -619,95 +614,100 @@ footer {
   <div class="footer-copy">© 2025 All Rights Reserved</div>
 </footer>
 
+<script src="portofolio.js"></script>
 <script>
 // ── CURSOR ──
 var cursor = document.getElementById('cursor');
 var ring   = document.getElementById('cursorRing');
 var mx = 0, my = 0, rx = 0, ry = 0;
-
 document.addEventListener('mousemove', function(e) {
   mx = e.clientX; my = e.clientY;
   cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
 });
-(function animateRing() {
+(function animRing() {
   rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-  ring.style.left = rx + 'px'; ring.style.top  = ry + 'px';
-  requestAnimationFrame(animateRing);
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animRing);
 })();
 document.querySelectorAll('a, button, .wd-card').forEach(function(el) {
   el.addEventListener('mouseenter', function() { cursor.classList.add('hovered'); ring.classList.add('hovered'); });
   el.addEventListener('mouseleave', function() { cursor.classList.remove('hovered'); ring.classList.remove('hovered'); });
 });
 
-// ── RENDER dari portofolio.js ──
-window.addEventListener('DOMContentLoaded', function() {
+// ── RENDER PROYEK ──
+(function() {
   var projects = (typeof WEBDEV_PROJECTS !== 'undefined') ? WEBDEV_PROJECTS : [];
 
-  // Stats
-  var statsEl = document.getElementById('wdStats');
+  // Stats hero
+  var statsEl = document.getElementById('heroStats');
   if (statsEl) {
-    var total = projects.filter(function(p) { return !p.comingSoon; }).length;
+    var total = projects.filter(function(p){ return !p.comingSoon; }).length;
     statsEl.innerHTML =
-      '<div class="wd-stat"><span class="wd-stat-num">' + (total || '—') + '</span><span class="wd-stat-label">Proyek Selesai</span></div>' +
-      '<div class="wd-stat"><span class="wd-stat-num">100%</span><span class="wd-stat-label">Custom Code</span></div>' +
-      '<div class="wd-stat"><span class="wd-stat-num">∞</span><span class="wd-stat-label">Konsep Visual</span></div>';
+      '<div class="hero-stat"><span class="hero-stat-num">' + (total || '—') + '</span><span class="hero-stat-label">Proyek Selesai</span></div>' +
+      '<div class="hero-stat"><span class="hero-stat-num">100%</span><span class="hero-stat-label">Custom Code</span></div>' +
+      '<div class="hero-stat"><span class="hero-stat-num">∞</span><span class="hero-stat-label">Konsep Visual</span></div>';
   }
 
-  // Grid proyek
+  // Grid kartu
   var grid = document.getElementById('wdGrid');
-  if (grid) {
-    if (!projects.length) {
-      grid.innerHTML =
-        '<div class="wd-empty">' +
-          '<i class="fa-solid fa-code"></i>' +
-          '<p>Proyek segera hadir</p>' +
-          '<span>Tambahkan proyek di WEBDEV_PROJECTS dalam portofolio.js</span>' +
-        '</div>';
-    } else {
-      projects.forEach(function(p, i) {
-        var delay = i * 80;
-        var thumbHtml = p.gambar
-          ? '<img src="' + p.gambar + '" alt="' + (p.nama || '') + '" loading="lazy">'
-          : '<div class="wd-card-thumb-placeholder"><i class="fa-solid fa-globe"></i><span>' + (p.kategori || 'Website') + '</span></div>';
+  if (!grid) return;
 
-        var linkHtml = p.link
-          ? '<a href="' + p.link + '" target="_blank" rel="noopener" class="wd-card-link">Lihat Website <i class="fa-solid fa-arrow-up-right-from-square"></i></a>'
-          : '<span class="wd-card-link-placeholder">Link segera tersedia</span>';
-
-        var techHtml = (p.tech || []).map(function(t) {
-          return '<span class="wd-tech-tag">' + t + '</span>';
-        }).join('');
-
-        var card = document.createElement('div');
-        card.className = 'wd-card' + (p.comingSoon ? ' coming-soon' : '');
-        card.style.transitionDelay = delay + 'ms';
-        card.innerHTML =
-          '<div class="wd-card-thumb">' + thumbHtml + '<div class="wd-card-thumb-overlay"></div></div>' +
-          '<div class="wd-card-body">' +
-            '<div class="wd-card-meta">' +
-              '<span class="wd-card-cat">' + (p.kategori || '') + '</span>' +
-              '<span class="wd-card-year">' + (p.tahun || '') + '</span>' +
-            '</div>' +
-            '<div class="wd-card-title">' + (p.nama || '') + '</div>' +
-            '<div class="wd-card-desc">' + (p.deskripsi || '') + '</div>' +
-            '<div class="wd-card-tech">' + techHtml + '</div>' +
-            linkHtml +
-          '</div>';
-        grid.appendChild(card);
-      });
-    }
+  if (!projects.length) {
+    grid.innerHTML =
+      '<div class="wd-empty"><i class="fa-solid fa-code"></i><p>Proyek segera hadir</p>' +
+      '<span>Tambahkan proyek di WEBDEV_PROJECTS dalam portofolio.js</span></div>';
+    return;
   }
+
+  projects.forEach(function(p, i) {
+    var card = document.createElement('div');
+    card.className = 'wd-card' + (p.comingSoon ? ' coming-soon' : '');
+    card.style.transitionDelay = (i * 100) + 'ms';
+
+    // gambar atau placeholder
+    var mediaHtml = p.gambar
+      ? '<img class="wd-card-img" src="' + p.gambar + '" alt="' + (p.nama || '') + '" loading="lazy">'
+      : '<div class="wd-card-placeholder"><i class="fa-solid fa-globe"></i><span>' + (p.kategori || 'Website') + '</span></div>';
+
+    // tech tags
+    var techHtml = (p.tech || []).map(function(t) {
+      return '<span class="wd-tech-tag">' + t + '</span>';
+    }).join('');
+
+    // link
+    var linkHtml = p.link
+      ? '<a href="' + p.link + '" target="_blank" rel="noopener" class="wd-card-link">Lihat Website <i class="fa-solid fa-arrow-up-right-from-square"></i></a>'
+      : '<span class="wd-card-link-placeholder">Link segera tersedia</span>';
+
+    card.innerHTML =
+      mediaHtml +
+      '<div class="wd-card-gradient"></div>' +
+      '<div class="wd-card-info">' +
+        '<div class="wd-card-meta">' +
+          '<span class="wd-card-cat">' + (p.kategori || '') + '</span>' +
+          '<span class="wd-card-year">' + (p.tahun || '') + '</span>' +
+        '</div>' +
+        '<div class="wd-card-title">' + (p.nama || '') + '</div>' +
+        '<div class="wd-card-detail">' +
+          '<div class="wd-card-desc">' + (p.deskripsi || '') + '</div>' +
+          '<div class="wd-card-tech">' + techHtml + '</div>' +
+          linkHtml +
+        '</div>' +
+      '</div>';
+
+    grid.appendChild(card);
+  });
 
   // Tech stack
   var stacks = [
-    { icon: 'fa-brands fa-html5',      name: 'HTML5',      type: 'Markup' },
-    { icon: 'fa-brands fa-css3-alt',   name: 'CSS3',       type: 'Styling' },
-    { icon: 'fa-brands fa-js',         name: 'JavaScript', type: 'Logic' },
-    { icon: 'fa-brands fa-react',      name: 'React',      type: 'Framework' },
-    { icon: 'fa-solid fa-database',    name: 'MySQL',      type: 'Database' },
-    { icon: 'fa-brands fa-git-alt',    name: 'Git',        type: 'Version Control' },
-    { icon: 'fa-brands fa-figma',      name: 'Figma',      type: 'Design' },
-    { icon: 'fa-solid fa-server',      name: 'Node.js',    type: 'Runtime' },
+    { icon: 'fa-brands fa-html5',    name: 'HTML5',      type: 'Markup' },
+    { icon: 'fa-brands fa-css3-alt', name: 'CSS3',       type: 'Styling' },
+    { icon: 'fa-brands fa-js',       name: 'JavaScript', type: 'Logic' },
+    { icon: 'fa-brands fa-react',    name: 'React',      type: 'Framework' },
+    { icon: 'fa-solid fa-database',  name: 'MySQL',      type: 'Database' },
+    { icon: 'fa-brands fa-git-alt',  name: 'Git',        type: 'Version Control' },
+    { icon: 'fa-brands fa-figma',    name: 'Figma',      type: 'Design' },
+    { icon: 'fa-solid fa-server',    name: 'Node.js',    type: 'Runtime' },
   ];
   var stackEl = document.getElementById('wdStack');
   if (stackEl) {
@@ -715,25 +715,17 @@ window.addEventListener('DOMContentLoaded', function() {
       var el = document.createElement('div');
       el.className = 'wd-stack-item';
       el.style.transitionDelay = (i * 60) + 'ms';
-      el.innerHTML =
-        '<i class="' + s.icon + '"></i>' +
-        '<div class="wd-stack-name">' + s.name + '</div>' +
-        '<div class="wd-stack-type">' + s.type + '</div>';
+      el.innerHTML = '<i class="' + s.icon + '"></i><div class="wd-stack-name">' + s.name + '</div><div class="wd-stack-type">' + s.type + '</div>';
       stackEl.appendChild(el);
     });
   }
 
-  // Scroll reveal
+  // Scroll reveal — kartu + stack + label
   var obs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) {
-      if (e.isIntersecting) e.target.classList.add('visible');
-    });
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1 });
-
-  document.querySelectorAll('.wd-card, .wd-stack-item').forEach(function(el) {
-    obs.observe(el);
-  });
-});
+  document.querySelectorAll('.wd-card, .wd-stack-item, .reveal').forEach(function(el) { obs.observe(el); });
+})();
 </script>
 </body>
 </html>
