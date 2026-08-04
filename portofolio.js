@@ -73,8 +73,15 @@ var PORTOFOLIO = [
     kategori : 'foto',
     gambar   : 'images/Togetherness.jpg',
     label    : 'Graduation Photography',
-    judul    : 'Graduation of Ulva & Yunia - Universitas Kadiri',
-    wide     : false,
+    judul    : 'Graduation of Ulva & Yunia - UIN Malang',
+    wide     : true,
+  },
+  {
+    kategori : 'foto',
+    gambar   : 'images/annisaf.jpg',
+    label    : 'Graduation Photography',
+    judul    : 'Graduation of Annisa - UIN Malang',
+    wide     : true,
   },
 
   // ── VIDEOGRAFI ────────────────────────────────────────────
