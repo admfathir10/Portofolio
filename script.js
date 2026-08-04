@@ -71,6 +71,8 @@ document.querySelectorAll('.filter-btn').forEach(function(btn) {
     document.querySelectorAll('.portfolio-item').forEach(function(item) {
       if (filter === 'all' || item.getAttribute('data-cat') === filter) {
         item.style.display = '';
+        // pastikan kartu dinamis sudah visible setelah ditampilkan
+        setTimeout(function() { item.classList.add('visible'); }, 10);
       } else {
         item.style.display = 'none';
       }
