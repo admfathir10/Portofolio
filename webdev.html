@@ -247,7 +247,7 @@ nav {
 /* Project Grid */
 .wd-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
   gap: 2px;
 }
 
@@ -273,14 +273,10 @@ nav {
   justify-content: center;
 }
 .wd-card-thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;        /* tidak memotong gambar */
-  object-position: top center;/* tampilkan dari atas supaya preview website terlihat */
-  transition: transform 0.6s ease;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  object-position: top center;
   background: #0D2B27;
-}
-  object-fit: cover;
   transition: transform 0.6s ease;
 }
 .wd-card:hover .wd-card-thumb img { transform: scale(1.03); }
@@ -305,7 +301,7 @@ nav {
   background: linear-gradient(to bottom, transparent 40%, rgba(13,43,39,0.8));
 }
 
-.wd-card-body { padding: 24px 24px 28px; }
+.wd-card-body { padding: 28px 32px 32px; }
 .wd-card-meta {
   display: flex;
   align-items: center;
@@ -514,36 +510,37 @@ footer {
 }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 900px) {
+
+/* Tablet & iPad portrait (600-900px): 2 kolom, card lebih lebar */
+@media (min-width: 600px) and (max-width: 900px) {
   nav { padding: 18px 20px; }
   .wd-hero { padding: 0 20px 80px; }
   .wd-projects, .wd-stack, .wd-cta { padding: 64px 20px; }
-  .wd-grid { grid-template-columns: 1fr; }
+  .wd-grid { grid-template-columns: repeat(2, 1fr); }
   .wd-stats { gap: 28px; }
   footer { flex-direction: column; gap: 16px; text-align: center; padding: 28px 20px; }
   .wd-scroll { display: none; }
-
-  /* Pada mobile: gambar preview tetap full, tidak terpotong */
-  .wd-card-thumb {
-    aspect-ratio: 4/3;        /* sedikit lebih tinggi agar lebih terlihat di mobile */
-  }
-  .wd-card-thumb img {
-    object-fit: contain;
-    object-position: top center;
-  }
-  .wd-card-body { padding: 18px 18px 22px; }
-  .wd-card-title { font-size: 18px; }
+  .wd-card-thumb { aspect-ratio: 16/9; }
+  .wd-card-thumb img { object-fit: contain; object-position: top center; }
 }
 
-@media (max-width: 480px) {
-  nav { padding: 16px; }
+/* Mobile (< 600px): 1 kolom penuh lebar layar */
+@media (max-width: 599px) {
+  nav { padding: 16px 16px; }
   .nav-logo { font-size: 11px; }
   .wd-hero { padding: 0 16px 72px; }
   .wd-projects, .wd-stack, .wd-cta { padding: 52px 16px; }
-  .wd-section-title { font-size: 28px; }
-  .wd-card-body { padding: 16px; }
+  .wd-section-title { font-size: 26px; }
+  .wd-grid { grid-template-columns: 1fr; }
   .wd-stats { gap: 20px; flex-wrap: wrap; }
-  footer { padding: 24px 16px; }
+  footer { flex-direction: column; gap: 16px; text-align: center; padding: 24px 16px; }
+  .wd-scroll { display: none; }
+
+  /* Thumbnail proporsional, tidak terlalu tinggi di mobile */
+  .wd-card-thumb { aspect-ratio: 16/9; }
+  .wd-card-thumb img { object-fit: contain; object-position: top center; }
+  .wd-card-body { padding: 16px 16px 20px; }
+  .wd-card-title { font-size: 18px; }
 }
 </style>
 </head>
