@@ -84,6 +84,7 @@ var PORTOFOLIO = [
     label         : 'Graduation Photography',
     judul         : 'Graduation of Maulidah - UIN Malang',
     wide          : false,
+    portrait      : true,
     tampilDiSemua : false,
   },
   // Tambah foto baru di sini — tanpa tampilDiSemua maka hanya muncul di tab Fotografi:
@@ -253,6 +254,8 @@ var WEBDEV_PROJECTS = [
     el.classList.add('visible');
     // paksa tinggi kartu wide agar tidak height:0
     if (item.wide) el.style.minHeight = '420px';
+    // paksa aspect ratio portrait jika ada
+    if (item.portrait) { el.style.aspectRatio = '3/4'; el.style.minHeight = ''; }
   });
 
   // ── FILTER dengan logika tampilDiSemua ──
