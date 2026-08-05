@@ -3,121 +3,135 @@
 //  ► Cukup edit file ini untuk tambah / hapus karya.
 //  ► JANGAN ubah index.html atau script.js.
 //
-//  CARA TAMBAH KARYA FOTO / DESAIN GRAFIS:
-//  {
-//    kategori : 'foto',            // 'foto' | 'video' | 'desain'
-//    gambar   : 'images/nama.jpg',
-//    label    : 'Wedding Photography',
-//    judul    : 'Nama Karya',
-//    wide     : false,             // true = kartu lebar (2 kolom)
-//  },
-//
-//  CARA TAMBAH KARYA VIDEO (YouTube):
-//  {
-//    kategori  : 'video',
-//    youtubeId : 'CFcCZ8xbHtQ',
-//    gambar    : '',               // kosong = thumbnail YouTube otomatis
-//    label     : 'Short Movie',
-//    judul     : 'Judul Video',
-//    deskripsi : 'Deskripsi singkat video',
-//    wide      : false,
-//  },
+//  CARA TAMBAH KARYA BARU:
+//  - Salin blok yang sesuai di bawah
+//  - Ganti gambar, label, judul
+//  - Karya baru HANYA muncul di tab kategorinya (foto/video/desain)
+//  - Kalau ingin karya baru juga muncul di tab Semua, tambahkan:
+//      tampilDiSemua : true,
 // ============================================================
 
 var PORTOFOLIO = [
 
   // ── FOTOGRAFI ─────────────────────────────────────────────
   {
-    kategori : 'foto',
-    gambar   : 'images/WhatsApp Image 2026-07-10 at 09.56.09.jpeg',
-    label    : 'Wedding Photography',
-    judul    : 'Bridemaid Clan',
-    wide     : true,
+    kategori      : 'foto',
+    gambar        : 'images/WhatsApp Image 2026-07-10 at 09.56.09.jpeg',
+    label         : 'Wedding Photography',
+    judul         : 'Bridemaid Clan',
+    wide          : true,
+    tampilDiSemua : true,
   },
   {
-    kategori : 'foto',
-    gambar   : 'images/Sakiva.jpg',
-    label    : 'Graduation Photography',
-    judul    : 'Objective Complete',
-    wide     : false,
+    kategori      : 'foto',
+    gambar        : 'images/Sakiva.jpg',
+    label         : 'Graduation Photography',
+    judul         : 'Objective Complete',
+    wide          : false,
+    tampilDiSemua : true,
   },
   {
-    kategori : 'foto',
-    gambar   : 'images/Salsa.jpg',
-    label    : 'Product Photography',
-    judul    : 'Anjukladang T-Shirt',
-    wide     : false,
+    kategori      : 'foto',
+    gambar        : 'images/Salsa.jpg',
+    label         : 'Product Photography',
+    judul         : 'Anjukladang T-Shirt',
+    wide          : false,
+    tampilDiSemua : true,
   },
   {
-    kategori : 'foto',
-    gambar   : 'images/wedding.JPG',
-    label    : 'Wedding Photography',
-    judul    : 'Dreamy Eternity',
-    wide     : false,
+    kategori      : 'foto',
+    gambar        : 'images/wedding.JPG',
+    label         : 'Wedding Photography',
+    judul         : 'Dreamy Eternity',
+    wide          : false,
+    tampilDiSemua : true,
   },
   {
-    kategori : 'foto',
-    gambar   : 'images/Togetherness.jpg',
-    label    : 'Graduation Photography',
-    judul    : 'Graduation of Ulva & Yunia - UIN Malang',
-    wide     : false,
+    kategori      : 'foto',
+    gambar        : 'images/Togetherness.jpg',
+    label         : 'Graduation Photography',
+    judul         : 'Graduation of Ulva & Yunia - UIN Malang',
+    wide          : false,
+    tampilDiSemua : true,
   },
   {
-    kategori : 'foto',
-    gambar   : 'images/Maternity.jpg',
-    label    : 'Maternity Photography',
-    judul    : 'Greetings',
-    wide     : true,
+    kategori      : 'foto',
+    gambar        : 'images/Maternity.jpg',
+    label         : 'Maternity Photography',
+    judul         : 'Greetings',
+    wide          : true,
+    tampilDiSemua : true,
   },
   {
-    kategori : 'foto',
-    gambar   : 'images/Food.jpg',
-    label    : 'Foodies Photography',
-    judul    : 'Menu Artisan — Zabo Cafe Jombang',
-    wide     : false,
+    kategori      : 'foto',
+    gambar        : 'images/Food.jpg',
+    label         : 'Foodies Photography',
+    judul         : 'Menu Artisan — Zabo Cafe Jombang',
+    wide          : false,
+    tampilDiSemua : true,
   },
   {
-    kategori : 'foto',
-    gambar   : 'images/annisaf.jpg',
-    label    : 'Graduation Photography',
-    judul    : 'Graduation of Annisa - UIN Malang',
-    wide     : true,
+    kategori      : 'foto',
+    gambar        : 'images/annisaf.jpg',
+    label         : 'Graduation Photography',
+    judul         : 'Graduation of Annisa - UIN Malang',
+    wide          : true,
+    tampilDiSemua : true,
   },
+  // Tambah foto baru di sini — tanpa tampilDiSemua maka hanya muncul di tab Fotografi:
+  // {
+  //   kategori : 'foto',
+  //   gambar   : 'images/nama.jpg',
+  //   label    : 'Wedding Photography',
+  //   judul    : 'Nama Karya',
+  //   wide     : false,
+  // },
 
   // ── VIDEOGRAFI ────────────────────────────────────────────
   {
-    kategori  : 'video',
-    youtubeId : 'CFcCZ8xbHtQ',
-    gambar    : '',
-    label     : 'Short Movie',
-    judul     : 'GTK Creative Camp — Laras Rilis Kediri Laris',
-    deskripsi : 'GTK Creative Camp — Laras Rilis Kediri Laris',
-    wide      : false,
+    kategori      : 'video',
+    youtubeId     : 'CFcCZ8xbHtQ',
+    gambar        : '',
+    label         : 'Short Movie',
+    judul         : 'GTK Creative Camp — Laras Rilis Kediri Laris',
+    deskripsi     : 'GTK Creative Camp — Laras Rilis Kediri Laris',
+    wide          : false,
+    tampilDiSemua : true,
   },
   {
-    kategori  : 'video',
-    youtubeId : 'bE8YqOOyi_4',
-    gambar    : 'images/Azzahra.jpg',
-    label     : 'Casual Video',
-    judul     : 'Modelling',
-    deskripsi : 'Modelling',
-    wide      : false,
+    kategori      : 'video',
+    youtubeId     : 'bE8YqOOyi_4',
+    gambar        : 'images/Azzahra.jpg',
+    label         : 'Casual Video',
+    judul         : 'Modelling',
+    deskripsi     : 'Modelling',
+    wide          : false,
+    tampilDiSemua : true,
   },
+  // Tambah video baru di sini — hanya muncul di tab Videografi:
+  // {
+  //   kategori  : 'video',
+  //   youtubeId : 'XXXXX',
+  //   gambar    : '',
+  //   label     : 'Short Movie',
+  //   judul     : 'Judul Video',
+  //   deskripsi : 'Deskripsi singkat',
+  //   wide      : false,
+  // },
 
   // ── DIGITAL CREATIVE ──────────────────────────────────────
-  // Tambah karya desain grafis di sini — cukup salin blok di bawah
-  // dan ganti gambar, label, dan judul sesuai karya kamu.
   {
-    kategori : 'desain',
-    gambar   : 'images/wind.jpg',
-    label    : 'Brand Identity',
-    judul    : 'Logo & Visual — Wind',
-    wide     : false,
+    kategori      : 'desain',
+    gambar        : 'images/wind.jpg',
+    label         : 'Brand Identity',
+    judul         : 'Logo & Visual — Wind',
+    wide          : false,
+    tampilDiSemua : true,
   },
-  // Contoh tambah desain baru:
+  // Tambah desain baru di sini — hanya muncul di tab Digital Creative:
   // {
   //   kategori : 'desain',
-  //   gambar   : 'images/nama-file.jpg',
+  //   gambar   : 'images/nama.jpg',
   //   label    : 'Social Media Design',
   //   judul    : 'Nama Brand',
   //   wide     : false,
@@ -128,23 +142,9 @@ var PORTOFOLIO = [
 
 // ============================================================
 //  DATA PROYEK WEB DEVELOPER
-//  ► Edit bagian ini untuk isi halaman webdev.html
-//  ► Klik kartu "Web Development" di portofolio akan membuka
-//    halaman webdev.html dengan daftar proyek ini.
 // ============================================================
 
 var WEBDEV_PROJECTS = [
-
-  // Salin & isi blok ini untuk setiap proyek web:
-  // {
-  //   nama      : 'Nama Website',
-  //   kategori  : 'Landing Page',        // Landing Page | Portfolio | Company Profile | App | dll
-  //   deskripsi : 'Deskripsi singkat proyek, apa yang dikerjakan.',
-  //   tech      : ['HTML', 'CSS', 'JS'], // teknologi yang dipakai
-  //   gambar    : 'images/webdev1.jpg',  // screenshot website (kosongkan jika belum ada)
-  //   link      : 'https://websiteku.id',// URL live site (kosongkan jika belum ada)
-  //   tahun     : '2024',
-  // },
 
   {
     nama      : 'ZonaPAI',
@@ -166,10 +166,10 @@ var WEBDEV_PROJECTS = [
   var grid = document.getElementById('portfolioGrid');
   if (!grid) return;
 
-  // Tambah kartu khusus Web Development di akhir
   var semuaItem = PORTOFOLIO.concat([{
-    kategori   : 'webdev-card',
-    isWebdevCard: true,
+    kategori     : 'webdev-card',
+    isWebdevCard : true,
+    tampilDiSemua: true,
   }]);
 
   semuaItem.forEach(function(item, i) {
@@ -180,6 +180,7 @@ var WEBDEV_PROJECTS = [
       var wdEl = document.createElement('div');
       wdEl.className = 'portfolio-item webdev-entry reveal ' + delay;
       wdEl.setAttribute('data-cat', 'webdev');
+      wdEl.setAttribute('data-semua', 'true');
       wdEl.style.cssText = 'cursor:none; background:linear-gradient(135deg,#0D2B27,#1A2E4A,#0D2B27); position:relative; overflow:hidden;';
       wdEl.innerHTML =
         '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:32px;text-align:center;">' +
@@ -192,10 +193,7 @@ var WEBDEV_PROJECTS = [
           '</div>' +
         '</div>' +
         '<div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(250,213,134,0.03),transparent);pointer-events:none;"></div>';
-
-      wdEl.addEventListener('click', function() {
-        window.open('webdev.html', '_blank');
-      });
+      wdEl.addEventListener('click', function() { window.open('webdev.html', '_blank'); });
       wdEl.addEventListener('mouseenter', function() {
         var btn = wdEl.querySelector('div > div:last-of-type');
         if (btn) btn.style.background = 'rgba(250,213,134,0.12)';
@@ -205,6 +203,7 @@ var WEBDEV_PROJECTS = [
         if (btn) btn.style.background = '';
       });
       grid.appendChild(wdEl);
+      setTimeout(function() { wdEl.classList.add('visible'); }, 100 * i);
       return;
     }
 
@@ -225,6 +224,7 @@ var WEBDEV_PROJECTS = [
     var el = document.createElement('div');
     el.className = classes.filter(Boolean).join(' ');
     el.setAttribute('data-cat', item.kategori);
+    el.setAttribute('data-semua', item.tampilDiSemua ? 'true' : 'false');
 
     if (isVideo && item.youtubeId) {
       el.setAttribute('data-youtube', item.youtubeId);
@@ -241,17 +241,30 @@ var WEBDEV_PROJECTS = [
       '</div>';
 
     grid.appendChild(el);
-
-    // langsung tandai visible agar tidak perlu scroll trigger
     setTimeout(function() { el.classList.add('visible'); }, 100 * i);
   });
 
-  // re-attach filter ke kartu baru
+  // ── FILTER dengan logika tampilDiSemua ──
   document.querySelectorAll('.filter-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
+      btn.classList.add('active');
       var filter = btn.getAttribute('data-filter');
+
       document.querySelectorAll('.portfolio-item').forEach(function(item) {
-        if (filter === 'all' || item.getAttribute('data-cat') === filter) {
+        var cat    = item.getAttribute('data-cat');
+        var semua  = item.getAttribute('data-semua') === 'true';
+
+        var tampil = false;
+        if (filter === 'all') {
+          tampil = semua; // tab Semua: hanya yang bertanda tampilDiSemua
+        } else {
+          tampil = (cat === filter); // tab lain: semua kartu kategori itu
+        }
+
+        if (tampil) {
           item.style.display = '';
           item.classList.add('visible');
         } else {
