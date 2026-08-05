@@ -241,7 +241,8 @@ var WEBDEV_PROJECTS = [
       '</div>';
 
     grid.appendChild(el);
-    setTimeout(function() { el.classList.add('visible'); }, 100 * i);
+    // langsung visible tanpa delay
+    el.classList.add('visible');
   });
 
   // ── FILTER dengan logika tampilDiSemua ──
@@ -266,6 +267,8 @@ var WEBDEV_PROJECTS = [
 
         if (tampil) {
           item.style.display = '';
+          item.style.opacity = '';
+          item.style.transform = '';
           item.classList.add('visible');
         } else {
           item.style.display = 'none';
