@@ -503,36 +503,32 @@ section { position: relative; }
   background-size: cover;
   background-position: center;
   cursor: none;
+  /* Hover scale langsung di transform — lebih sederhana, tidak pakai ::before */
+  transition: background-size 0s;
 }
-/* Scale via ::before agar overflow:hidden bisa clip dengan benar */
-.portfolio-item::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: inherit;
-  background-size: cover;
-  background-position: inherit;
-  transition: transform 0.6s ease;
-  z-index: 0;
-}
-.portfolio-item:hover::before { transform: scale(1.06); }
+/* TIDAK ada ::before di sini — video item butuh ::before untuk badge VIDEO */
 
-/* Wide = span 2 kolom, tinggi SAMA dengan portrait (3/4) supaya foto selalu full tanpa rongga */
+/* Wide: span 2 kolom, aspect-ratio sama dengan portrait supaya foto full tanpa rongga */
 .portfolio-item.wide {
   grid-column: span 2;
-  aspect-ratio: 3/2;  /* lebih lebar tapi tidak setipis 16/9, foto tetap full cover */
+  aspect-ratio: 3/4; /* SAMA dengan portrait — foto cover penuh, tidak ada rongga */
 }
 
-/* portfolio-item-bg hanya untuk video thumbnail */
+/* portfolio-item-bg: hanya untuk video thumbnail */
 .portfolio-item-bg {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
   transition: transform 0.6s ease;
-  z-index: 0;
+  z-index: 1;
 }
-.portfolio-item--video:hover .portfolio-item-bg { transform: scale(1.06); }
+.portfolio-item--video:hover .portfolio-item-bg { transform: scale(1.04); }
+
+/* Foto biasa: scale via wrapper JS — atau cukup dengan CSS transform langsung */
+.portfolio-item:not(.portfolio-item--video):hover {
+  background-size: 110%;
+}
 
 .portfolio-overlay {
   position: absolute;
@@ -544,7 +540,7 @@ section { position: relative; }
   padding: 28px;
   opacity: 0;
   transition: opacity 0.4s;
-  z-index: 2;
+  z-index: 3;
 }
 .portfolio-item:hover .portfolio-overlay { opacity: 1; }
 .portfolio-cat {
@@ -946,7 +942,7 @@ footer {
   .portfolio { padding: 80px 24px; }
   .portfolio-header { flex-direction: column; align-items: flex-start; gap: 24px; }
   .portfolio-grid { grid-template-columns: 1fr 1fr; }
-  .portfolio-item.wide { grid-column: span 1; }
+  .portfolio-item.wide { grid-column: span 1; aspect-ratio: 3/4; }
 
   .process { padding: 80px 24px; }
   .process-steps { grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -1082,13 +1078,13 @@ footer {
   margin-left: 4px; /* optik: icon play sedikit ke kanan */
 }
 
-/* Label VIDEO badge di pojok kanan atas */
-.portfolio-item--video::before {
+/* Label VIDEO badge di pojok kanan atas — pakai ::after bukan ::before */
+.portfolio-item--video::after {
   content: 'VIDEO';
   position: absolute;
   top: 14px;
   right: 14px;
-  z-index: 3;
+  z-index: 4;
   font-family: 'Space Mono', monospace;
   font-size: 9px;
   letter-spacing: 0.14em;
@@ -1096,6 +1092,7 @@ footer {
   color: var(--black);
   padding: 4px 10px;
   font-weight: 700;
+  pointer-events: none;
 }
 
 /* ══════════════════════════════════════════════════════
