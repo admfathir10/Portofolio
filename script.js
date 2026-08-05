@@ -61,24 +61,7 @@ document.querySelectorAll('.reveal').forEach(function(r) {
 
 
 // ---- 3. PORTFOLIO FILTER ----
-document.querySelectorAll('.filter-btn').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.filter-btn').forEach(function(b) {
-      b.classList.remove('active');
-    });
-    btn.classList.add('active');
-    var filter = btn.getAttribute('data-filter');
-    document.querySelectorAll('.portfolio-item').forEach(function(item) {
-      if (filter === 'all' || item.getAttribute('data-cat') === filter) {
-        item.style.display = '';
-        // pastikan kartu dinamis sudah visible setelah ditampilkan
-        setTimeout(function() { item.classList.add('visible'); }, 10);
-      } else {
-        item.style.display = 'none';
-      }
-    });
-  });
-});
+// Filter dihandle oleh portofolio.js agar mendukung logika tampilDiSemua
 
 
 // ---- 4. SERVICE PICKER ----
