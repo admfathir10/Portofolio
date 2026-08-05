@@ -494,97 +494,32 @@ section { position: relative; }
   transition: all 0.3s;
 }
 .filter-btn.active, .filter-btn:hover { color: var(--black); background: var(--amber); border-color: var(--amber); }
-/* MASONRY GRID -- foto menyesuaikan tinggi aslinya, portrait/landscape otomatis */
-.portfolio-grid {
-  columns: 3;
-  column-gap: 2px;
-}
+.portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
 .portfolio-item {
-  break-inside: avoid;          /* jangan potong foto di tengah kolom */
-  display: block;
-  width: 100%;
-  margin-bottom: 2px;
+  aspect-ratio: 3/4;
   position: relative;
   overflow: hidden;
   background-color: var(--forest);
   background-size: cover;
   background-position: center;
   cursor: none;
-  transition: background-size 0.5s ease;
+  transition: background-size 0.6s ease;
 }
-/* Foto otomatis menyesuaikan proporsi asli karena pakai img tag */
-.portfolio-item img {
-  width: 100%;
-  display: block;
-  opacity: 0;         /* gambar asli disembunyikan, background-image yang tampil */
-}
-/* Hover zoom via background-size */
 .portfolio-item:not(.portfolio-item--video):hover {
-  background-size: 108%;
+  background-size: 110%;
+}
+/* Wide: span 2 kolom secara horizontal, tetap aspect-ratio 3/4 */
+.portfolio-item.wide {
+  grid-column: span 2;
 }
 
-/* Video item: thumbnail dari background, tinggi fixed */
-.portfolio-item--video {
-  aspect-ratio: 4/3;
-}
-
-/* Web dev card */
-.portfolio-item--webdev {
-  aspect-ratio: 3/4;
-  background: linear-gradient(135deg, #0D2B27, #1A2E4A, #0D2B27);
-  cursor: none;
-}
-.wd-inner {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  padding: 28px;
-  text-align: center;
-}
-.wd-label {
-  font-family: 'Space Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  color: var(--amber);
-  text-transform: uppercase;
-}
-.wd-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--offwhite);
-  line-height: 1.3;
-}
-.wd-title em { color: var(--amber); font-style: italic; }
-.wd-sub {
-  font-size: 12px;
-  color: rgba(214,239,199,0.45);
-  line-height: 1.6;
-}
-.wd-btn {
-  margin-top: 8px;
-  padding: 8px 20px;
-  border: 1px solid rgba(250,213,134,0.3);
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  color: var(--amber);
-  text-transform: uppercase;
-  transition: background 0.3s;
-}
-.portfolio-item--webdev:hover .wd-btn { background: rgba(250,213,134,0.12); }
-
-/* portfolio-item-bg: hanya untuk video */
+/* portfolio-item-bg: HANYA untuk video thumbnail */
 .portfolio-item-bg {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
-  transition: transform 0.5s ease;
+  transition: transform 0.6s ease;
   z-index: 1;
 }
 .portfolio-item--video:hover .portfolio-item-bg { transform: scale(1.04); }
@@ -596,7 +531,7 @@ section { position: relative; }
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 24px;
+  padding: 28px;
   opacity: 0;
   transition: opacity 0.4s;
   z-index: 3;
@@ -1137,13 +1072,13 @@ footer {
   margin-left: 4px; /* optik: icon play sedikit ke kanan */
 }
 
-/* Label VIDEO badge di pojok kanan atas */
-.portfolio-item--video::before {
+/* Label VIDEO badge — pakai ::after agar tidak konflik dengan elemen lain */
+.portfolio-item--video::after {
   content: 'VIDEO';
   position: absolute;
   top: 14px;
   right: 14px;
-  z-index: 3;
+  z-index: 4;
   font-family: 'Space Mono', monospace;
   font-size: 9px;
   letter-spacing: 0.14em;
@@ -1151,6 +1086,7 @@ footer {
   color: var(--black);
   padding: 4px 10px;
   font-weight: 700;
+  pointer-events: none;
 }
 
 /* ══════════════════════════════════════════════════════
