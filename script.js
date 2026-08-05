@@ -61,7 +61,7 @@ document.querySelectorAll('.reveal').forEach(function(r) {
 
 
 // ---- 3. PORTFOLIO FILTER ----
-// Filter dihandle oleh portofolio.js agar mendukung logika tampilDiSemua
+// Filter dihandle sepenuhnya oleh portofolio.js
 
 
 // ---- 4. SERVICE PICKER ----
