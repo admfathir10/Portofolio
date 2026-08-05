@@ -504,7 +504,7 @@ section { position: relative; }
   background-position: center;
   cursor: none;
 }
-/* Hover scale via pseudo-element agar overflow:hidden tetap aktif */
+/* Scale via ::before agar overflow:hidden bisa clip dengan benar */
 .portfolio-item::before {
   content: '';
   position: absolute;
@@ -516,11 +516,14 @@ section { position: relative; }
   z-index: 0;
 }
 .portfolio-item:hover::before { transform: scale(1.06); }
+
+/* Wide = span 2 kolom, tinggi SAMA dengan portrait (3/4) supaya foto selalu full tanpa rongga */
 .portfolio-item.wide {
   grid-column: span 2;
-  aspect-ratio: 16/9;
+  aspect-ratio: 3/2;  /* lebih lebar tapi tidak setipis 16/9, foto tetap full cover */
 }
-/* portfolio-item-bg dipertahankan untuk video thumbnail */
+
+/* portfolio-item-bg hanya untuk video thumbnail */
 .portfolio-item-bg {
   position: absolute;
   inset: 0;
@@ -530,6 +533,7 @@ section { position: relative; }
   z-index: 0;
 }
 .portfolio-item--video:hover .portfolio-item-bg { transform: scale(1.06); }
+
 .portfolio-overlay {
   position: absolute;
   inset: 0;
@@ -1011,7 +1015,7 @@ footer {
   .portfolio { padding: 60px 20px; }
   .portfolio-grid { grid-template-columns: 1fr; }
   .portfolio-item { aspect-ratio: 4/3; }
-  .portfolio-item.wide { grid-column: span 1; aspect-ratio: 3/4; }
+  .portfolio-item.wide { grid-column: span 1; aspect-ratio: 4/3; }
   .portfolio-overlay { opacity: 1; }
 
   .process { padding: 60px 20px; }
