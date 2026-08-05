@@ -221,9 +221,6 @@ var WEBDEV_PROJECTS = [
       : (isVideo && item.youtubeId
           ? 'https://img.youtube.com/vi/' + item.youtubeId + '/maxresdefault.jpg'
           : '');
-    var bgStyle = bgUrl
-      ? 'background-image:url(\'' + bgUrl + '\'); background-size:cover; background-position:center;'
-      : '';
 
     var classes = ['portfolio-item', 'reveal', delay];
     if (item.wide)  classes.push('wide');
@@ -240,27 +237,27 @@ var WEBDEV_PROJECTS = [
       el.setAttribute('data-desc',    item.deskripsi || '');
     }
 
-    // Set background langsung di element utama — eliminasi rongga hijau
-    if (bgUrl) {
+    // Set background LANGSUNG di .portfolio-item — tidak ada child div perantara
+    // sehingga tidak ada celah/rongga warna background yang terlihat
+    if (bgUrl && !isVideo) {
       el.style.backgroundImage = 'url(\'' + bgUrl + '\')';
-      el.style.backgroundSize = 'cover';
-      // Wide/landscape: center agar foto terlihat bagian tengah
-      // Portrait normal: center juga
+      el.style.backgroundSize  = 'cover';
       el.style.backgroundPosition = 'center';
     }
 
     el.innerHTML =
-      (isVideo ? '<div class="yt-play-btn"><div class="yt-play-icon"><i class="fa-solid fa-play"></i></div></div>' : '') +
+      (isVideo
+        ? '<div class="portfolio-item-bg yt-thumb" style="background-image:url(\'' + bgUrl + '\');background-size:cover;background-position:center;"></div>' +
+          '<div class="yt-play-btn"><div class="yt-play-icon"><i class="fa-solid fa-play"></i></div></div>'
+        : ''
+      ) +
       '<div class="portfolio-overlay">' +
         '<div class="portfolio-cat">'   + (item.label || '') + '</div>' +
         '<div class="portfolio-title">' + (item.judul || '') + '</div>' +
       '</div>';
 
     grid.appendChild(el);
-    // langsung visible tanpa delay
     el.classList.add('visible');
-    // paksa tinggi kartu wide agar tidak height:0
-    if (item.wide) el.style.minHeight = '420px';
   });
 
   // ── FILTER dengan logika tampilDiSemua ──
