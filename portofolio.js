@@ -75,7 +75,7 @@ var PORTOFOLIO = [
     gambar        : 'images/annisaf.jpg',
     label         : 'Graduation Photography',
     judul         : 'Graduation of Annisa - UIN Malang',
-    wide          : true,
+    wide          : false,
     tampilDiSemua : true,
   },
   {
