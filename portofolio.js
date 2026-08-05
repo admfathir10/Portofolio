@@ -75,7 +75,7 @@ var PORTOFOLIO = [
     gambar        : 'images/annisaf.jpg',
     label         : 'Graduation Photography',
     judul         : 'Graduation of Annisa - UIN Malang',
-    wide          : true,
+    wide          : false,
     tampilDiSemua : true,
   },
   {
@@ -240,8 +240,16 @@ var WEBDEV_PROJECTS = [
       el.setAttribute('data-desc',    item.deskripsi || '');
     }
 
+    // Set background langsung di element utama — eliminasi rongga hijau
+    if (bgUrl) {
+      el.style.backgroundImage = 'url(\'' + bgUrl + '\')';
+      el.style.backgroundSize = 'cover';
+      // Wide/landscape: center agar foto terlihat bagian tengah
+      // Portrait normal: center juga
+      el.style.backgroundPosition = 'center';
+    }
+
     el.innerHTML =
-      '<div class="portfolio-item-bg' + (isVideo ? ' yt-thumb' : '') + '" style="' + bgStyle + '"></div>' +
       (isVideo ? '<div class="yt-play-btn"><div class="yt-play-icon"><i class="fa-solid fa-play"></i></div></div>' : '') +
       '<div class="portfolio-overlay">' +
         '<div class="portfolio-cat">'   + (item.label || '') + '</div>' +
@@ -249,7 +257,10 @@ var WEBDEV_PROJECTS = [
       '</div>';
 
     grid.appendChild(el);
+    // langsung visible tanpa delay
     el.classList.add('visible');
+    // paksa tinggi kartu wide agar tidak height:0
+    if (item.wide) el.style.minHeight = '420px';
   });
 
   // ── FILTER dengan logika tampilDiSemua ──
@@ -277,6 +288,9 @@ var WEBDEV_PROJECTS = [
           item.style.opacity = '1';
           item.style.transform = 'translateY(0)';
           item.style.transition = 'none';
+          if (item.classList.contains('wide') && !item.style.minHeight) {
+            item.style.minHeight = '420px';
+          }
           item.classList.remove('reveal-delay-1','reveal-delay-2','reveal-delay-3','reveal-delay-4');
           item.classList.add('visible');
         } else {
