@@ -83,7 +83,7 @@ var PORTOFOLIO = [
     gambar        : 'images/zakkiyah.jpg',
     label         : 'Graduation Photography',
     judul         : 'Graduation of Maulidah - UIN Malang',
-    wide          : false,
+    wide          : true,
     tampilDiSemua : false,
   },
   // Tambah foto baru di sini — tanpa tampilDiSemua maka hanya muncul di tab Fotografi:
