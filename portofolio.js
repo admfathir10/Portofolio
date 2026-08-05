@@ -243,6 +243,8 @@ var WEBDEV_PROJECTS = [
     grid.appendChild(el);
     // langsung visible tanpa delay
     el.classList.add('visible');
+    // paksa tinggi kartu wide agar tidak height:0
+    if (item.wide) el.style.minHeight = '420px';
   });
 
   // ── FILTER dengan logika tampilDiSemua ──
@@ -270,6 +272,9 @@ var WEBDEV_PROJECTS = [
           item.style.opacity = '1';
           item.style.transform = 'translateY(0)';
           item.style.transition = 'none';
+          if (item.classList.contains('wide') && !item.style.minHeight) {
+            item.style.minHeight = '420px';
+          }
           item.classList.remove('reveal-delay-1','reveal-delay-2','reveal-delay-3','reveal-delay-4');
           item.classList.add('visible');
         } else {
