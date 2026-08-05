@@ -503,18 +503,17 @@ section { position: relative; }
   background-size: cover;
   background-position: center;
   cursor: none;
-  /* Hover scale langsung di transform — lebih sederhana, tidak pakai ::before */
-  transition: background-size 0s;
+  transition: background-size 0.6s ease;
 }
-/* TIDAK ada ::before di sini — video item butuh ::before untuk badge VIDEO */
-
-/* Wide: span 2 kolom, aspect-ratio sama dengan portrait supaya foto full tanpa rongga */
+.portfolio-item:not(.portfolio-item--video):hover {
+  background-size: 110%;
+}
+/* Wide: span 2 kolom secara horizontal, tetap aspect-ratio 3/4 */
 .portfolio-item.wide {
   grid-column: span 2;
-  aspect-ratio: 3/4; /* SAMA dengan portrait — foto cover penuh, tidak ada rongga */
 }
 
-/* portfolio-item-bg: hanya untuk video thumbnail */
+/* portfolio-item-bg: HANYA untuk video thumbnail */
 .portfolio-item-bg {
   position: absolute;
   inset: 0;
@@ -525,15 +524,10 @@ section { position: relative; }
 }
 .portfolio-item--video:hover .portfolio-item-bg { transform: scale(1.04); }
 
-/* Foto biasa: scale via wrapper JS — atau cukup dengan CSS transform langsung */
-.portfolio-item:not(.portfolio-item--video):hover {
-  background-size: 110%;
-}
-
 .portfolio-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(13,43,39,0.92) 0%, transparent 60%);
+  background: linear-gradient(to top, rgba(13,43,39,0.95) 0%, transparent 55%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -942,7 +936,7 @@ footer {
   .portfolio { padding: 80px 24px; }
   .portfolio-header { flex-direction: column; align-items: flex-start; gap: 24px; }
   .portfolio-grid { grid-template-columns: 1fr 1fr; }
-  .portfolio-item.wide { grid-column: span 1; aspect-ratio: 3/4; }
+  .portfolio-item.wide { grid-column: span 1; }
 
   .process { padding: 80px 24px; }
   .process-steps { grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -1078,7 +1072,7 @@ footer {
   margin-left: 4px; /* optik: icon play sedikit ke kanan */
 }
 
-/* Label VIDEO badge di pojok kanan atas — pakai ::after bukan ::before */
+/* Label VIDEO badge — pakai ::after agar tidak konflik dengan elemen lain */
 .portfolio-item--video::after {
   content: 'VIDEO';
   position: absolute;
