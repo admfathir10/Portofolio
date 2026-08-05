@@ -75,7 +75,7 @@ var PORTOFOLIO = [
     gambar        : 'images/annisaf.jpg',
     label         : 'Graduation Photography',
     judul         : 'Graduation of Annisa - UIN Malang',
-    wide          : true,
+    wide          : false,
     tampilDiSemua : true,
   },
   {
@@ -83,8 +83,8 @@ var PORTOFOLIO = [
     gambar        : 'images/zakkiyah.jpg',
     label         : 'Graduation Photography',
     judul         : 'Graduation of Maulidah - UIN Malang',
-    wide          : true,
-    tampilDiSemua : true,
+    wide          : false,
+    tampilDiSemua : false,
   },
   // Tambah foto baru di sini — tanpa tampilDiSemua maka hanya muncul di tab Fotografi:
   // {
