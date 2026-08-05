@@ -1,19 +1,17 @@
 // ============================================================
-//  portofolio.js — ARUMA STUDIO
-//  ► Cukup edit file ini untuk tambah / hapus karya.
-//  ► JANGAN ubah index.html atau script.js.
-//
+//  portofolio.js -- ARUMA STUDIO
 //  CARA TAMBAH KARYA BARU:
-//  - Salin blok yang sesuai di bawah
+//  - Salin blok sesuai kategori
 //  - Ganti gambar, label, judul
-//  - Karya baru HANYA muncul di tab kategorinya (foto/video/desain)
-//  - Kalau ingin karya baru juga muncul di tab Semua, tambahkan:
-//      tampilDiSemua : true,
+//  - tampilDiSemua: true  -> muncul di tab Semua + tab kategori
+//  - tampilDiSemua: false -> hanya muncul di tab kategorinya saja
+//  - wide: true           -> kartu lebar 2 kolom (landscape)
+//  - wide: false          -> kartu normal 1 kolom (portrait)
 // ============================================================
 
 var PORTOFOLIO = [
 
-  // ── FOTOGRAFI ─────────────────────────────────────────────
+  // FOTOGRAFI
   {
     kategori      : 'foto',
     gambar        : 'images/WhatsApp Image 2026-07-10 at 09.56.09.jpeg',
@@ -66,7 +64,7 @@ var PORTOFOLIO = [
     kategori      : 'foto',
     gambar        : 'images/Food.jpg',
     label         : 'Foodies Photography',
-    judul         : 'Menu Artisan — Zabo Cafe Jombang',
+    judul         : 'Menu Artisan -- Zabo Cafe Jombang',
     wide          : false,
     tampilDiSemua : true,
   },
@@ -75,7 +73,7 @@ var PORTOFOLIO = [
     gambar        : 'images/annisaf.jpg',
     label         : 'Graduation Photography',
     judul         : 'Graduation of Annisa - UIN Malang',
-    wide          : false,
+    wide          : true,          // LANDSCAPE -- span 2 kolom
     tampilDiSemua : true,
   },
   {
@@ -84,25 +82,17 @@ var PORTOFOLIO = [
     label         : 'Graduation Photography',
     judul         : 'Graduation of Maulidah - UIN Malang',
     wide          : false,
-    tampilDiSemua : false,
+    tampilDiSemua : false,         // TIDAK muncul di tab Semua
   },
-  // Tambah foto baru di sini — tanpa tampilDiSemua maka hanya muncul di tab Fotografi:
-  // {
-  //   kategori : 'foto',
-  //   gambar   : 'images/nama.jpg',
-  //   label    : 'Wedding Photography',
-  //   judul    : 'Nama Karya',
-  //   wide     : false,
-  // },
 
-  // ── VIDEOGRAFI ────────────────────────────────────────────
+  // VIDEOGRAFI
   {
     kategori      : 'video',
     youtubeId     : 'CFcCZ8xbHtQ',
     gambar        : '',
     label         : 'Short Movie',
-    judul         : 'GTK Creative Camp — Laras Rilis Kediri Laris',
-    deskripsi     : 'GTK Creative Camp — Laras Rilis Kediri Laris',
+    judul         : 'GTK Creative Camp -- Laras Rilis Kediri Laris',
+    deskripsi     : 'GTK Creative Camp -- Laras Rilis Kediri Laris',
     wide          : false,
     tampilDiSemua : true,
   },
@@ -116,44 +106,23 @@ var PORTOFOLIO = [
     wide          : false,
     tampilDiSemua : true,
   },
-  // Tambah video baru di sini — hanya muncul di tab Videografi:
-  // {
-  //   kategori  : 'video',
-  //   youtubeId : 'XXXXX',
-  //   gambar    : '',
-  //   label     : 'Short Movie',
-  //   judul     : 'Judul Video',
-  //   deskripsi : 'Deskripsi singkat',
-  //   wide      : false,
-  // },
 
-  // ── DIGITAL CREATIVE ──────────────────────────────────────
+  // DIGITAL CREATIVE
   {
     kategori      : 'desain',
     gambar        : 'images/wind.jpg',
     label         : 'Brand Identity',
-    judul         : 'Logo & Visual — Wind',
+    judul         : 'Logo & Visual -- Wind',
     wide          : false,
     tampilDiSemua : true,
   },
-  // Tambah desain baru di sini — hanya muncul di tab Digital Creative:
-  // {
-  //   kategori : 'desain',
-  //   gambar   : 'images/nama.jpg',
-  //   label    : 'Social Media Design',
-  //   judul    : 'Nama Brand',
-  //   wide     : false,
-  // },
 
 ];
 
-
 // ============================================================
-//  DATA PROYEK WEB DEVELOPER
+//  DATA WEB DEVELOPMENT
 // ============================================================
-
 var WEBDEV_PROJECTS = [
-
   {
     nama      : 'ZonaPAI',
     kategori  : 'Web App',
@@ -163,12 +132,10 @@ var WEBDEV_PROJECTS = [
     link      : 'https://zonapai.infinityfree.me',
     tahun     : '2026',
   },
-
 ];
 
-
 // ============================================================
-//  MESIN RENDER — tidak perlu diubah
+//  MESIN RENDER
 // ============================================================
 (function() {
   var grid = document.getElementById('portfolioGrid');
@@ -183,35 +150,32 @@ var WEBDEV_PROJECTS = [
   semuaItem.forEach(function(item, i) {
     var delay = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3'][i % 4];
 
-    // ── Kartu Web Dev khusus ──
+    // Kartu Web Dev khusus
     if (item.isWebdevCard) {
       var wdEl = document.createElement('div');
       wdEl.className = 'portfolio-item webdev-entry reveal ' + delay;
       wdEl.setAttribute('data-cat', 'webdev');
       wdEl.setAttribute('data-semua', 'true');
-      wdEl.style.cssText = 'cursor:none; background:linear-gradient(135deg,#0D2B27,#1A2E4A,#0D2B27); position:relative; overflow:hidden;';
+      wdEl.style.cssText = 'cursor:none;background:linear-gradient(135deg,#0D2B27,#1A2E4A,#0D2B27);position:relative;overflow:hidden;';
       wdEl.innerHTML =
         '<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:32px;text-align:center;">' +
-          '<div style="font-size:48px;">💻</div>' +
+          '<div style="font-size:48px;">&#128187;</div>' +
           '<div style="font-family:\'Space Mono\',monospace;font-size:9px;letter-spacing:0.2em;color:var(--amber);text-transform:uppercase;">Web Development</div>' +
           '<div style="font-family:\'Playfair Display\',serif;font-size:22px;font-weight:700;color:var(--offwhite);line-height:1.3;">Lihat Proyek<br><em>Website</em></div>' +
           '<div style="font-size:12px;color:rgba(214,239,199,0.45);line-height:1.7;max-width:220px;">Landing page, portfolio,<br>company profile & lebih</div>' +
-          '<div style="margin-top:8px;padding:10px 24px;border:1px solid rgba(250,213,134,0.3);font-family:\'Space Mono\',monospace;font-size:10px;letter-spacing:0.12em;color:var(--amber);text-transform:uppercase;transition:background 0.3s;">' +
-            'Buka Portofolio →' +
-          '</div>' +
-        '</div>' +
-        '<div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(250,213,134,0.03),transparent);pointer-events:none;"></div>';
+          '<div id="wdBtn" style="margin-top:8px;padding:10px 24px;border:1px solid rgba(250,213,134,0.3);font-family:\'Space Mono\',monospace;font-size:10px;letter-spacing:0.12em;color:var(--amber);text-transform:uppercase;transition:background 0.3s;">Buka Portofolio &rarr;</div>' +
+        '</div>';
       wdEl.addEventListener('click', function() { window.open('webdev.html', '_blank'); });
       wdEl.addEventListener('mouseenter', function() {
-        var btn = wdEl.querySelector('div > div:last-of-type');
+        var btn = wdEl.querySelector('#wdBtn');
         if (btn) btn.style.background = 'rgba(250,213,134,0.12)';
       });
       wdEl.addEventListener('mouseleave', function() {
-        var btn = wdEl.querySelector('div > div:last-of-type');
+        var btn = wdEl.querySelector('#wdBtn');
         if (btn) btn.style.background = '';
       });
       grid.appendChild(wdEl);
-      setTimeout(function() { wdEl.classList.add('visible'); }, 100 * i);
+      wdEl.classList.add('visible');
       return;
     }
 
@@ -232,16 +196,15 @@ var WEBDEV_PROJECTS = [
     el.setAttribute('data-semua', item.tampilDiSemua ? 'true' : 'false');
 
     if (isVideo && item.youtubeId) {
-      el.setAttribute('data-youtube', item.youtubeId);
-      el.setAttribute('data-title',   item.judul    || '');
-      el.setAttribute('data-desc',    item.deskripsi || '');
+      el.setAttribute('data-youtube',  item.youtubeId);
+      el.setAttribute('data-title',    item.judul     || '');
+      el.setAttribute('data-desc',     item.deskripsi || '');
     }
 
-    // Set background LANGSUNG di .portfolio-item — tidak ada child div perantara
-    // sehingga tidak ada celah/rongga warna background yang terlihat
+    // Background langsung di .portfolio-item -- tidak ada child div perantara
     if (bgUrl && !isVideo) {
-      el.style.backgroundImage = 'url(\'' + bgUrl + '\')';
-      el.style.backgroundSize  = 'cover';
+      el.style.backgroundImage    = 'url(\'' + bgUrl + '\')';
+      el.style.backgroundSize     = 'cover';
       el.style.backgroundPosition = 'center';
     }
 
@@ -260,40 +223,28 @@ var WEBDEV_PROJECTS = [
     el.classList.add('visible');
   });
 
-  // ── FILTER dengan logika tampilDiSemua ──
+  // FILTER
   document.querySelectorAll('.filter-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
-      document.querySelectorAll('.filter-btn').forEach(function(b) {
-        b.classList.remove('active');
-      });
+      document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
       btn.classList.add('active');
       var filter = btn.getAttribute('data-filter');
 
       document.querySelectorAll('.portfolio-item').forEach(function(item) {
-        var cat    = item.getAttribute('data-cat');
-        var semua  = item.getAttribute('data-semua') === 'true';
-
-        var tampil = false;
-        if (filter === 'all') {
-          tampil = semua; // tab Semua: hanya yang bertanda tampilDiSemua
-        } else {
-          tampil = (cat === filter); // tab lain: semua kartu kategori itu
-        }
+        var cat   = item.getAttribute('data-cat');
+        var semua = item.getAttribute('data-semua') === 'true';
+        var tampil = filter === 'all' ? semua : (cat === filter);
 
         if (tampil) {
-          item.style.display = '';
-          item.style.opacity = '1';
-          item.style.transform = 'translateY(0)';
+          item.style.display    = '';
+          item.style.opacity    = '1';
+          item.style.transform  = 'translateY(0)';
           item.style.transition = 'none';
-          if (item.classList.contains('wide') && !item.style.minHeight) {
-            item.style.minHeight = '420px';
-          }
-          item.classList.remove('reveal-delay-1','reveal-delay-2','reveal-delay-3','reveal-delay-4');
           item.classList.add('visible');
         } else {
-          item.style.display = 'none';
-          item.style.opacity = '';
-          item.style.transform = '';
+          item.style.display    = 'none';
+          item.style.opacity    = '';
+          item.style.transform  = '';
           item.style.transition = '';
         }
       });
