@@ -267,11 +267,16 @@ var WEBDEV_PROJECTS = [
 
         if (tampil) {
           item.style.display = '';
-          item.style.opacity = '';
-          item.style.transform = '';
+          item.style.opacity = '1';
+          item.style.transform = 'translateY(0)';
+          item.style.transition = 'none';
+          item.classList.remove('reveal-delay-1','reveal-delay-2','reveal-delay-3','reveal-delay-4');
           item.classList.add('visible');
         } else {
           item.style.display = 'none';
+          item.style.opacity = '';
+          item.style.transform = '';
+          item.style.transition = '';
         }
       });
     });
