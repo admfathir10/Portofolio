@@ -17,7 +17,7 @@ var PORTOFOLIO = [
     gambar        : 'images/WhatsApp Image 2026-07-10 at 09.56.09.jpeg',
     label         : 'Wedding Photography',
     judul         : 'Bridemaid Clan',
-    wide          : true,
+    wide          : false,
     tampilDiSemua : true,
   },
   {
@@ -57,7 +57,7 @@ var PORTOFOLIO = [
     gambar        : 'images/Maternity.jpg',
     label         : 'Maternity Photography',
     judul         : 'Greetings',
-    wide          : true,
+    wide          : false,
     tampilDiSemua : true,
   },
   {
@@ -73,7 +73,7 @@ var PORTOFOLIO = [
     gambar        : 'images/annisaf.jpg',
     label         : 'Graduation Photography',
     judul         : 'Graduation of Annisa - UIN Malang',
-    wide          : true,          // LANDSCAPE -- span 2 kolom
+    wide          : false,          // LANDSCAPE -- span 2 kolom
     tampilDiSemua : true,
   },
   {
