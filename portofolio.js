@@ -173,11 +173,10 @@ var WEBDEV_PROJECTS = [
       wdEl.setAttribute('data-semua', 'true');
       wdEl.innerHTML =
         '<div class="wd-inner">' +
-          '<span style="font-size:36px;">&#128187;</span>' +
           '<div class="wd-label">Web Development</div>' +
-          '<div class="wd-title">Lihat Proyek<br><em>Website</em></div>' +
-          '<div class="wd-sub">Landing page, portfolio,<br>company profile & lebih</div>' +
-          '<div class="wd-btn">Buka Portofolio &rarr;</div>' +
+          '<div class="wd-title">Proyek<br><em>Website</em></div>' +
+          '<div class="wd-sub">Landing page, Portfolio<br>Company profile & lebih</div>' +
+          '<div class="wd-btn">Lihat Semua &rarr;</div>' +
         '</div>';
       wdEl.addEventListener('click', function() { window.open('webdev.html', '_blank'); });
       grid.appendChild(wdEl);
