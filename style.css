@@ -494,44 +494,51 @@ section { position: relative; }
   transition: all 0.3s;
 }
 .filter-btn.active, .filter-btn:hover { color: var(--black); background: var(--amber); border-color: var(--amber); }
-/* ── PORTFOLIO GRID MASONRY ─────────────────────────────────
-   Unit dasar = tinggi 1 kolom pada rasio 5:4 dibagi 5.
-   Portrait 4:5  = 1 kolom  x span 5 baris
-   Landscape 5:4 = 2 kolom  x span 4 baris
-   Keduanya mengisi ruang yang sama persis → kolase rapat.
+/* ── PORTFOLIO MASONRY ───────────────────────────────────────
+   Pakai CSS columns — cara paling reliable untuk masonry.
+   Foto portrait (4:5) dan landscape (5:4) otomatis mengisi
+   tinggi sesuai proporsi aslinya, tanpa space kosong.
    ─────────────────────────────────────────────────────────── */
 .portfolio-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  /* unit dasar = (lebar 1 kolom) * (4/5) / 4 */
-  grid-auto-rows: calc((100vw - 96px - 4px) / 3 * 4 / 5 / 4);
-  gap: 2px;
+  column-count: 3;
+  column-gap: 3px;
+  padding: 0;
 }
 
-/* Portrait 4:5 → span 5 unit vertikal × 1 kolom */
+/* Setiap item: display block di dalam column */
 .portfolio-item {
-  grid-row: span 5;
+  display: block;
+  width: 100%;
   position: relative;
   overflow: hidden;
   background-color: var(--forest);
   background-size: cover;
   background-position: center;
   cursor: none;
+  margin-bottom: 3px;
+  break-inside: avoid;        /* jangan potong item di tengah kolom */
   transition: background-size 0.6s ease;
 }
+
+/* Portrait 4:5 — tinggi otomatis dari padding-top */
+.portfolio-item {
+  padding-top: 125%;          /* 4:5 = 125% */
+}
+/* Landscape 5:4 — span 2 kolom, tinggi 80% */
+.portfolio-item.landscape {
+  column-span: all;           /* melebar ke semua kolom */
+  padding-top: 42%;           /* 5:4 di 3 kolom = ~42% dari total lebar */
+}
+
 .portfolio-item:not(.portfolio-item--video):hover {
   background-size: 108%;
 }
 
-/* Landscape 5:4 → span 2 kolom × span 4 unit vertikal */
-.portfolio-item.landscape {
-  grid-column: span 2;
-  grid-row: span 4;
-}
-
-/* Square fallback */
-.portfolio-item.square {
-  grid-row: span 4;
+/* Semua konten di dalam item harus absolute */
+.portfolio-overlay,
+.yt-play-btn,
+.portfolio-item--video::after {
+  position: absolute;
 }
 
 /* portfolio-item-bg: HANYA untuk video thumbnail */
@@ -548,7 +555,6 @@ section { position: relative; }
 /* Badge VIDEO */
 .portfolio-item--video::after {
   content: 'VIDEO';
-  position: absolute;
   top: 12px;
   right: 12px;
   z-index: 4;
@@ -562,8 +568,8 @@ section { position: relative; }
   pointer-events: none;
 }
 
+/* Overlay teks — hover di desktop, touch toggle di mobile */
 .portfolio-overlay {
-  position: absolute;
   inset: 0;
   background: linear-gradient(to top, rgba(13,43,39,0.95) 0%, transparent 55%);
   display: flex;
@@ -575,6 +581,13 @@ section { position: relative; }
   z-index: 3;
 }
 .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+
+/* Mobile: overlay toggle via class .touched */
+@media (hover: none) {
+  .portfolio-overlay { opacity: 0 !important; }
+  .portfolio-item.touched .portfolio-overlay { opacity: 1 !important; }
+}
+
 .portfolio-cat {
   font-family: 'Space Mono', monospace;
   font-size: 9px;
@@ -583,16 +596,18 @@ section { position: relative; }
   text-transform: uppercase;
   margin-bottom: 6px;
 }
-.portfolio-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; }
+.portfolio-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+}
 .p1 { background: linear-gradient(135deg, #0D2B27, #184D47, #123B37); }
 .p2 { background: linear-gradient(135deg, #1F5C54, #2C6E5C, #184D47); }
 .p3 { background: linear-gradient(135deg, #0D2B27, #123B37, #1B4B45); }
 .p4 { background: linear-gradient(135deg, #4A3A17, #8A6B2E, #4A3A17); }
 .p5 { background: linear-gradient(135deg, #3B2A50, #6B4E8A, #3B2A50); }
 .p6 { background: linear-gradient(135deg, #2E4A28, #4F7F63, #2E4A28); }
-.p7 { background: linear-gradient(135deg, #1A2E4A, #2B4E7A, #1A2E4A); }
-.p8 { background: linear-gradient(135deg, #4A2A1A, #8A5B2E, #4A2A1A); }
-.p9 { background: linear-gradient(135deg, #1F3A40, #2E6E6E, #1F3A40); }
 .portfolio-more { text-align: center; margin-top: 48px; }
 
 /* ── WEBDEV CARD di portfolio grid ───────────────────────── */
@@ -1055,12 +1070,9 @@ footer {
 
   .portfolio { padding: 80px 24px; }
   .portfolio-header { flex-direction: column; align-items: flex-start; gap: 24px; }
-  .portfolio-grid {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: calc((100vw - 48px - 2px) / 2 * 4 / 5 / 4);
-  }
-  .portfolio-item.landscape { grid-column: span 2; grid-row: span 4; }
-  .portfolio-item { grid-row: span 5; }
+  /* Tablet: 2 kolom masonry */
+  .portfolio-grid { column-count: 2; column-gap: 3px; }
+  .portfolio-item.landscape { padding-top: 62.5%; } /* 5:4 di 2 kolom = lebar penuh */
 
   .process { padding: 80px 24px; }
   .process-steps { grid-template-columns: 1fr 1fr; gap: 40px; }
@@ -1127,14 +1139,16 @@ footer {
   .service-icon { font-size: 22px; margin-bottom: 8px; }
 
   .portfolio { padding: 60px 20px; }
-  .portfolio-grid {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: calc((100vw - 32px - 2px) / 2 * 4 / 5 / 4);
+  /* Mobile: 2 kolom masonry, landscape full width */
+  .portfolio-grid { column-count: 2; column-gap: 3px; }
+  .portfolio-item { padding-top: 125%; margin-bottom: 3px; }
+  .portfolio-item.landscape {
+    column-span: all;
+    padding-top: 62.5%; /* 5:4 di full width mobile */
   }
-  .portfolio-item { grid-row: span 5; }
-  .portfolio-item.landscape { grid-column: span 2; grid-row: span 4; }
-  .portfolio-item.wide { grid-column: span 1; aspect-ratio: 4/3; }
-  .portfolio-overlay { opacity: 1; }
+  /* Mobile overlay: hidden by default, toggle on touch */
+  .portfolio-overlay { opacity: 0 !important; }
+  .portfolio-item.touched .portfolio-overlay { opacity: 1 !important; }
 
   .process { padding: 60px 20px; }
   .process-steps { grid-template-columns: 1fr; gap: 32px; }
