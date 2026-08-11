@@ -183,7 +183,7 @@ var WEBDEV_PROJECTS = [
       return;
     }
 
-    var isVideo  = item.kategori === 'video';
+    var isVideo     = item.kategori === 'video';
     var isLandscape = item.orientation === 'landscape';
 
     var bgUrl = '';
@@ -193,7 +193,6 @@ var WEBDEV_PROJECTS = [
       bgUrl = 'https://img.youtube.com/vi/' + item.youtubeId + '/maxresdefault.jpg';
     }
 
-    // Bangun class list
     var cls = ['portfolio-item'];
     if (isVideo)     cls.push('portfolio-item--video');
     if (isLandscape) cls.push('landscape');
@@ -203,33 +202,30 @@ var WEBDEV_PROJECTS = [
     el.setAttribute('data-cat', item.kategori);
     el.setAttribute('data-semua', item.tampilDiSemua === true ? 'true' : 'false');
 
-    // Set background langsung di element (bukan child div)
-    if (bgUrl) {
-      el.style.backgroundImage    = 'url("' + bgUrl + '")';
-      el.style.backgroundSize     = 'cover';
-      el.style.backgroundPosition = 'center';
-    }
-
-    // Untuk video: set attribute dan buat child thumbnail
     if (isVideo && item.youtubeId) {
       el.setAttribute('data-youtube', item.youtubeId);
       el.setAttribute('data-title',   item.judul     || '');
       el.setAttribute('data-desc',    item.deskripsi || '');
     }
 
+    // Gunakan <img> agar tinggi item ditentukan gambar itu sendiri
+    // -- tidak ada space kosong, proporsional natural
+    var imgHtml = bgUrl
+      ? '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy">'
+      : '';
+
+    // Play button untuk video
+    var playHtml = isVideo
+      ? '<div class="yt-play-btn"><div class="yt-play-icon"><i class="fa-solid fa-play"></i></div></div>'
+      : '';
+
     el.innerHTML =
+      imgHtml +
+      playHtml +
       '<div class="portfolio-overlay">' +
         '<div class="portfolio-cat">'   + (item.label || '') + '</div>' +
         '<div class="portfolio-title">' + (item.judul || '') + '</div>' +
       '</div>';
-
-    // Tombol play untuk video
-    if (isVideo) {
-      var playBtn = document.createElement('div');
-      playBtn.className = 'yt-play-btn';
-      playBtn.innerHTML = '<div class="yt-play-icon"><i class="fa-solid fa-play"></i></div>';
-      el.appendChild(playBtn);
-    }
 
     grid.appendChild(el);
   });
@@ -250,17 +246,7 @@ var WEBDEV_PROJECTS = [
       var cat   = item.getAttribute('data-cat')   || '';
       var semua = item.getAttribute('data-semua') === 'true';
       var show  = (filter === 'all') ? semua : (cat === filter);
-      // CSS columns: gunakan visibility+height=0 agar kolom tidak collapse aneh
-      if (show) {
-        item.style.display    = '';
-        item.style.visibility = '';
-        item.style.position   = '';
-        item.style.padding    = '';
-        item.style.margin     = '';
-        item.style.overflow   = '';
-      } else {
-        item.style.display = 'none';
-      }
+      item.style.display = show ? '' : 'none';
     });
   }
 
@@ -276,28 +262,22 @@ var WEBDEV_PROJECTS = [
     });
   });
 
-  // -- Touch toggle overlay untuk mobile --
-  // Di mobile (hover:none), tap pertama tampilkan overlay, tap kedua aksi
+  // -- Touch toggle overlay (mobile) --
   document.querySelectorAll('.portfolio-item:not(.portfolio-item--video)').forEach(function(item) {
     item.addEventListener('touchend', function(e) {
-      // Kalau belum touched: tampilkan overlay dulu
       if (!item.classList.contains('touched')) {
         e.preventDefault();
-        // Hapus touched dari semua item lain
-        document.querySelectorAll('.portfolio-item.touched').forEach(function(other) {
-          if (other !== item) other.classList.remove('touched');
+        document.querySelectorAll('.portfolio-item.touched').forEach(function(o) {
+          o.classList.remove('touched');
         });
         item.classList.add('touched');
       }
-      // Kedua tap: biarkan default (tidak ada aksi khusus untuk foto)
     }, { passive: false });
   });
-
-  // Tap di luar -> tutup semua overlay
   document.addEventListener('touchstart', function(e) {
     if (!e.target.closest('.portfolio-item')) {
-      document.querySelectorAll('.portfolio-item.touched').forEach(function(item) {
-        item.classList.remove('touched');
+      document.querySelectorAll('.portfolio-item.touched').forEach(function(i) {
+        i.classList.remove('touched');
       });
     }
   }, { passive: true });
