@@ -495,15 +495,14 @@ section { position: relative; }
 }
 .filter-btn.active, .filter-btn:hover { color: var(--black); background: var(--amber); border-color: var(--amber); }
 /* ── PORTFOLIO MASONRY ───────────────────────────────────────
-   Pendekatan: img tag natural menentukan tinggi item sendiri.
-   Grid 3 kolom, item mengalir mengisi kolom secara otomatis.
-   Portrait (4:5) dan landscape (5:4) tampil proporsional penuh.
+   CSS Columns masonry: tidak ada space kosong, natural height,
+   portrait & landscape mengalir bebas tanpa gap vertikal.
    ─────────────────────────────────────────────────────────── */
 .portfolio-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 0;          /* tinggi ditentukan img, bukan row */
-  gap: 3px;
+  column-count: 3;
+  column-gap: 3px;
+  orphans: 1;
+  widows: 1;
 }
 
 .portfolio-item {
@@ -511,10 +510,13 @@ section { position: relative; }
   overflow: hidden;
   background-color: var(--forest);
   cursor: none;
-  /* portrait default: span 1 kolom */
+  display: inline-block; /* wajib untuk CSS columns */
+  width: 100%;
+  margin-bottom: 3px;
+  break-inside: avoid;   /* jangan potong item antar kolom */
 }
 
-/* Gambar menentukan tinggi item secara natural */
+/* Gambar menentukan tinggi item secara natural — tidak ada space */
 .portfolio-item img.porto-img {
   display: block;
   width: 100%;
@@ -524,12 +526,20 @@ section { position: relative; }
 }
 .portfolio-item:hover img.porto-img { transform: scale(1.05); }
 
-/* Landscape: span 2 kolom */
+/* Landscape: break keluar dari columns, tampil full width 2 kolom */
 .portfolio-item.landscape {
-  grid-column: span 2;
+  column-span: none; /* tetap dalam flow */
+  aspect-ratio: 5/4;
+}
+.portfolio-item.landscape img.porto-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* Video thumbnail: fixed aspect ratio 16:9 */
+/* Video: aspect ratio 16/9, dalam columns */
 .portfolio-item--video {
   aspect-ratio: 16/9;
 }
@@ -556,22 +566,23 @@ section { position: relative; }
   pointer-events: none;
 }
 
-/* Overlay */
+/* Overlay — tersembunyi default, muncul saat hover/touch */
 .portfolio-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(13,43,39,0.95) 0%, transparent 55%);
+  background: linear-gradient(to top, rgba(13,43,39,0.95) 0%, transparent 60%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 20px;
   opacity: 0;
-  transition: opacity 0.4s;
+  transition: opacity 0.35s ease;
   z-index: 3;
 }
-.portfolio-item:hover .portfolio-overlay { opacity: 1; }
+.portfolio-item:hover .portfolio-overlay,
+.portfolio-item.touched .portfolio-overlay { opacity: 1; }
 
-/* Mobile touch toggle */
+/* Mobile: overlay hanya muncul saat disentuh, tidak auto */
 @media (hover: none) {
   .portfolio-overlay { opacity: 0 !important; }
   .portfolio-item.touched .portfolio-overlay { opacity: 1 !important; }
@@ -1121,9 +1132,8 @@ footer {
   .service-icon { font-size: 22px; margin-bottom: 8px; }
 
   .portfolio { padding: 60px 20px; }
-  .portfolio-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 0; gap: 3px; }
-  .portfolio-item.landscape { grid-column: span 2; }
-  .portfolio-item.wide { grid-column: span 1; }
+  .portfolio-grid { column-count: 2; column-gap: 3px; }
+  .portfolio-item.landscape { aspect-ratio: 5/4; }
 
   .process { padding: 60px 20px; }
   .process-steps { grid-template-columns: 1fr; gap: 32px; }
