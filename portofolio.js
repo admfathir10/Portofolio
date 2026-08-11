@@ -1,18 +1,17 @@
 // ============================================================
-//  portofolio.js -- ARUMA STUDIO
+//  portofolio.js — ARUMA STUDIO
 //
 //  CARA TAMBAH KARYA BARU:
 //  1. Upload foto ke folder images/
 //  2. Salin blok, ganti gambar/label/judul
-//  3. Simpan -- otomatis muncul di tab kategorinya
+//  3. Simpan — otomatis muncul di tab kategorinya
 //
-//  orientation : 'portrait'   --> grid 9:16 (1 kolom, tinggi)
-//  orientation : 'landscape'  --> grid 16:9 (2 kolom, lebar)
-//  Kalau tidak ditulis: default portrait
+//  orientation : 'landscape'  → gambar horizontal (5:4, 2 kolom di mobile)
+//  orientation : 'portrait'   → gambar vertikal   (4:5, default)
+//  Kalau tidak ditulis: otomatis portrait
 //
-//  tampilDiSemua : true   --> muncul di TAB SEMUA + tab kategori
-//  tampilDiSemua : false  --> HANYA di tab kategorinya saja
-//  Kalau tidak ditulis: default FALSE (hanya di tab kategori)
+//  tampilDiSemua : true   → muncul di tab SEMUA + tab kategori
+//  tampilDiSemua : false  → HANYA di tab kategorinya saja (default)
 // ============================================================
 
 var PORTOFOLIO = [
@@ -79,10 +78,10 @@ var PORTOFOLIO = [
     gambar        : 'images/annisaf.jpg',
     label         : 'Graduation Photography',
     judul         : 'Graduation of Annisa - UIN Malang',
-    orientation   : 'landscape',
+    orientation   : 'portrait',
     tampilDiSemua : true,
   },
-  // ---- BATAS TAB SEMUA: foto di bawah ini hanya di tab Fotografi ----
+  // ---- foto di bawah ini HANYA di tab Fotografi ----
   {
     kategori      : 'foto',
     gambar        : 'images/zakkiyah.jpg',
@@ -91,13 +90,13 @@ var PORTOFOLIO = [
     orientation   : 'portrait',
     tampilDiSemua : false,
   },
-  // Tambah foto baru di sini (default: hanya di tab Fotografi):
+  // Tambah foto baru di sini:
   // {
   //   kategori    : 'foto',
   //   gambar      : 'images/nama.jpg',
   //   label       : 'Wedding Photography',
   //   judul       : 'Nama Karya',
-  //   orientation : 'portrait',   // atau 'landscape'
+  //   orientation : 'portrait',
   // },
 
   // == VIDEOGRAFI ============================================
@@ -171,6 +170,8 @@ var WEBDEV_PROJECTS = [
       wdEl.className = 'portfolio-item portfolio-item--webdev';
       wdEl.setAttribute('data-cat', 'webdev');
       wdEl.setAttribute('data-semua', 'true');
+      // Tinggi webdev card sesuai kolom sekitarnya
+      wdEl.style.aspectRatio = '4/5';
       wdEl.innerHTML =
         '<div class="wd-inner">' +
           '<div class="wd-label">Web Development</div>' +
@@ -186,13 +187,14 @@ var WEBDEV_PROJECTS = [
     var isVideo     = item.kategori === 'video';
     var isLandscape = item.orientation === 'landscape';
 
-    var bgUrl = '';
-    if (item.gambar) {
-      bgUrl = item.gambar;
-    } else if (isVideo && item.youtubeId) {
-      bgUrl = 'https://img.youtube.com/vi/' + item.youtubeId + '/maxresdefault.jpg';
-    }
+    // URL gambar
+    var bgUrl = item.gambar
+      ? item.gambar
+      : (isVideo && item.youtubeId
+          ? 'https://img.youtube.com/vi/' + item.youtubeId + '/maxresdefault.jpg'
+          : '');
 
+    // Class
     var cls = ['portfolio-item'];
     if (isVideo)     cls.push('portfolio-item--video');
     if (isLandscape) cls.push('landscape');
@@ -208,13 +210,19 @@ var WEBDEV_PROJECTS = [
       el.setAttribute('data-desc',    item.deskripsi || '');
     }
 
-    // Gunakan <img> agar tinggi item ditentukan gambar itu sendiri
-    // -- tidak ada space kosong, proporsional natural
-    var imgHtml = bgUrl
-      ? '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy">'
-      : '';
+    // Untuk portrait: pakai <img> agar tinggi natural (masonry)
+    // Untuk landscape & video: pakai aspect-ratio + absolute img
+    var imgHtml = '';
+    if (bgUrl) {
+      if (isLandscape || isVideo) {
+        // aspect-ratio sudah di CSS, img absolute
+        imgHtml = '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">';
+      } else {
+        // portrait: img natural height, menentukan tinggi card
+        imgHtml = '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy">';
+      }
+    }
 
-    // Play button untuk video
     var playHtml = isVideo
       ? '<div class="yt-play-btn"><div class="yt-play-icon"><i class="fa-solid fa-play"></i></div></div>'
       : '';
@@ -230,7 +238,7 @@ var WEBDEV_PROJECTS = [
     grid.appendChild(el);
   });
 
-  // -- FILTER --
+  // -- Filter --
   filterGrid('all');
 
   document.querySelectorAll('.filter-btn').forEach(function(btn) {
@@ -262,8 +270,8 @@ var WEBDEV_PROJECTS = [
     });
   });
 
-  // -- Touch toggle overlay (mobile) --
-  document.querySelectorAll('.portfolio-item:not(.portfolio-item--video)').forEach(function(item) {
+  // -- Touch overlay (mobile) — tap untuk lihat judul --
+  document.querySelectorAll('.portfolio-item:not(.portfolio-item--video):not(.portfolio-item--webdev)').forEach(function(item) {
     item.addEventListener('touchend', function(e) {
       if (!item.classList.contains('touched')) {
         e.preventDefault();
