@@ -250,7 +250,17 @@ var WEBDEV_PROJECTS = [
       var cat   = item.getAttribute('data-cat')   || '';
       var semua = item.getAttribute('data-semua') === 'true';
       var show  = (filter === 'all') ? semua : (cat === filter);
-      item.style.display = show ? '' : 'none';
+      // CSS columns: gunakan visibility+height=0 agar kolom tidak collapse aneh
+      if (show) {
+        item.style.display    = '';
+        item.style.visibility = '';
+        item.style.position   = '';
+        item.style.padding    = '';
+        item.style.margin     = '';
+        item.style.overflow   = '';
+      } else {
+        item.style.display = 'none';
+      }
     });
   }
 
@@ -265,5 +275,31 @@ var WEBDEV_PROJECTS = [
       if (typeof openYtModal === 'function') openYtModal(videoId, title, desc, cat);
     });
   });
+
+  // -- Touch toggle overlay untuk mobile --
+  // Di mobile (hover:none), tap pertama tampilkan overlay, tap kedua aksi
+  document.querySelectorAll('.portfolio-item:not(.portfolio-item--video)').forEach(function(item) {
+    item.addEventListener('touchend', function(e) {
+      // Kalau belum touched: tampilkan overlay dulu
+      if (!item.classList.contains('touched')) {
+        e.preventDefault();
+        // Hapus touched dari semua item lain
+        document.querySelectorAll('.portfolio-item.touched').forEach(function(other) {
+          if (other !== item) other.classList.remove('touched');
+        });
+        item.classList.add('touched');
+      }
+      // Kedua tap: biarkan default (tidak ada aksi khusus untuk foto)
+    }, { passive: false });
+  });
+
+  // Tap di luar -> tutup semua overlay
+  document.addEventListener('touchstart', function(e) {
+    if (!e.target.closest('.portfolio-item')) {
+      document.querySelectorAll('.portfolio-item.touched').forEach(function(item) {
+        item.classList.remove('touched');
+      });
+    }
+  }, { passive: true });
 
 })();
