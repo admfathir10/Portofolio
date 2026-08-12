@@ -1,5 +1,73 @@
 /* ==========================================================================
-   TAMBAHAN: MASONRY & HOVER OVERLAY PORTOFOLIO
+   ARUMA STUDIO MAIN STYLESHEET
+   ========================================================================== */
+
+:root {
+  --forest: #1b261d;
+  --bg-dark: #121813;
+  --text-light: #f8fafc;
+  --accent: #a3e635;
+  --accent-hover: #84cc16;
+  --card-bg: #1e2921;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Header & Nav */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 5%;
+  background: rgba(18, 24, 19, 0.95);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+nav a:hover {
+  color: var(--accent);
+}
+
+/* Sections */
+section {
+  padding: 5rem 5%;
+}
+
+h1, h2, h3 {
+  line-height: 1.2;
+}
+
+h1 em, h2 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   PORTOFOLIO MASONRY & HOVER OVERLAY
    ========================================================================== */
 
 .portfolio-grid {
@@ -11,7 +79,7 @@
 .portfolio-item {
   position: relative;
   overflow: hidden;
-  background-color: #1b261d;
+  background-color: var(--forest);
   cursor: pointer;
   display: block;
   width: 100%;
