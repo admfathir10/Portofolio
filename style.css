@@ -512,36 +512,25 @@ section { position: relative; }
   width: 100%;
   margin-bottom: 3px;
   break-inside: avoid;
+  /* Rasio seragam untuk SEMUA kartu (foto/video, landscape/portrait)
+     supaya ukuran preview selalu sama & tidak ada yang lebih lebar/kecil */
+  aspect-ratio: 4/5;
 }
 
-/* Semua gambar (foto & video) natural height — tidak ada space kosong */
+/* Semua gambar (foto & video) selalu absolute + cover,
+   posisi fokus (object-position) diatur langsung lewat inline style
+   dari portofolio.js (per-item), dengan fallback di sini */
 .portfolio-item img.porto-img {
   display: block;
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  object-position: center top;
-  transition: transform 0.5s ease;
-}
-.portfolio-item:hover img.porto-img { transform: scale(1.05); }
-
-/* Landscape: aspect-ratio 5:4, img absolute */
-.portfolio-item.landscape {
-  aspect-ratio: 5/4;
-}
-.portfolio-item.landscape img.porto-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center center;
+  transition: transform 0.5s ease;
 }
-
-/* Video: TIDAK pakai aspect-ratio, biarkan natural seperti foto */
-.portfolio-item--video img.porto-img {
-  object-position: center top;
-}
+.portfolio-item:hover img.porto-img { transform: scale(1.05); }
 
 /* Badge VIDEO */
 .portfolio-item--video::after {
@@ -1056,8 +1045,7 @@ footer {
 
   .portfolio { padding: 80px 24px; }
   .portfolio-header { flex-direction: column; align-items: flex-start; gap: 24px; }
-  .portfolio-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 0; }
-  .portfolio-item.landscape { grid-column: span 2; }
+  .portfolio-grid { column-count: 2; column-gap: 3px; }
 
   .process { padding: 80px 24px; }
   .process-steps { grid-template-columns: 1fr 1fr; gap: 40px; }
