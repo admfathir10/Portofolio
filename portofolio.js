@@ -157,23 +157,47 @@ var WEBDEV_PROJECTS = [
   var grid = document.getElementById('portfolioGrid');
   if (!grid) return;
 
-  // gap: 3px berlaku merata (kolom & baris).
-  // grid-auto-rows: 1px → span = tinggi item + 3px gap (kecuali item terakhir di baris).
-  // Pakai scrollHeight (tanpa padding) agar presisi.
-  var GAP = 3; // harus sama dengan gap di CSS
+  var GAP = 3; // sama dengan gap CSS
 
+  // Hitung tinggi kolom dalam pixel (lebar grid dibagi 3, kurangi gap)
+  function getColWidth() {
+    var cols = window.getComputedStyle(grid).gridTemplateColumns.split(' ');
+    // Ambil lebar kolom pertama dari computed style
+    return parseFloat(cols[0]) || (grid.offsetWidth - GAP * (cols.length - 1)) / cols.length;
+  }
+
+  // Hitung span tiap item dari dimensi gambar asli (naturalWidth/naturalHeight)
+  // sehingga tidak terpengaruh oleh grid collapse saat reset
   function setSpans() {
+    var colW = getColWidth();
     var items = grid.querySelectorAll('.portfolio-item');
     items.forEach(function(item) {
       if (item.style.display === 'none') {
         item.style.gridRowEnd = '';
         return;
       }
-      item.style.gridRowEnd = 'span 1'; // reset
-      // scrollHeight = tinggi konten (termasuk overflow tersembunyi)
-      // Untuk item dengan padding-top trick (landscape/webdev): scrollHeight = totalHeight
-      var h = item.scrollHeight;
-      // span harus cover tinggi item + 1 gap di bawahnya
+
+      var h = 0;
+      var img = item.querySelector('img.porto-img');
+
+      if (img && img.naturalWidth && img.naturalHeight) {
+        // Tinggi item = lebar kolom × rasio gambar asli
+        // Untuk landscape: colW × 2 (span 2 kolom) + 1 gap kolom
+        var itemCols = item.classList.contains('landscape') ? 2 : 1;
+        var itemW = itemCols === 2 ? (colW * 2 + GAP) : colW;
+        h = Math.round(itemW * img.naturalHeight / img.naturalWidth);
+      } else if (item.classList.contains('portfolio-item--webdev')) {
+        // Webdev card: rasio 4:5
+        h = Math.round(colW * 5 / 4);
+      } else if (item.style.paddingTop) {
+        // Fallback untuk item yang pakai padding-top trick
+        h = Math.round(colW * parseFloat(item.style.paddingTop) / 100);
+      } else {
+        // Tidak ada gambar, tidak ada rasio: skip
+        return;
+      }
+
+      // span = tinggi item + 1 gap bawah, dalam unit 1px rows
       item.style.gridRowEnd = 'span ' + Math.max(1, h + GAP);
     });
   }
