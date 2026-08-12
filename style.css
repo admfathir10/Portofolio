@@ -494,96 +494,144 @@ section { position: relative; }
   transition: all 0.3s;
 }
 .filter-btn.active, .filter-btn:hover { color: var(--black); background: var(--amber); border-color: var(--amber); }
-/* ── PORTFOLIO MASONRY ──────────────────────────────────────
-   CSS Columns masonry: gap imbang, tidak ada space kosong.
-   Video tampil full natural height seperti foto portrait.
-   ─────────────────────────────────────────────────────────── */
+/* ==========================================================================
+   PORTFOLIO MASONRY & GRID FIXES
+   ========================================================================== */
+
 .portfolio-grid {
   column-count: 3;
-  column-gap: 3px;
+  column-gap: 20px; /* Jarak horizontal antar kolom disamakan */
 }
 
 .portfolio-item {
   position: relative;
   overflow: hidden;
-  background-color: var(--forest);
-  cursor: none;
-  display: inline-block;
+  background-color: var(--forest, #1b261d);
+  cursor: pointer;
+  display: block;
   width: 100%;
-  margin-bottom: 3px;
+  margin-bottom: 20px; /* Jarak vertikal antar baris disamakan */
   break-inside: avoid;
-  /* Rasio seragam untuk SEMUA kartu (foto/video, landscape/portrait)
-     supaya ukuran preview selalu sama & tidak ada yang lebih lebar/kecil */
+  border-radius: 8px;
+}
+
+/* Gambar natural mengikuti aspek rasio tanpa terpotong */
+.portfolio-item img.porto-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain; /* Memastikan foto penuh dan tidak terpotong */
+  transition: transform 0.5s ease;
+}
+
+.portfolio-item:hover img.porto-img { 
+  transform: scale(1.03); 
+}
+
+/* Modifikasi Khusus Item Video & WebDev agar sejajar dengan masonry */
+.portfolio-item--video,
+.portfolio-item--webdev {
+  position: relative;
+  width: 100%;
+}
+
+.portfolio-item--webdev {
   aspect-ratio: 4/5;
 }
 
-/* Semua gambar (foto & video) selalu absolute + cover,
-   posisi fokus (object-position) diatur langsung lewat inline style
-   dari portofolio.js (per-item), dengan fallback di sini */
-.portfolio-item img.porto-img {
-  display: block;
+/* Overlay & Text Styles */
+.portfolio-item .porto-overlay {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center center;
-  transition: transform 0.5s ease;
-}
-.portfolio-item:hover img.porto-img { transform: scale(1.05); }
-
-/* Badge VIDEO */
-.portfolio-item--video::after {
-  content: 'VIDEO';
-  position: absolute;
-  top: 12px; right: 12px;
-  z-index: 4;
-  font-family: 'Space Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.12em;
-  background: var(--amber);
-  color: var(--black);
-  padding: 3px 9px;
-  font-weight: 700;
-  pointer-events: none;
-}
-
-/* Overlay — muncul saat hover atau touch */
-.portfolio-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(13,43,39,0.95) 0%, transparent 60%);
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 20px;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  z-index: 3;
-}
-.portfolio-item:hover .portfolio-overlay,
-.portfolio-item.touched .portfolio-overlay { opacity: 1; }
-
-@media (hover: none) {
-  .portfolio-overlay { opacity: 0 !important; }
-  .portfolio-item.touched .portfolio-overlay { opacity: 1 !important; }
+  padding: 16px;
+  color: #ffffff;
+  box-sizing: border-box;
 }
 
-.portfolio-cat {
-  font-family: 'Space Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.15em;
-  color: var(--amber);
+.portfolio-item:hover .porto-overlay {
+  opacity: 1;
+}
+
+.porto-label {
+  font-size: 0.8rem;
   text-transform: uppercase;
-  margin-bottom: 6px;
+  letter-spacing: 1px;
+  opacity: 0.8;
 }
-.portfolio-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.3;
+
+.porto-judul {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 4px 0;
 }
-.portfolio-more { text-align: center; margin-top: 48px; }
+
+.porto-deskripsi {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* Play Button Icon for Video Items */
+.play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.portfolio-item:hover .play-button {
+  background: rgba(220, 53, 69, 0.9);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.play-button::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 8px 0 8px 14px;
+  border-color: transparent transparent transparent #ffffff;
+  margin-left: 3px;
+}
+
+/* Responsive Grid untuk Tablet & Mobile */
+@media (max-width: 900px) {
+  .portfolio-grid {
+    column-count: 2;
+    column-gap: 16px;
+  }
+  .portfolio-item {
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .portfolio-grid {
+    column-count: 1; /* Di HP 1 kolom agar foto portrait/landscape tampil utuh */
+    column-gap: 0;
+  }
+  .portfolio-item {
+    margin-bottom: 12px;
+  }
+}
 
 /* ── WEBDEV CARD di portfolio grid ───────────────────────── */
 .portfolio-item--webdev {
