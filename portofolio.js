@@ -157,8 +157,10 @@ var WEBDEV_PROJECTS = [
   var grid = document.getElementById('portfolioGrid');
   if (!grid) return;
 
-  // grid-auto-rows: 1px — span = clientHeight (exact pixels, tanpa rounding error)
-  // padding-bottom: 3px di .portfolio-item = gap vertikal antar item
+  // gap: 3px berlaku merata (kolom & baris).
+  // grid-auto-rows: 1px → span = tinggi item + 3px gap (kecuali item terakhir di baris).
+  // Pakai scrollHeight (tanpa padding) agar presisi.
+  var GAP = 3; // harus sama dengan gap di CSS
 
   function setSpans() {
     var items = grid.querySelectorAll('.portfolio-item');
@@ -167,12 +169,12 @@ var WEBDEV_PROJECTS = [
         item.style.gridRowEnd = '';
         return;
       }
-      // Reset dulu agar clientHeight bisa dihitung ulang dengan benar
-      item.style.gridRowEnd = 'span 1';
-      // scrollHeight lebih andal dari getBoundingClientRect saat ada transform
+      item.style.gridRowEnd = 'span 1'; // reset
+      // scrollHeight = tinggi konten (termasuk overflow tersembunyi)
+      // Untuk item dengan padding-top trick (landscape/webdev): scrollHeight = totalHeight
       var h = item.scrollHeight;
-      // span = tinggi px + 3px gap bawah (dari padding-bottom)
-      item.style.gridRowEnd = 'span ' + Math.max(1, h + 3);
+      // span harus cover tinggi item + 1 gap di bawahnya
+      item.style.gridRowEnd = 'span ' + Math.max(1, h + GAP);
     });
   }
 
