@@ -1,57 +1,293 @@
-/* ==========================================================================
-   PORTOFOLIO DATA & RENDER ENGINE
-   ========================================================================== */
+// ============================================================
+//  portofolio.js — ARUMA STUDIO
+//
+//  CARA TAMBAH KARYA BARU:
+//  1. Upload foto ke folder images/
+//  2. Salin blok, ganti gambar/label/judul
+//  3. Simpan — otomatis muncul di tab kategorinya
+//
+//  orientation : 'landscape'  → gambar horizontal (5:4, 2 kolom di mobile)
+//  orientation : 'portrait'   → gambar vertikal   (4:5, default)
+//  Kalau tidak ditulis: otomatis portrait
+//
+//  tampilDiSemua : true   → muncul di tab SEMUA + tab kategori
+//  tampilDiSemua : false  → HANYA di tab kategorinya saja (default)
+// ============================================================
 
 var PORTOFOLIO = [
+
+  // == FOTOGRAFI =============================================
+  {
+    kategori      : 'foto',
+    gambar        : 'images/WhatsApp Image 2026-07-10 at 09.56.09.jpeg',
+    label         : 'Wedding Photography',
+    judul         : 'Bridemaid Clan',
+    orientation   : 'landscape',
+    tampilDiSemua : true,
+  },
+  {
+    kategori      : 'foto',
+    gambar        : 'images/Sakiva.jpg',
+    label         : 'Graduation Photography',
+    judul         : 'Objective Complete',
+    orientation   : 'portrait',
+    tampilDiSemua : true,
+  },
+  {
+    kategori      : 'foto',
+    gambar        : 'images/Salsa.jpg',
+    label         : 'Product Photography',
+    judul         : 'Anjukladang T-Shirt',
+    orientation   : 'portrait',
+    tampilDiSemua : true,
+  },
+  {
+    kategori      : 'foto',
+    gambar        : 'images/wedding.JPG',
+    label         : 'Wedding Photography',
+    judul         : 'Dreamy Eternity',
+    orientation   : 'portrait',
+    tampilDiSemua : true,
+  },
+  {
+    kategori      : 'foto',
+    gambar        : 'images/Togetherness.jpg',
+    label         : 'Graduation Photography',
+    judul         : 'Graduation of Ulva & Yunia - UIN Malang',
+    orientation   : 'portrait',
+    tampilDiSemua : true,
+  },
+  {
+    kategori      : 'foto',
+    gambar        : 'images/Maternity.jpg',
+    label         : 'Maternity Photography',
+    judul         : 'Greetings',
+    orientation   : 'landscape',
+    tampilDiSemua : true,
+  },
+  {
+    kategori      : 'foto',
+    gambar        : 'images/Food.jpg',
+    label         : 'Foodies Photography',
+    judul         : 'Menu Artisan - Zabo Cafe Jombang',
+    orientation   : 'portrait',
+    tampilDiSemua : true,
+  },
+  {
+    kategori      : 'foto',
+    gambar        : 'images/annisaf.jpg',
+    label         : 'Graduation Photography',
+    judul         : 'Graduation of Annisa - UIN Malang',
+    orientation   : 'portrait',
+    tampilDiSemua : true,
+  },
+  // ---- foto di bawah ini HANYA di tab Fotografi ----
+  {
+    kategori      : 'foto',
+    gambar        : 'images/zakkiyah.jpg',
+    label         : 'Graduation Photography',
+    judul         : 'Graduation of Maulidah - UIN Malang',
+    orientation   : 'portrait',
+    tampilDiSemua : false,
+  },
+  // Tambah foto baru di sini:
+  // {
+  //   kategori    : 'foto',
+  //   gambar      : 'images/nama.jpg',
+  //   label       : 'Wedding Photography',
+  //   judul       : 'Nama Karya',
+  //   orientation : 'portrait',
+  // },
+
+  // == VIDEOGRAFI ============================================
+  {
+    kategori      : 'video',
+    youtubeId     : 'CFcCZ8xbHtQ',
+    gambar        : '',
+    label         : 'Short Movie',
+    judul         : 'GTK Creative Camp - Laras Rilis Kediri Laris',
+    deskripsi     : 'GTK Creative Camp - Laras Rilis Kediri Laris',
+    orientation   : 'landscape',
+    tampilDiSemua : true,
+  },
   {
     kategori      : 'video',
     youtubeId     : 'bE8YqOOyi_4',
-    gambar        : 'images/Azzahra.jpg', // Path gambar thumbnail Azzahra
+    gambar        : 'images/Azzahra.jpg',
     label         : 'Casual Video',
     judul         : 'Modelling',
-    deskripsi     : 'Modelling Azzahra',
+    deskripsi     : 'Modelling',
     orientation   : 'portrait',
     tampilDiSemua : true,
-  }
-  // Tambahkan item portofolio lainnya di sini jika diperlukan
+  },
+
+  // == DIGITAL CREATIVE ======================================
+  {
+    kategori      : 'desain',
+    gambar        : 'images/wind.jpg',
+    label         : 'Brand Identity',
+    judul         : 'Logo & Visual - Wind',
+    orientation   : 'portrait',
+    tampilDiSemua : true,
+  },
+
 ];
 
-function renderPortofolio(containerId, data) {
-  var container = document.getElementById(containerId);
-  if (!container) return;
+// ============================================================
+//  DATA WEB DEVELOPMENT
+// ============================================================
+var WEBDEV_PROJECTS = [
+  {
+    nama      : 'ZonaPAI',
+    kategori  : 'Web App',
+    deskripsi : 'Aplikasi ZonaPAI Berbasis Website untuk Integrasi Pembelajaran PAI antara Murid dan Guru.',
+    tech      : ['HTML', 'CSS', 'JavaScript'],
+    gambar    : 'images/zonapai.jpg',
+    link      : 'https://zonapai.infinityfree.me',
+    tahun     : '2026',
+  },
+];
 
-  var items = data || PORTOFOLIO;
-  var html = '<div class="portfolio-grid">';
+// ============================================================
+//  MESIN RENDER
+// ============================================================
+(function() {
+  var grid = document.getElementById('portfolioGrid');
+  if (!grid) return;
 
-  items.forEach(function(item) {
-    var isVideo = item.kategori === 'video';
-    var itemClass = 'portfolio-item' + (isVideo ? ' portfolio-item--video' : '') + (item.kategori === 'webdev' ? ' portfolio-item--webdev' : '');
-    var bgUrl = item.gambar || (isVideo && item.youtubeId ? 'https://img.youtube.com/vi/' + item.youtubeId + '/hqdefault.jpg' : '');
+  var semuaItem = PORTOFOLIO.concat([{
+    kategori      : 'webdev',
+    isWebdevCard  : true,
+    orientation   : 'portrait',
+    tampilDiSemua : true,
+  }]);
 
-    html += '<div class="' + itemClass + '">';
-    
+  semuaItem.forEach(function(item) {
+
+    // -- Kartu Web Dev --
+    if (item.isWebdevCard) {
+      var wdEl = document.createElement('div');
+      wdEl.className = 'portfolio-item portfolio-item--webdev';
+      wdEl.setAttribute('data-cat', 'webdev');
+      wdEl.setAttribute('data-semua', 'true');
+      // Tinggi webdev card sesuai kolom sekitarnya
+      wdEl.style.aspectRatio = '4/5';
+      wdEl.innerHTML =
+        '<div class="wd-inner">' +
+          '<div class="wd-label">Web Development</div>' +
+          '<div class="wd-title">Proyek<br><em>Website</em></div>' +
+          '<div class="wd-sub">Landing page, Portfolio<br>Company profile & lebih</div>' +
+          '<div class="wd-btn">Lihat Semua &rarr;</div>' +
+        '</div>';
+      wdEl.addEventListener('click', function() { window.open('webdev.html', '_blank'); });
+      grid.appendChild(wdEl);
+      return;
+    }
+
+    var isVideo     = item.kategori === 'video';
+    var isLandscape = item.orientation === 'landscape';
+
+    // URL gambar
+    var bgUrl = item.gambar
+      ? item.gambar
+      : (isVideo && item.youtubeId
+          ? 'https://img.youtube.com/vi/' + item.youtubeId + '/maxresdefault.jpg'
+          : '');
+
+    // Class
+    var cls = ['portfolio-item'];
+    if (isVideo)     cls.push('portfolio-item--video');
+    if (isLandscape) cls.push('landscape');
+
+    var el = document.createElement('div');
+    el.className = cls.join(' ');
+    el.setAttribute('data-cat', item.kategori);
+    el.setAttribute('data-semua', item.tampilDiSemua === true ? 'true' : 'false');
+
+    if (isVideo && item.youtubeId) {
+      el.setAttribute('data-youtube', item.youtubeId);
+      el.setAttribute('data-title',   item.judul     || '');
+      el.setAttribute('data-desc',    item.deskripsi || '');
+    }
+
+    // Untuk portrait: pakai <img> agar tinggi natural (masonry)
+    // Untuk landscape & video: pakai aspect-ratio + absolute img
+    var imgHtml = '';
     if (bgUrl) {
-      html += '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy">';
+      if (isLandscape || isVideo) {
+        // aspect-ratio sudah di CSS, img absolute
+        imgHtml = '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">';
+      } else {
+        // portrait: img natural height, menentukan tinggi card
+        imgHtml = '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy">';
+      }
     }
 
-    if (isVideo) {
-      html += '<div class="play-button"></div>';
-    }
+    var playHtml = isVideo
+      ? '<div class="yt-play-btn"><div class="yt-play-icon"><i class="fa-solid fa-play"></i></div></div>'
+      : '';
 
-    html += '<div class="porto-overlay">';
-    if (item.label) html += '<span class="porto-label">' + item.label + '</span>';
-    if (item.judul) html += '<h4 class="porto-judul">' + item.judul + '</h4>';
-    if (item.deskripsi) html += '<p class="porto-deskripsi">' + item.deskripsi + '</p>';
-    html += '</div>';
+    el.innerHTML =
+      imgHtml +
+      playHtml +
+      '<div class="portfolio-overlay">' +
+        '<div class="portfolio-cat">'   + (item.label || '') + '</div>' +
+        '<div class="portfolio-title">' + (item.judul || '') + '</div>' +
+      '</div>';
 
-    html += '</div>';
+    grid.appendChild(el);
   });
 
-  html += '</div>';
-  container.innerHTML = html;
-}
+  // -- Filter --
+  filterGrid('all');
 
-// Inisialisasi otomatis jika DOM sudah siap
-document.addEventListener('DOMContentLoaded', function() {
-  renderPortofolio('portfolio-container', PORTOFOLIO);
-});
+  document.querySelectorAll('.filter-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      filterGrid(btn.getAttribute('data-filter'));
+    });
+  });
+
+  function filterGrid(filter) {
+    document.querySelectorAll('#portfolioGrid .portfolio-item').forEach(function(item) {
+      var cat   = item.getAttribute('data-cat')   || '';
+      var semua = item.getAttribute('data-semua') === 'true';
+      var show  = (filter === 'all') ? semua : (cat === filter);
+      item.style.display = show ? '' : 'none';
+    });
+  }
+
+  // -- YouTube modal --
+  document.querySelectorAll('.portfolio-item--video').forEach(function(item) {
+    item.addEventListener('click', function() {
+      var videoId = item.getAttribute('data-youtube');
+      var title   = item.getAttribute('data-title') || '';
+      var desc    = item.getAttribute('data-desc')  || '';
+      var catEl   = item.querySelector('.portfolio-cat');
+      var cat     = catEl ? catEl.textContent : 'Videografi';
+      if (typeof openYtModal === 'function') openYtModal(videoId, title, desc, cat);
+    });
+  });
+
+  // -- Touch overlay (mobile) — tap untuk lihat judul --
+  document.querySelectorAll('.portfolio-item:not(.portfolio-item--video):not(.portfolio-item--webdev)').forEach(function(item) {
+    item.addEventListener('touchend', function(e) {
+      if (!item.classList.contains('touched')) {
+        e.preventDefault();
+        document.querySelectorAll('.portfolio-item.touched').forEach(function(o) {
+          o.classList.remove('touched');
+        });
+        item.classList.add('touched');
+      }
+    }, { passive: false });
+  });
+  document.addEventListener('touchstart', function(e) {
+    if (!e.target.closest('.portfolio-item')) {
+      document.querySelectorAll('.portfolio-item.touched').forEach(function(i) {
+        i.classList.remove('touched');
+      });
+    }
+  }, { passive: true });
+
+})();
