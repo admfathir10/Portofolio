@@ -495,15 +495,17 @@ section { position: relative; }
 }
 .filter-btn.active, .filter-btn:hover { color: var(--black); background: var(--amber); border-color: var(--amber); }
 /* ── PORTFOLIO MASONRY ──────────────────────────────────────
-   Pakai CSS Grid 3 kolom dengan rows kecil (8px) + span rows
-   agar item bisa punya tinggi dinamis — kompatibel dengan
-   display:none dari JS filter tanpa meninggalkan gap kosong.
+   CSS Grid + grid-auto-rows kecil. JS menghitung dan mengisi
+   grid-row-end (span) tiap item setelah gambar load.
+   Semua tinggi item murni dari gambar — tidak ada aspect-ratio
+   di sini agar portrait/landscape/video bisa bercampur bebas.
    ─────────────────────────────────────────────────────────── */
 .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 8px;          /* unit baris kecil, di-span oleh JS */
-  gap: 3px;
+  grid-auto-rows: 1px;   /* unit terkecil; JS set span exact pixels */
+  column-gap: 3px;
+  row-gap: 0;            /* gap antar baris dihandle lewat span padding */
 }
 
 .portfolio-item {
@@ -511,10 +513,11 @@ section { position: relative; }
   overflow: hidden;
   background-color: var(--forest);
   cursor: none;
-  /* span rows diset lewat JS setelah gambar load */
+  /* Padding bawah = gap antar item vertikal */
+  padding-bottom: 3px;
 }
 
-/* Semua gambar natural height agar JS bisa hitung span */
+/* Semua img: natural height, lebar penuh */
 .portfolio-item img.porto-img {
   display: block;
   width: 100%;
@@ -522,49 +525,36 @@ section { position: relative; }
   object-fit: cover;
   object-position: center top;
   transition: transform 0.5s ease;
+  /* Penting: vertical-align default=baseline bikin gap bawah */
+  vertical-align: top;
 }
 .portfolio-item:hover img.porto-img { transform: scale(1.05); }
 
-/* Portrait: natural height dari img — JS span menyesuaikan */
-.portfolio-item:not(.landscape):not(.portfolio-item--video):not(.portfolio-item--webdev) {
-  align-self: start;   /* penting: agar item tidak stretch ke row height */
-}
-
-/* Landscape: rasio 5:4 — JS span set setelah render */
+/* Landscape (foto horizontal): rasio 5:4 via padding-top trick
+   sehingga tingginya tetap proporsional tanpa aspect-ratio CSS
+   yang bisa konflik dengan JS span */
 .portfolio-item.landscape {
-  aspect-ratio: 5 / 4;
-  align-self: start;
+  /* JS akan set span berdasarkan clientHeight setelah render */
 }
 .portfolio-item.landscape img.porto-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  /* Landscape: img tetap natural, object-fit center */
   object-position: center center;
 }
 
-/* Video: rasio 16:9 default; jika ada img portrait, ikut natural */
-.portfolio-item--video {
-  aspect-ratio: 16 / 9;
-  align-self: start;
-}
+/* Video portrait: img natural, biarkan JS hitung span */
 .portfolio-item--video img.porto-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
   object-position: center top;
 }
 
-/* WebDev card: fixed ratio */
-.portfolio-item--webdev {
-  align-self: start;
+/* Video landscape: sama seperti landscape foto */
+.portfolio-item--video.landscape img.porto-img {
+  object-position: center center;
 }
 
-/* Semua item: start agar tidak ada stretch aneh */
-.portfolio-item { align-self: start; }
+/* WebDev card tidak punya img — JS set span dari inline style */
+.portfolio-item--webdev {
+  /* tinggi dari inline style aspectRatio + JS span */
+}
 
 /* Badge VIDEO */
 .portfolio-item--video::after {
@@ -1079,7 +1069,7 @@ footer {
 
   .portfolio { padding: 80px 24px; }
   .portfolio-header { flex-direction: column; align-items: flex-start; gap: 24px; }
-  .portfolio-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 8px; }
+  .portfolio-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 1px; }
   .portfolio-item.landscape { grid-column: span 2; }
 
   .process { padding: 80px 24px; }
@@ -1147,7 +1137,7 @@ footer {
   .service-icon { font-size: 22px; margin-bottom: 8px; }
 
   .portfolio { padding: 60px 20px; }
-  .portfolio-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 8px; gap: 3px; }
+  .portfolio-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 1px; column-gap: 3px; }
   .portfolio-item.landscape { grid-column: span 2; }
 
   .process { padding: 60px 20px; }
