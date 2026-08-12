@@ -1,14 +1,17 @@
 /* ==========================================================================
-   ARUMA STUDIO MAIN STYLESHEET
+   ARUMA STUDIO - COMPLETE TEMA & STYLESHEET
    ========================================================================== */
 
 :root {
+  --bg-dark: #0f1511;
+  --bg-card: #18221b;
   --forest: #1b261d;
-  --bg-dark: #121813;
-  --text-light: #f8fafc;
+  --forest-light: #28382b;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
   --accent: #a3e635;
   --accent-hover: #84cc16;
-  --card-bg: #1e2921;
+  --border-color: rgba(255, 255, 255, 0.08);
 }
 
 * {
@@ -17,10 +20,14 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--bg-dark);
-  color: var(--text-light);
+  color: var(--text-main);
   line-height: 1.6;
 }
 
@@ -29,17 +36,26 @@ a {
   text-decoration: none;
 }
 
-/* Header & Nav */
+/* --------------------------------------------------------------------------
+   NAVIGASI (HEADER)
+   -------------------------------------------------------------------------- */
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 5%;
-  background: rgba(18, 24, 19, 0.95);
+  padding: 1.25rem 5%;
+  background: rgba(15, 21, 17, 0.9);
+  backdrop-filter: blur(12px);
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--border-color);
+}
+
+nav a[href="#"] {
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--text-main);
 }
 
 nav ul {
@@ -48,17 +64,28 @@ nav ul {
   gap: 2rem;
 }
 
-nav a:hover {
+nav ul li a {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
   color: var(--accent);
 }
 
-/* Sections */
+/* --------------------------------------------------------------------------
+   SEKSI UTAMA (HERO, ABOUT, SKILLS, DLL)
+   -------------------------------------------------------------------------- */
 section {
   padding: 5rem 5%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 h1, h2, h3 {
-  line-height: 1.2;
+  color: var(--text-main);
+  line-height: 1.25;
 }
 
 h1 em, h2 em {
@@ -66,14 +93,23 @@ h1 em, h2 em {
   color: var(--accent);
 }
 
-/* ==========================================================================
-   PORTOFOLIO MASONRY & HOVER OVERLAY
-   ========================================================================== */
+p {
+  color: var(--text-muted);
+}
 
+/* Badge/Tag List */
+span {
+  display: inline-block;
+}
+
+/* --------------------------------------------------------------------------
+   PORTOFOLIO MASONRY & HOVER OVERLAY
+   -------------------------------------------------------------------------- */
 .portfolio-grid {
   column-count: 3;
   column-gap: 20px;
   width: 100%;
+  margin-top: 2rem;
 }
 
 .portfolio-item {
@@ -85,7 +121,8 @@ h1 em, h2 em {
   width: 100%;
   margin-bottom: 20px;
   break-inside: avoid;
-  border-radius: 8px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
 }
 
 /* Gambar & Video Thumbnail */
@@ -114,7 +151,7 @@ h1 em, h2 em {
   height: 100%;
   background: linear-gradient(
     to top, 
-    rgba(0, 0, 0, 0.85) 0%, 
+    rgba(0, 0, 0, 0.9) 0%, 
     rgba(0, 0, 0, 0.4) 50%, 
     rgba(0, 0, 0, 0.05) 100%
   );
@@ -140,7 +177,7 @@ h1 em, h2 em {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: #a3e635;
+  color: var(--accent);
   font-weight: 600;
   margin-bottom: 4px;
 }
@@ -194,7 +231,22 @@ h1 em, h2 em {
   margin-left: 3px;
 }
 
-/* Responsive Grid HP & Tablet */
+/* --------------------------------------------------------------------------
+   FOOTER
+   -------------------------------------------------------------------------- */
+footer {
+  padding: 3rem 5%;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIF UNTUK TABLET DAN MOBILE
+   -------------------------------------------------------------------------- */
 @media (max-width: 900px) {
   .portfolio-grid {
     column-count: 2;
@@ -205,11 +257,23 @@ h1 em, h2 em {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
+  nav {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  nav ul {
+    gap: 1rem;
+  }
   .portfolio-grid {
     column-count: 1;
   }
   .portfolio-item {
     margin-bottom: 12px;
+  }
+  footer {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
   }
 }
