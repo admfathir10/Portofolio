@@ -149,18 +149,39 @@ var WEBDEV_PROJECTS = [
 ];
 
 // ============================================================
-//  MESIN RENDER
+//  MESIN RENDER — ARUMA STUDIO
+//  Menggunakan CSS Grid masonry (grid-auto-rows: 8px + span)
+//  agar filter display:none tidak meninggalkan gap kosong.
 // ============================================================
 (function() {
   var grid = document.getElementById('portfolioGrid');
   if (!grid) return;
 
+  var ROW_UNIT = 8;   // harus sama dengan grid-auto-rows di CSS
+  var GAP      = 3;   // harus sama dengan gap di CSS
+
+  // ── Hitung dan set grid-row-end (span) untuk setiap item visible ──
+  function setSpans() {
+    var items = grid.querySelectorAll('.portfolio-item');
+    items.forEach(function(item) {
+      if (item.style.display === 'none') return;
+      item.style.gridRowEnd = '';          // reset dulu
+      var h    = item.getBoundingClientRect().height;
+      var span = Math.ceil((h + GAP) / (ROW_UNIT + GAP));
+      item.style.gridRowEnd = 'span ' + span;
+    });
+  }
+
+  // ── Render semua item dari data array ──
   var semuaItem = PORTOFOLIO.concat([{
     kategori      : 'webdev',
     isWebdevCard  : true,
     orientation   : 'portrait',
     tampilDiSemua : true,
   }]);
+
+  var imgLoadCount  = 0;
+  var imgTotalCount = 0;
 
   semuaItem.forEach(function(item) {
 
@@ -170,7 +191,6 @@ var WEBDEV_PROJECTS = [
       wdEl.className = 'portfolio-item portfolio-item--webdev';
       wdEl.setAttribute('data-cat', 'webdev');
       wdEl.setAttribute('data-semua', 'true');
-      // Tinggi webdev card sesuai kolom sekitarnya
       wdEl.style.aspectRatio = '4/5';
       wdEl.innerHTML =
         '<div class="wd-inner">' +
@@ -187,14 +207,13 @@ var WEBDEV_PROJECTS = [
     var isVideo     = item.kategori === 'video';
     var isLandscape = item.orientation === 'landscape';
 
-    // URL gambar
+    // URL gambar: gambar eksplisit > thumbnail YouTube > kosong
     var bgUrl = item.gambar
       ? item.gambar
       : (isVideo && item.youtubeId
           ? 'https://img.youtube.com/vi/' + item.youtubeId + '/maxresdefault.jpg'
           : '');
 
-    // Class
     var cls = ['portfolio-item'];
     if (isVideo)     cls.push('portfolio-item--video');
     if (isLandscape) cls.push('landscape');
@@ -210,17 +229,11 @@ var WEBDEV_PROJECTS = [
       el.setAttribute('data-desc',    item.deskripsi || '');
     }
 
-    // Untuk portrait: pakai <img> agar tinggi natural (masonry)
-    // Untuk landscape & video: pakai aspect-ratio + absolute img
+    // Gambar — semua pakai img tag; CSS mengatur apakah absolute/natural
     var imgHtml = '';
     if (bgUrl) {
-      if (isLandscape || isVideo) {
-        // aspect-ratio sudah di CSS, img absolute
-        imgHtml = '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">';
-      } else {
-        // portrait: img natural height, menentukan tinggi card
-        imgHtml = '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy">';
-      }
+      imgTotalCount++;
+      imgHtml = '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy">';
     }
 
     var playHtml = isVideo
@@ -235,10 +248,41 @@ var WEBDEV_PROJECTS = [
         '<div class="portfolio-title">' + (item.judul || '') + '</div>' +
       '</div>';
 
+    // Set span setelah gambar load agar tinggi sudah benar
+    var img = el.querySelector('img.porto-img');
+    if (img) {
+      img.addEventListener('load', function() {
+        setSpans();
+        imgLoadCount++;
+      });
+      img.addEventListener('error', function() {
+        imgLoadCount++;
+      });
+    }
+
     grid.appendChild(el);
   });
 
-  // -- Filter --
+  // Fallback: set spans setelah semua konten diparse (tanpa menunggu gambar)
+  requestAnimationFrame(function() {
+    setSpans();
+    // Ulangi sekali lagi setelah layout stabil
+    setTimeout(setSpans, 300);
+    setTimeout(setSpans, 800);
+  });
+
+  // Re-hitung span saat resize window
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(setSpans, 150);
+  });
+
+  // ── Filter ──────────────────────────────────────────────────
+  // Gunakan visibility:hidden + grid-row:0 / grid-column:0 alih-alih
+  // display:none agar grid tidak collapse/gap aneh. Tapi karena kita
+  // pakai grid-auto-rows dengan span, display:none sudah aman —
+  // item yang hilang tidak meninggalkan baris kosong.
   filterGrid('all');
 
   document.querySelectorAll('.filter-btn').forEach(function(btn) {
@@ -254,39 +298,51 @@ var WEBDEV_PROJECTS = [
       var cat   = item.getAttribute('data-cat')   || '';
       var semua = item.getAttribute('data-semua') === 'true';
       var show  = (filter === 'all') ? semua : (cat === filter);
-      item.style.display = show ? '' : 'none';
+      if (show) {
+        item.style.display  = '';
+        item.style.opacity  = '';
+        item.style.pointerEvents = '';
+      } else {
+        item.style.display  = 'none';
+        item.style.gridRowEnd = '';
+      }
+    });
+    // Recalculate spans after filter change
+    requestAnimationFrame(function() {
+      setSpans();
+      setTimeout(setSpans, 200);
     });
   }
 
-  // -- YouTube modal --
-  document.querySelectorAll('.portfolio-item--video').forEach(function(item) {
-    item.addEventListener('click', function() {
-      var videoId = item.getAttribute('data-youtube');
-      var title   = item.getAttribute('data-title') || '';
-      var desc    = item.getAttribute('data-desc')  || '';
-      var catEl   = item.querySelector('.portfolio-cat');
-      var cat     = catEl ? catEl.textContent : 'Videografi';
-      if (typeof openYtModal === 'function') openYtModal(videoId, title, desc, cat);
-    });
+  // ── YouTube modal ──────────────────────────────────────────
+  grid.addEventListener('click', function(e) {
+    var item = e.target.closest('.portfolio-item--video');
+    if (!item) return;
+    var videoId = item.getAttribute('data-youtube');
+    var title   = item.getAttribute('data-title') || '';
+    var desc    = item.getAttribute('data-desc')  || '';
+    var catEl   = item.querySelector('.portfolio-cat');
+    var cat     = catEl ? catEl.textContent : 'Videografi';
+    if (typeof openYtModal === 'function') openYtModal(videoId, title, desc, cat);
   });
 
-  // -- Touch overlay (mobile) — tap untuk lihat judul --
-  document.querySelectorAll('.portfolio-item:not(.portfolio-item--video):not(.portfolio-item--webdev)').forEach(function(item) {
-    item.addEventListener('touchend', function(e) {
-      if (!item.classList.contains('touched')) {
-        e.preventDefault();
-        document.querySelectorAll('.portfolio-item.touched').forEach(function(o) {
-          o.classList.remove('touched');
-        });
-        item.classList.add('touched');
-      }
-    }, { passive: false });
-  });
+  // ── Touch overlay mobile ───────────────────────────────────
+  grid.addEventListener('touchend', function(e) {
+    var item = e.target.closest('.portfolio-item:not(.portfolio-item--video):not(.portfolio-item--webdev)');
+    if (!item) {
+      grid.querySelectorAll('.portfolio-item.touched').forEach(function(o) { o.classList.remove('touched'); });
+      return;
+    }
+    if (!item.classList.contains('touched')) {
+      e.preventDefault();
+      grid.querySelectorAll('.portfolio-item.touched').forEach(function(o) { o.classList.remove('touched'); });
+      item.classList.add('touched');
+    }
+  }, { passive: false });
+
   document.addEventListener('touchstart', function(e) {
     if (!e.target.closest('.portfolio-item')) {
-      document.querySelectorAll('.portfolio-item.touched').forEach(function(i) {
-        i.classList.remove('touched');
-      });
+      grid.querySelectorAll('.portfolio-item.touched').forEach(function(i) { i.classList.remove('touched'); });
     }
   }, { passive: true });
 
