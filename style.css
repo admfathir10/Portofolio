@@ -514,43 +514,42 @@ section { position: relative; }
   /* TIDAK ada padding — tinggi murni dari konten/gambar */
 }
 
-/* Semua img: natural height, lebar penuh */
+/* Semua img: natural height, lebar penuh — JANGAN stretch */
 .portfolio-item img.porto-img {
   display: block;
   width: 100%;
-  height: auto;
+  height: auto;          /* natural ratio dari file gambar */
+  max-width: 100%;
   object-fit: cover;
   object-position: center top;
   transition: transform 0.5s ease;
-  /* Penting: vertical-align default=baseline bikin gap bawah */
   vertical-align: top;
 }
 .portfolio-item:hover img.porto-img { transform: scale(1.05); }
 
-/* Landscape (foto horizontal): rasio 5:4 via padding-top trick
-   sehingga tingginya tetap proporsional tanpa aspect-ratio CSS
-   yang bisa konflik dengan JS span */
-.portfolio-item.landscape {
-  /* JS akan set span berdasarkan clientHeight setelah render */
-}
+/* Landscape foto: img absolute mengisi padding-top area */
 .portfolio-item.landscape img.porto-img {
-  /* Landscape: img tetap natural, object-fit center */
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   object-position: center center;
 }
 
-/* Video portrait: img natural, biarkan JS hitung span */
-.portfolio-item--video img.porto-img {
+/* Video portrait: img natural */
+.portfolio-item--video:not(.landscape) img.porto-img {
   object-position: center top;
 }
 
-/* Video landscape: sama seperti landscape foto */
+/* Video landscape: img absolute */
 .portfolio-item--video.landscape img.porto-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   object-position: center center;
-}
-
-/* WebDev card tidak punya img — JS set span dari inline style */
-.portfolio-item--webdev {
-  /* tinggi dari inline style aspectRatio + JS span */
 }
 
 /* Badge VIDEO */
