@@ -6,9 +6,17 @@
 //  2. Salin blok, ganti gambar/label/judul
 //  3. Simpan — otomatis muncul di tab kategorinya
 //
-//  orientation : 'landscape'  → gambar horizontal (5:4, 2 kolom di mobile)
-//  orientation : 'portrait'   → gambar vertikal   (4:5, default)
+//  Semua kartu (foto & video) sekarang punya UKURAN SAMA (rasio 4:5),
+//  supaya grid rapi & seimbang. orientation hanya menentukan posisi
+//  fokus crop default, BUKAN ukuran kartu:
+//
+//  orientation : 'landscape'  → fokus crop di tengah (center center)
+//  orientation : 'portrait'   → fokus crop di atas   (center 20%, biar wajah kelihatan)
 //  Kalau tidak ditulis: otomatis portrait
+//
+//  posisi : (opsional) override manual posisi fokus crop,
+//           misal 'center 10%' atau 'center bottom' — pakai ini kalau
+//           bagian penting fotonya masih terpotong dengan default di atas
 //
 //  tampilDiSemua : true   → muncul di tab SEMUA + tab kategori
 //  tampilDiSemua : false  → HANYA di tab kategorinya saja (default)
@@ -210,17 +218,15 @@ var WEBDEV_PROJECTS = [
       el.setAttribute('data-desc',    item.deskripsi || '');
     }
 
-    // Untuk portrait: pakai <img> agar tinggi natural (masonry)
-    // Untuk landscape & video: pakai aspect-ratio + absolute img
+    // Semua kartu ukurannya seragam (diatur lewat aspect-ratio di CSS),
+    // jadi semua gambar — foto atau video, landscape atau portrait —
+    // pakai markup yang sama. Posisi fokus crop diatur lewat object-position.
+    var defaultPos = isLandscape ? 'center center' : 'center 20%';
+    var objPos     = item.posisi || defaultPos;
+
     var imgHtml = '';
     if (bgUrl) {
-      if (isLandscape || isVideo) {
-        // aspect-ratio sudah di CSS, img absolute
-        imgHtml = '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">';
-      } else {
-        // portrait: img natural height, menentukan tinggi card
-        imgHtml = '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy">';
-      }
+      imgHtml = '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy" style="object-position:' + objPos + ';">';
     }
 
     var playHtml = isVideo
