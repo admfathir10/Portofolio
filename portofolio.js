@@ -157,18 +157,22 @@ var WEBDEV_PROJECTS = [
   var grid = document.getElementById('portfolioGrid');
   if (!grid) return;
 
-  var ROW_UNIT = 8;   // harus sama dengan grid-auto-rows di CSS
-  var GAP      = 3;   // harus sama dengan gap di CSS
+  // grid-auto-rows: 1px — span = clientHeight (exact pixels, tanpa rounding error)
+  // padding-bottom: 3px di .portfolio-item = gap vertikal antar item
 
-  // ── Hitung dan set grid-row-end (span) untuk setiap item visible ──
   function setSpans() {
     var items = grid.querySelectorAll('.portfolio-item');
     items.forEach(function(item) {
-      if (item.style.display === 'none') return;
-      item.style.gridRowEnd = '';          // reset dulu
-      var h    = item.getBoundingClientRect().height;
-      var span = Math.ceil((h + GAP) / (ROW_UNIT + GAP));
-      item.style.gridRowEnd = 'span ' + span;
+      if (item.style.display === 'none') {
+        item.style.gridRowEnd = '';
+        return;
+      }
+      // Reset dulu agar clientHeight bisa dihitung ulang dengan benar
+      item.style.gridRowEnd = 'span 1';
+      // scrollHeight lebih andal dari getBoundingClientRect saat ada transform
+      var h = item.scrollHeight;
+      // span = tinggi px + 3px gap bawah (dari padding-bottom)
+      item.style.gridRowEnd = 'span ' + Math.max(1, h + 3);
     });
   }
 
@@ -191,9 +195,13 @@ var WEBDEV_PROJECTS = [
       wdEl.className = 'portfolio-item portfolio-item--webdev';
       wdEl.setAttribute('data-cat', 'webdev');
       wdEl.setAttribute('data-semua', 'true');
-      wdEl.style.aspectRatio = '4/5';
+      // Tinggi dari padding-top trick agar proporsional 4:5
+      // JS span akan set berdasarkan clientHeight setelah render
+      wdEl.style.paddingTop = '125%'; /* 5/4 = 125% → rasio 4:5 */
+      // wd-inner harus absolute karena parent pakai padding-top trick
+      wdEl.style.position = 'relative';
       wdEl.innerHTML =
-        '<div class="wd-inner">' +
+        '<div class="wd-inner" style="position:absolute;inset:0;">' +
           '<div class="wd-label">Web Development</div>' +
           '<div class="wd-title">Proyek<br><em>Website</em></div>' +
           '<div class="wd-sub">Landing page, Portfolio<br>Company profile & lebih</div>' +
@@ -222,6 +230,15 @@ var WEBDEV_PROJECTS = [
     el.className = cls.join(' ');
     el.setAttribute('data-cat', item.kategori);
     el.setAttribute('data-semua', item.tampilDiSemua === true ? 'true' : 'false');
+    // Landscape: set tinggi lewat padding-top (5:4 = 80%) agar proporsional
+    // bahkan sebelum gambar load; img absolute mengisi area ini
+    if (isLandscape) {
+      el.style.paddingTop = '80%'; /* 4/5 = 80% → rasio 5:4 */
+    }
+    // Video portrait tanpa gambar: fallback padding 16:9
+    if (isVideo && !item.gambar && !isLandscape) {
+      el.style.paddingTop = '56.25%'; /* 9/16 = 56.25% */
+    }
 
     if (isVideo && item.youtubeId) {
       el.setAttribute('data-youtube', item.youtubeId);
@@ -229,11 +246,19 @@ var WEBDEV_PROJECTS = [
       el.setAttribute('data-desc',    item.deskripsi || '');
     }
 
-    // Gambar — semua pakai img tag; CSS mengatur apakah absolute/natural
+    // Gambar
+    // Portrait (foto/video): img natural → tinggi dari konten gambar
+    // Landscape (foto/video): img absolute → tinggi dari padding-top (rasio 5:4)
     var imgHtml = '';
     if (bgUrl) {
       imgTotalCount++;
-      imgHtml = '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy">';
+      if (isLandscape) {
+        // Landscape: parent pakai padding-top trick, img absolute
+        imgHtml = '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">';
+      } else {
+        // Portrait (foto maupun video): img natural height
+        imgHtml = '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy">';
+      }
     }
 
     var playHtml = isVideo
@@ -251,13 +276,11 @@ var WEBDEV_PROJECTS = [
     // Set span setelah gambar load agar tinggi sudah benar
     var img = el.querySelector('img.porto-img');
     if (img) {
-      img.addEventListener('load', function() {
-        setSpans();
-        imgLoadCount++;
-      });
-      img.addEventListener('error', function() {
-        imgLoadCount++;
-      });
+      img.addEventListener('load',  function() { setSpans(); imgLoadCount++; });
+      img.addEventListener('error', function() { setSpans(); imgLoadCount++; });
+    } else {
+      // Item tanpa gambar (webdev, video fallback): span langsung saat DOM siap
+      requestAnimationFrame(setSpans);
     }
 
     grid.appendChild(el);
