@@ -1,40 +1,34 @@
 /* ==========================================================================
-   PORTOFOLIO DATA & ENGINE (ARUMA STUDIO)
+   PORTOFOLIO DATA & RENDER ENGINE
    ========================================================================== */
 
 var PORTOFOLIO = [
   {
     kategori      : 'video',
     youtubeId     : 'bE8YqOOyi_4',
-    gambar        : 'images/Azzahra.jpg',
+    gambar        : 'images/Azzahra.jpg', // Path gambar thumbnail Azzahra
     label         : 'Casual Video',
-    judul         : 'Modelling Azzahra',
-    deskripsi     : 'Casual Video Modelling',
+    judul         : 'Modelling',
+    deskripsi     : 'Modelling Azzahra',
     orientation   : 'portrait',
     tampilDiSemua : true,
   }
-  // Masukkan kembali item foto / video Anda yang lain di sini
+  // Tambahkan item portofolio lainnya di sini jika diperlukan
 ];
 
-function renderPortofolio(kategoriAktif) {
-  var grid = document.querySelector('.portfolio-grid');
-  if (!grid) return;
+function renderPortofolio(containerId, data) {
+  var container = document.getElementById(containerId);
+  if (!container) return;
 
-  var items = PORTOFOLIO.filter(function(item) {
-    if (kategoriAktif === 'semua' || !kategoriAktif) {
-      return item.tampilDiSemua !== false;
-    }
-    return item.kategori === kategoriAktif;
-  });
-
-  var html = '';
+  var items = data || PORTOFOLIO;
+  var html = '<div class="portfolio-grid">';
 
   items.forEach(function(item) {
     var isVideo = item.kategori === 'video';
-    var itemClass = 'portfolio-item' + (isVideo ? ' portfolio-item--video' : '');
+    var itemClass = 'portfolio-item' + (isVideo ? ' portfolio-item--video' : '') + (item.kategori === 'webdev' ? ' portfolio-item--webdev' : '');
     var bgUrl = item.gambar || (isVideo && item.youtubeId ? 'https://img.youtube.com/vi/' + item.youtubeId + '/hqdefault.jpg' : '');
 
-    html += '<div class="' + itemClass + '" data-kategori="' + item.kategori + '">';
+    html += '<div class="' + itemClass + '">';
     
     if (bgUrl) {
       html += '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy">';
@@ -44,7 +38,6 @@ function renderPortofolio(kategoriAktif) {
       html += '<div class="play-button"></div>';
     }
 
-    /* OVERLAY TEKS BERADA DI DALAM DENGAN HOVER */
     html += '<div class="porto-overlay">';
     if (item.label) html += '<span class="porto-label">' + item.label + '</span>';
     if (item.judul) html += '<h4 class="porto-judul">' + item.judul + '</h4>';
@@ -54,9 +47,11 @@ function renderPortofolio(kategoriAktif) {
     html += '</div>';
   });
 
-  grid.innerHTML = html;
+  html += '</div>';
+  container.innerHTML = html;
 }
 
+// Inisialisasi otomatis jika DOM sudah siap
 document.addEventListener('DOMContentLoaded', function() {
-  renderPortofolio('semua');
+  renderPortofolio('portfolio-container', PORTOFOLIO);
 });
