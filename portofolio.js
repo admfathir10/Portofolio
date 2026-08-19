@@ -6,9 +6,8 @@
 //  2. Salin blok, ganti gambar/label/judul
 //  3. Simpan -- otomatis muncul di tab kategorinya
 //
-//  orientation : 'landscape'  -> gambar horizontal (5:4, 2 kolom di mobile)
+//  orientation : 'landscape'  -> gambar horizontal (5:4, 2 kolom)
 //  orientation : 'portrait'   -> gambar vertikal   (4:5, default)
-//  Kalau tidak ditulis: otomatis portrait
 //
 //  tampilDiSemua : true   -> muncul di tab SEMUA + tab kategori
 //  tampilDiSemua : false  -> HANYA di tab kategorinya saja (default)
@@ -90,14 +89,6 @@ var PORTOFOLIO = [
     orientation   : 'portrait',
     tampilDiSemua : false,
   },
-  // Tambah foto baru di sini:
-  // {
-  //   kategori    : 'foto',
-  //   gambar      : 'images/nama.jpg',
-  //   label       : 'Wedding Photography',
-  //   judul       : 'Nama Karya',
-  //   orientation : 'portrait',
-  // },
 
   // == VIDEOGRAFI ============================================
   {
@@ -130,7 +121,6 @@ var PORTOFOLIO = [
     orientation   : 'portrait',
     tampilDiSemua : true,
   },
-
 ];
 
 // ============================================================
@@ -149,54 +139,16 @@ var WEBDEV_PROJECTS = [
 ];
 
 // ============================================================
-//  MESIN RENDER -- ARUMA STUDIO
-//  Menggunakan CSS Grid masonry (grid-auto-rows: 8px + span)
-//  agar filter display:none tidak meninggalkan gap kosong.
+//  MESIN RENDER
+//  Masonry: CSS column-count (3 kolom desktop, 2 tablet/mobile)
+//  Setiap item adalah inline-block di dalam kolom.
+//  Filter: pakai class .hidden-item (max-height:0) bukan display:none
+//  agar kolom tidak collapse dan tidak ada gap aneh.
 // ============================================================
 (function() {
   var grid = document.getElementById('portfolioGrid');
   if (!grid) return;
 
-  var GAP = 3; // px -- harus sama dengan column-gap di CSS
-
-  // Hitung lebar 1 kolom dari computed style grid
-  function getColWidth() {
-    var cols = window.getComputedStyle(grid).gridTemplateColumns.split(' ');
-    return parseFloat(cols[0]) || (grid.offsetWidth / 3);
-  }
-
-  // Set grid-row-end span pada setiap item berdasarkan tinggi naturalnya.
-  // Setiap item diberi span = tinggiItem + GAP (dalam px, karena grid-auto-rows:1px).
-  // Dengan demikian jarak antar item = GAP px di semua sisi.
-  function setSpans() {
-    var items = grid.querySelectorAll('.portfolio-item');
-    items.forEach(function(item) {
-      // Item tersembunyi: reset span
-      if (item.style.display === 'none' || item.classList.contains('hidden-item')) {
-        item.style.gridRowEnd = '';
-        return;
-      }
-
-      var itemH = 0;
-      var img = item.querySelector('img.porto-img');
-
-      if (img && img.complete && img.naturalHeight > 0) {
-        // Tinggi item = lebar item x rasio gambar asli
-        var itemW = item.getBoundingClientRect().width || item.offsetWidth;
-        itemH = Math.round(itemW * img.naturalHeight / img.naturalWidth);
-      } else if (item.getBoundingClientRect().height > 0) {
-        // Fallback: tinggi dari bounding rect (untuk webdev card & landscape yang pakai aspect-ratio)
-        itemH = Math.round(item.getBoundingClientRect().height);
-      } else {
-        return; // Belum ready, skip
-      }
-
-      // span = tinggi item + GAP (gap bawah item ini)
-      item.style.gridRowEnd = 'span ' + (itemH + GAP);
-    });
-  }
-
-  // -- Render semua item dari data array --
   var semuaItem = PORTOFOLIO.concat([{
     kategori      : 'webdev',
     isWebdevCard  : true,
@@ -204,8 +156,7 @@ var WEBDEV_PROJECTS = [
     tampilDiSemua : true,
   }]);
 
-  var imgLoadCount  = 0;
-
+  // -- Render setiap item -------------------------------------
   semuaItem.forEach(function(item) {
 
     // -- Kartu Web Dev --
@@ -221,16 +172,17 @@ var WEBDEV_PROJECTS = [
           '<div class="wd-sub">Landing page, Portfolio<br>Company profile & lebih</div>' +
           '<div class="wd-btn">Lihat Semua &rarr;</div>' +
         '</div>';
-      wdEl.addEventListener('click', function() { window.open('webdev.html', '_blank'); });
+      wdEl.addEventListener('click', function() {
+        window.open('webdev.html', '_blank');
+      });
       grid.appendChild(wdEl);
-      // Set span setelah element ada di DOM
-      requestAnimationFrame(function() { setSpans(); });
       return;
     }
 
     var isVideo     = item.kategori === 'video';
     var isLandscape = item.orientation === 'landscape';
 
+    // URL thumbnail
     var bgUrl = item.gambar
       ? item.gambar
       : (isVideo && item.youtubeId
@@ -252,11 +204,11 @@ var WEBDEV_PROJECTS = [
       el.setAttribute('data-desc',    item.deskripsi || '');
     }
 
-    // Semua item pakai <img> -- tinggi ditentukan gambar asli
-    // Landscape: CSS aspect-ratio + img absolute cover
-    // Portrait & video: img natural height
+    // <img> tag: tinggi natural dari gambar, tidak ada JS span calculation
+    // loading=lazy: hanya load gambar saat mendekati viewport (hemat bandwidth)
+    // decoding=async: decode gambar di background, tidak blokir main thread
     var imgHtml = bgUrl
-      ? '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '').replace(/"/g, '') + '" loading="lazy">'
+      ? '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '').replace(/"/g, '\'') + '" loading="lazy" decoding="async">'
       : '';
 
     var playHtml = isVideo
@@ -270,41 +222,19 @@ var WEBDEV_PROJECTS = [
         '<div class="portfolio-title">' + (item.judul || '') + '</div>' +
       '</div>';
 
-    // Set span setelah gambar load (tinggi sudah tersedia)
-    var img = el.querySelector('img.porto-img');
-    if (img) {
-      img.addEventListener('load',  function() { setSpans(); });
-      img.addEventListener('error', function() { setSpans(); });
-    }
-
     grid.appendChild(el);
   });
 
-  // Fallback: set spans setelah semua konten diparse (tanpa menunggu gambar)
-  requestAnimationFrame(function() {
-    setSpans();
-    // Ulangi sekali lagi setelah layout stabil
-    setTimeout(setSpans, 300);
-    setTimeout(setSpans, 800);
-  });
-
-  // Re-hitung span saat resize window
-  var resizeTimer;
-  window.addEventListener('resize', function() {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(setSpans, 150);
-  });
-
-  // -- Filter --------------------------------------------------
-  // Gunakan visibility:hidden + grid-row:0 / grid-column:0 alih-alih
-  // display:none agar grid tidak collapse/gap aneh. Tapi karena kita
-  // pakai grid-auto-rows dengan span, display:none sudah aman --
-  // item yang hilang tidak meninggalkan baris kosong.
+  // -- Filter -------------------------------------------------
+  // Pakai class hidden-item (max-height:0) bukan display:none
+  // agar kolom CSS column-count tidak collapse/gap
   filterGrid('all');
 
   document.querySelectorAll('.filter-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
-      document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+      document.querySelectorAll('.filter-btn').forEach(function(b) {
+        b.classList.remove('active');
+      });
       btn.classList.add('active');
       filterGrid(btn.getAttribute('data-filter'));
     });
@@ -315,19 +245,12 @@ var WEBDEV_PROJECTS = [
       var cat   = item.getAttribute('data-cat')   || '';
       var semua = item.getAttribute('data-semua') === 'true';
       var show  = (filter === 'all') ? semua : (cat === filter);
+
       if (show) {
-        item.style.display  = '';
-        item.style.opacity  = '';
-        item.style.pointerEvents = '';
+        item.classList.remove('hidden-item');
       } else {
-        item.style.display  = 'none';
-        item.style.gridRowEnd = '';
+        item.classList.add('hidden-item');
       }
-    });
-    // Recalculate spans after filter change
-    requestAnimationFrame(function() {
-      setSpans();
-      setTimeout(setSpans, 200);
     });
   }
 
@@ -347,19 +270,25 @@ var WEBDEV_PROJECTS = [
   grid.addEventListener('touchend', function(e) {
     var item = e.target.closest('.portfolio-item:not(.portfolio-item--video):not(.portfolio-item--webdev)');
     if (!item) {
-      grid.querySelectorAll('.portfolio-item.touched').forEach(function(o) { o.classList.remove('touched'); });
+      grid.querySelectorAll('.portfolio-item.touched').forEach(function(o) {
+        o.classList.remove('touched');
+      });
       return;
     }
     if (!item.classList.contains('touched')) {
       e.preventDefault();
-      grid.querySelectorAll('.portfolio-item.touched').forEach(function(o) { o.classList.remove('touched'); });
+      grid.querySelectorAll('.portfolio-item.touched').forEach(function(o) {
+        o.classList.remove('touched');
+      });
       item.classList.add('touched');
     }
   }, { passive: false });
 
   document.addEventListener('touchstart', function(e) {
-    if (!e.target.closest('.portfolio-item')) {
-      grid.querySelectorAll('.portfolio-item.touched').forEach(function(i) { i.classList.remove('touched'); });
+    if (!e.target.closest || !e.target.closest('.portfolio-item')) {
+      grid.querySelectorAll('.portfolio-item.touched').forEach(function(i) {
+        i.classList.remove('touched');
+      });
     }
   }, { passive: true });
 
