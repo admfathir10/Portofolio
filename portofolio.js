@@ -1,17 +1,17 @@
 // ============================================================
-//  portofolio.js — ARUMA STUDIO
+//  portofolio.js -- ARUMA STUDIO
 //
 //  CARA TAMBAH KARYA BARU:
 //  1. Upload foto ke folder images/
 //  2. Salin blok, ganti gambar/label/judul
-//  3. Simpan — otomatis muncul di tab kategorinya
+//  3. Simpan -- otomatis muncul di tab kategorinya
 //
-//  orientation : 'landscape'  → gambar horizontal (5:4, 2 kolom di mobile)
-//  orientation : 'portrait'   → gambar vertikal   (4:5, default)
+//  orientation : 'landscape'  -> gambar horizontal (5:4, 2 kolom di mobile)
+//  orientation : 'portrait'   -> gambar vertikal   (4:5, default)
 //  Kalau tidak ditulis: otomatis portrait
 //
-//  tampilDiSemua : true   → muncul di tab SEMUA + tab kategori
-//  tampilDiSemua : false  → HANYA di tab kategorinya saja (default)
+//  tampilDiSemua : true   -> muncul di tab SEMUA + tab kategori
+//  tampilDiSemua : false  -> HANYA di tab kategorinya saja (default)
 // ============================================================
 
 var PORTOFOLIO = [
@@ -149,7 +149,7 @@ var WEBDEV_PROJECTS = [
 ];
 
 // ============================================================
-//  MESIN RENDER — ARUMA STUDIO
+//  MESIN RENDER -- ARUMA STUDIO
 //  Menggunakan CSS Grid masonry (grid-auto-rows: 8px + span)
 //  agar filter display:none tidak meninggalkan gap kosong.
 // ============================================================
@@ -157,52 +157,46 @@ var WEBDEV_PROJECTS = [
   var grid = document.getElementById('portfolioGrid');
   if (!grid) return;
 
-  var GAP = 3; // sama dengan gap CSS
+  var GAP = 3; // px -- harus sama dengan column-gap di CSS
 
-  // Hitung tinggi kolom dalam pixel (lebar grid dibagi 3, kurangi gap)
+  // Hitung lebar 1 kolom dari computed style grid
   function getColWidth() {
     var cols = window.getComputedStyle(grid).gridTemplateColumns.split(' ');
-    // Ambil lebar kolom pertama dari computed style
-    return parseFloat(cols[0]) || (grid.offsetWidth - GAP * (cols.length - 1)) / cols.length;
+    return parseFloat(cols[0]) || (grid.offsetWidth / 3);
   }
 
-  // Hitung span tiap item dari dimensi gambar asli (naturalWidth/naturalHeight)
-  // sehingga tidak terpengaruh oleh grid collapse saat reset
+  // Set grid-row-end span pada setiap item berdasarkan tinggi naturalnya.
+  // Setiap item diberi span = tinggiItem + GAP (dalam px, karena grid-auto-rows:1px).
+  // Dengan demikian jarak antar item = GAP px di semua sisi.
   function setSpans() {
-    var colW = getColWidth();
     var items = grid.querySelectorAll('.portfolio-item');
     items.forEach(function(item) {
-      if (item.style.display === 'none') {
+      // Item tersembunyi: reset span
+      if (item.style.display === 'none' || item.classList.contains('hidden-item')) {
         item.style.gridRowEnd = '';
         return;
       }
 
-      var h = 0;
+      var itemH = 0;
       var img = item.querySelector('img.porto-img');
 
-      if (img && img.naturalWidth && img.naturalHeight) {
-        // Tinggi item = lebar kolom × rasio gambar asli
-        // Untuk landscape: colW × 2 (span 2 kolom) + 1 gap kolom
-        var itemCols = item.classList.contains('landscape') ? 2 : 1;
-        var itemW = itemCols === 2 ? (colW * 2 + GAP) : colW;
-        h = Math.round(itemW * img.naturalHeight / img.naturalWidth);
-      } else if (item.classList.contains('portfolio-item--webdev')) {
-        // Webdev card: rasio 4:5
-        h = Math.round(colW * 5 / 4);
-      } else if (item.style.paddingTop) {
-        // Fallback untuk item yang pakai padding-top trick
-        h = Math.round(colW * parseFloat(item.style.paddingTop) / 100);
+      if (img && img.complete && img.naturalHeight > 0) {
+        // Tinggi item = lebar item x rasio gambar asli
+        var itemW = item.getBoundingClientRect().width || item.offsetWidth;
+        itemH = Math.round(itemW * img.naturalHeight / img.naturalWidth);
+      } else if (item.getBoundingClientRect().height > 0) {
+        // Fallback: tinggi dari bounding rect (untuk webdev card & landscape yang pakai aspect-ratio)
+        itemH = Math.round(item.getBoundingClientRect().height);
       } else {
-        // Tidak ada gambar, tidak ada rasio: skip
-        return;
+        return; // Belum ready, skip
       }
 
-      // span = tinggi item + 1 gap bawah, dalam unit 1px rows
-      item.style.gridRowEnd = 'span ' + Math.max(1, h + GAP);
+      // span = tinggi item + GAP (gap bawah item ini)
+      item.style.gridRowEnd = 'span ' + (itemH + GAP);
     });
   }
 
-  // ── Render semua item dari data array ──
+  // -- Render semua item dari data array --
   var semuaItem = PORTOFOLIO.concat([{
     kategori      : 'webdev',
     isWebdevCard  : true,
@@ -211,7 +205,6 @@ var WEBDEV_PROJECTS = [
   }]);
 
   var imgLoadCount  = 0;
-  var imgTotalCount = 0;
 
   semuaItem.forEach(function(item) {
 
@@ -221,13 +214,8 @@ var WEBDEV_PROJECTS = [
       wdEl.className = 'portfolio-item portfolio-item--webdev';
       wdEl.setAttribute('data-cat', 'webdev');
       wdEl.setAttribute('data-semua', 'true');
-      // Tinggi dari padding-top trick agar proporsional 4:5
-      // JS span akan set berdasarkan clientHeight setelah render
-      wdEl.style.paddingTop = '125%'; /* 5/4 = 125% → rasio 4:5 */
-      // wd-inner harus absolute karena parent pakai padding-top trick
-      wdEl.style.position = 'relative';
       wdEl.innerHTML =
-        '<div class="wd-inner" style="position:absolute;inset:0;">' +
+        '<div class="wd-inner">' +
           '<div class="wd-label">Web Development</div>' +
           '<div class="wd-title">Proyek<br><em>Website</em></div>' +
           '<div class="wd-sub">Landing page, Portfolio<br>Company profile & lebih</div>' +
@@ -235,13 +223,14 @@ var WEBDEV_PROJECTS = [
         '</div>';
       wdEl.addEventListener('click', function() { window.open('webdev.html', '_blank'); });
       grid.appendChild(wdEl);
+      // Set span setelah element ada di DOM
+      requestAnimationFrame(function() { setSpans(); });
       return;
     }
 
     var isVideo     = item.kategori === 'video';
     var isLandscape = item.orientation === 'landscape';
 
-    // URL gambar: gambar eksplisit > thumbnail YouTube > kosong
     var bgUrl = item.gambar
       ? item.gambar
       : (isVideo && item.youtubeId
@@ -256,15 +245,6 @@ var WEBDEV_PROJECTS = [
     el.className = cls.join(' ');
     el.setAttribute('data-cat', item.kategori);
     el.setAttribute('data-semua', item.tampilDiSemua === true ? 'true' : 'false');
-    // Landscape: set tinggi lewat padding-top (5:4 = 80%) agar proporsional
-    // bahkan sebelum gambar load; img absolute mengisi area ini
-    if (isLandscape) {
-      el.style.paddingTop = '80%'; /* 4/5 = 80% → rasio 5:4 */
-    }
-    // Video portrait tanpa gambar: fallback padding 16:9
-    if (isVideo && !item.gambar && !isLandscape) {
-      el.style.paddingTop = '56.25%'; /* 9/16 = 56.25% */
-    }
 
     if (isVideo && item.youtubeId) {
       el.setAttribute('data-youtube', item.youtubeId);
@@ -272,41 +252,29 @@ var WEBDEV_PROJECTS = [
       el.setAttribute('data-desc',    item.deskripsi || '');
     }
 
-    // Gambar
-    // Portrait (foto/video): img natural → tinggi dari konten gambar
-    // Landscape (foto/video): img absolute → tinggi dari padding-top (rasio 5:4)
-    var imgHtml = '';
-    if (bgUrl) {
-      imgTotalCount++;
-      if (isLandscape) {
-        // Landscape: parent pakai padding-top trick, img absolute
-        imgHtml = '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">';
-      } else {
-        // Portrait (foto maupun video): img natural height
-        imgHtml = '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '') + '" loading="lazy">';
-      }
-    }
+    // Semua item pakai <img> -- tinggi ditentukan gambar asli
+    // Landscape: CSS aspect-ratio + img absolute cover
+    // Portrait & video: img natural height
+    var imgHtml = bgUrl
+      ? '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '').replace(/"/g, '') + '" loading="lazy">'
+      : '';
 
     var playHtml = isVideo
       ? '<div class="yt-play-btn"><div class="yt-play-icon"><i class="fa-solid fa-play"></i></div></div>'
       : '';
 
     el.innerHTML =
-      imgHtml +
-      playHtml +
+      imgHtml + playHtml +
       '<div class="portfolio-overlay">' +
         '<div class="portfolio-cat">'   + (item.label || '') + '</div>' +
         '<div class="portfolio-title">' + (item.judul || '') + '</div>' +
       '</div>';
 
-    // Set span setelah gambar load agar tinggi sudah benar
+    // Set span setelah gambar load (tinggi sudah tersedia)
     var img = el.querySelector('img.porto-img');
     if (img) {
-      img.addEventListener('load',  function() { setSpans(); imgLoadCount++; });
-      img.addEventListener('error', function() { setSpans(); imgLoadCount++; });
-    } else {
-      // Item tanpa gambar (webdev, video fallback): span langsung saat DOM siap
-      requestAnimationFrame(setSpans);
+      img.addEventListener('load',  function() { setSpans(); });
+      img.addEventListener('error', function() { setSpans(); });
     }
 
     grid.appendChild(el);
@@ -327,10 +295,10 @@ var WEBDEV_PROJECTS = [
     resizeTimer = setTimeout(setSpans, 150);
   });
 
-  // ── Filter ──────────────────────────────────────────────────
+  // -- Filter --------------------------------------------------
   // Gunakan visibility:hidden + grid-row:0 / grid-column:0 alih-alih
   // display:none agar grid tidak collapse/gap aneh. Tapi karena kita
-  // pakai grid-auto-rows dengan span, display:none sudah aman —
+  // pakai grid-auto-rows dengan span, display:none sudah aman --
   // item yang hilang tidak meninggalkan baris kosong.
   filterGrid('all');
 
@@ -363,7 +331,7 @@ var WEBDEV_PROJECTS = [
     });
   }
 
-  // ── YouTube modal ──────────────────────────────────────────
+  // -- YouTube modal ------------------------------------------
   grid.addEventListener('click', function(e) {
     var item = e.target.closest('.portfolio-item--video');
     if (!item) return;
@@ -375,7 +343,7 @@ var WEBDEV_PROJECTS = [
     if (typeof openYtModal === 'function') openYtModal(videoId, title, desc, cat);
   });
 
-  // ── Touch overlay mobile ───────────────────────────────────
+  // -- Touch overlay mobile -----------------------------------
   grid.addEventListener('touchend', function(e) {
     var item = e.target.closest('.portfolio-item:not(.portfolio-item--video):not(.portfolio-item--webdev)');
     if (!item) {
