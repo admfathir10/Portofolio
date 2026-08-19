@@ -245,12 +245,7 @@ var WEBDEV_PROJECTS = [
       var cat   = item.getAttribute('data-cat')   || '';
       var semua = item.getAttribute('data-semua') === 'true';
       var show  = (filter === 'all') ? semua : (cat === filter);
-
-      if (show) {
-        item.classList.remove('hidden-item');
-      } else {
-        item.classList.add('hidden-item');
-      }
+      item.style.display = show ? '' : 'none';
     });
   }
 
