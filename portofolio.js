@@ -18,9 +18,9 @@ var PORTOFOLIO = [
   // == FOTOGRAFI =============================================
   {
     kategori      : 'foto',
-    gambar        : 'images/WhatsApp Image 2026-07-10 at 09.56.09.jpeg',
+    gambar        : 'images/bridesmaid-clan.jpeg',
     label         : 'Wedding Photography',
-    judul         : 'Bridemaid Clan',
+    judul         : 'Bridesmaid Clan',
     orientation   : 'landscape',
     tampilDiSemua : true,
   },
@@ -208,7 +208,7 @@ var WEBDEV_PROJECTS = [
     // loading=lazy: hanya load gambar saat mendekati viewport (hemat bandwidth)
     // decoding=async: decode gambar di background, tidak blokir main thread
     var imgHtml = bgUrl
-      ? '<img class="porto-img" src="' + bgUrl + '" alt="' + (item.judul || '').replace(/"/g, '\'') + '" loading="lazy" decoding="async">'
+      ? '<img class="porto-img" src="' + bgUrl + '" alt="' + ((item.label ? item.label + ' — ' : '') + (item.judul || '')).replace(/"/g, '\'') + '" loading="lazy" decoding="async">'
       : '';
 
     var playHtml = isVideo
