@@ -4,520 +4,374 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aplikasi & Website — Aruma Studio</title>
-<meta name="description" content="ZonaKELAS untuk semua guru dan ZonaPAI untuk sekolah, plus jasa website sekolah. Dibuat oleh guru, dikelola Aruma Studio.">
+<meta name="description" content="Aplikasi siap pakai dan website profesional untuk sekolah, lembaga, dan usaha.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 <style>
-/* Halaman pemasaran aplikasi Aruma Studio.
-   Identitas sama dengan index.html (hijau hutan, emas kuning, Playfair + Inter + Space Mono),
-   urutan: hero → dua aplikasi inti (dengan slot gambar) → harga → aplikasi lain → karya website
-   → paket website → cara kerja → FAQ → ajakan WhatsApp. */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
-  --black:       #0D2B27;
-  --forest:      #184D47;
-  --forest-mid:  #1F5C54;
-  --amber:       #FAD586;
-  --amber-light: #FCE1A6;
-  --offwhite:    #D6EFC7;
-  --sage:        #4F7F63;
-  --sage-light:  #96BB7C;
-  --text-muted:  #7CA88C;
-  --blue:        #8FB8FF;
+  --black: #0D2B27; --forest: #184D47; --forest-mid: #1F5C54;
+  --amber: #FAD586; --amber-light: #FCE1A6; --offwhite: #D6EFC7;
+  --muted: #7CA88C; --line: rgba(250,213,134,0.14);
 }
-
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
-body {
-  background: var(--black);
-  color: var(--offwhite);
-  font-family: 'Inter', sans-serif;
-  font-weight: 300;
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-@media (hover: hover) and (pointer: fine) { body.has-cursor, body.has-cursor a, body.has-cursor button, body.has-cursor summary { cursor: none; } }
-a { color: inherit; }
-img { max-width: 100%; display: block; }
+body { background: var(--black); color: var(--offwhite); font-family: 'Inter', sans-serif; font-weight: 300; line-height: 1.65; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
 :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+.mono { font-family: 'Space Mono', monospace; letter-spacing: .16em; text-transform: uppercase; }
+.serif { font-family: 'Playfair Display', serif; }
+em { font-style: italic; color: var(--amber); }
 
-/* ── CURSOR ── */
-.cursor, .cursor-ring { position: fixed; pointer-events: none; transform: translate(-50%, -50%); border-radius: 50%; display: none; }
+/* cursor (mouse only) */
+.cursor, .cursor-ring { position: fixed; pointer-events: none; transform: translate(-50%,-50%); border-radius: 50%; display: none; z-index: 9999; }
+body.has-cursor, body.has-cursor a, body.has-cursor button { cursor: none; }
 body.has-cursor .cursor, body.has-cursor .cursor-ring { display: block; }
-.cursor { width: 10px; height: 10px; background: var(--amber); z-index: 9999; transition: width .3s, height .3s; }
-.cursor-ring { width: 40px; height: 40px; border: 1px solid rgba(250,213,134,0.5); z-index: 9998; transition: width .3s, height .3s, opacity .3s; }
-.cursor.hovered { width: 20px; height: 20px; background: var(--amber-light); }
-.cursor-ring.hovered { width: 60px; height: 60px; opacity: .3; }
+.cursor { width: 8px; height: 8px; background: var(--amber); }
+.cursor-ring { width: 36px; height: 36px; border: 1px solid rgba(250,213,134,0.45); transition: width .3s, height .3s; }
+.cursor-ring.hovered { width: 56px; height: 56px; }
 
-/* ── NAV ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  padding: 20px 48px;
-  display: flex; justify-content: space-between; align-items: center; gap: 16px;
-  background: linear-gradient(to bottom, rgba(13,43,39,0.97) 0%, rgba(13,43,39,0.6) 70%, transparent 100%);
-}
-.nav-logo { font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: .15em; color: var(--amber); text-decoration: none; white-space: nowrap; }
-.nav-links { display: flex; gap: 26px; list-style: none; align-items: center; }
-.nav-links a { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; text-decoration: none; opacity: .65; transition: opacity .3s, color .3s; }
+/* nav */
+nav { position: fixed; inset: 0 0 auto 0; z-index: 100; padding: 22px 48px; display: flex; justify-content: space-between; align-items: center; transition: background .3s, padding .3s; }
+nav.solid { background: rgba(13,43,39,0.94); backdrop-filter: blur(8px); padding: 14px 48px; border-bottom: 1px solid var(--line); }
+.logo { font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: .15em; color: var(--amber); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { font-size: 10.5px; opacity: .6; transition: opacity .3s, color .3s; }
 .nav-links a:hover { opacity: 1; color: var(--amber); }
-.nav-back { opacity: .5 !important; }
-@media (max-width: 900px) { .nav-links .hide-sm { display: none; } }
+@media (max-width: 760px) { .nav-links .opt { display: none; } }
 
-/* ── HERO ── */
-.hero { position: relative; min-height: 92vh; display: flex; align-items: flex-end; padding: 140px 48px 80px; overflow: hidden; }
-.hero-bg { position: absolute; inset: 0;
-  background: linear-gradient(to right, rgba(13,43,39,0.95) 40%, rgba(13,43,39,0.45) 100%), linear-gradient(to top, rgba(13,43,39,0.95) 15%, transparent 60%), var(--hero-photo, radial-gradient(ellipse 80% 60% at 70% 40%, #184D47 0%, #0D2B27 100%));
-  background-size: cover; background-position: center; }
-.hero-pattern { position: absolute; inset: 0; background-image: repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(250,213,134,0.03) 79px, rgba(250,213,134,0.03) 80px), repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(250,213,134,0.03) 79px, rgba(250,213,134,0.03) 80px); }
-.hero-content { position: relative; z-index: 2; max-width: 720px; }
-.eyebrow { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .2em; color: var(--amber); text-transform: uppercase; margin-bottom: 22px; display: flex; align-items: center; gap: 12px; }
-.eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--amber); flex-shrink: 0; }
-.hero-title { font-family: 'Playfair Display', serif; font-size: clamp(34px, 6.4vw, 72px); font-weight: 900; line-height: 1.02; letter-spacing: -.02em; margin-bottom: 22px; text-wrap: balance; }
-.hero-title em { font-style: italic; color: var(--amber); }
-.hero-desc { font-size: 16px; color: rgba(214,239,199,0.72); max-width: 540px; line-height: 1.8; margin-bottom: 36px; }
-.ctas { display: flex; gap: 12px; flex-wrap: wrap; }
-.hero-stats { display: flex; gap: 44px; flex-wrap: wrap; margin-top: 48px; }
-.hero-stat-num { font-family: 'Playfair Display', serif; font-size: clamp(28px, 3vw, 40px); font-weight: 900; color: var(--amber); line-height: 1; display: block; }
-.hero-stat-label { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: .15em; text-transform: uppercase; color: var(--text-muted); }
+/* buttons */
+.btn { display: inline-flex; align-items: center; gap: 10px; font-family: 'Space Mono', monospace; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; padding: 14px 24px; border: 1px solid var(--amber); transition: background .3s, color .3s; }
+.btn.fill { background: var(--amber); color: var(--black); }
+.btn.fill:hover { background: var(--amber-light); }
+.btn.line { color: var(--amber); }
+.btn.line:hover { background: rgba(250,213,134,0.08); }
+.row { display: flex; gap: 12px; flex-wrap: wrap; }
 
-/* ── BUTTONS ── */
-.btn-primary, .btn-ghost {
-  display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
-  font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700;
-  padding: 15px 26px; transition: background .3s, transform .3s, border-color .3s, color .3s; border: 1px solid transparent;
-}
-.btn-primary { color: var(--black); background: var(--amber); }
-.btn-primary:hover { background: var(--amber-light); transform: translateY(-2px); }
-.btn-ghost { color: var(--offwhite); border-color: rgba(250,213,134,0.35); }
-.btn-ghost:hover { border-color: var(--amber); color: var(--amber); }
-.btn-sm { padding: 11px 18px; font-size: 10px; }
+/* layout */
+.wrap { max-width: 1120px; margin: 0 auto; }
+section { padding: 120px 48px; }
+.label { font-size: 10px; color: var(--amber); display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+.label::before { content: ''; width: 28px; height: 1px; background: var(--amber); opacity: .5; }
+h2 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: clamp(30px, 4vw, 46px); line-height: 1.12; margin-bottom: 56px; text-wrap: balance; max-width: 640px; }
 
-/* ── SECTIONS ── */
-.sec { padding: 110px 48px; }
-.sec.alt { background: var(--forest); }
-.sec-inner { max-width: 1200px; margin: 0 auto; }
-.section-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--amber); opacity: .75; display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-.section-label::before { content: ''; width: 32px; height: 1px; background: var(--amber); opacity: .4; }
-.section-title { font-family: 'Playfair Display', serif; font-size: clamp(30px, 4.4vw, 54px); font-weight: 900; line-height: 1.08; margin-bottom: 18px; text-wrap: balance; }
-.section-title em { font-style: italic; color: var(--amber); }
-.section-lead { font-size: 15.5px; color: rgba(214,239,199,0.66); max-width: 620px; line-height: 1.8; margin-bottom: 56px; }
+/* hero */
+.hero { min-height: 100vh; display: flex; align-items: center; position: relative; padding-top: 140px; }
+.hero::before { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, rgba(13,43,39,0.97) 35%, rgba(13,43,39,0.6)), url('images/webdev_hero.jpg') center / cover; z-index: -1; }
+.hero h1 { font-family: 'Playfair Display', serif; font-weight: 900; font-size: clamp(40px, 7vw, 84px); line-height: 1.02; letter-spacing: -.02em; margin-bottom: 26px; max-width: 820px; }
+.hero p { font-size: 17px; color: rgba(214,239,199,0.7); max-width: 480px; margin-bottom: 40px; }
 
-/* ── APP SHOWCASE ── */
-.app { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.1fr); gap: 48px; align-items: center; padding: 48px 0; border-top: 1px solid rgba(250,213,134,0.1); }
-.app:first-of-type { border-top: 0; padding-top: 0; }
-.app.flip .app-copy { order: 2; }
-@media (max-width: 900px) { .app { grid-template-columns: 1fr; gap: 28px; } .app.flip .app-copy { order: 0; } }
-.app-copy { display: grid; gap: 18px; align-content: start; min-width: 0; }
-.tag { justify-self: start; font-family: 'Space Mono', monospace; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; padding: 6px 12px; border: 1px solid; }
-.tag.guru { color: var(--blue); border-color: rgba(143,184,255,0.4); }
-.tag.sekolah { color: var(--amber); border-color: rgba(250,213,134,0.4); }
-.app-name { font-family: 'Playfair Display', serif; font-size: clamp(34px, 4vw, 50px); font-weight: 900; line-height: 1; }
-.app-name span { color: var(--amber); font-style: italic; }
-.app-desc { font-size: 15px; color: rgba(214,239,199,0.72); line-height: 1.8; }
-.ticks { list-style: none; display: grid; gap: 10px; }
-.ticks li { display: grid; grid-template-columns: 18px 1fr; gap: 10px; font-size: 14.5px; color: rgba(214,239,199,0.85); }
-.ticks li::before { content: '◆'; color: var(--amber); font-size: 10px; margin-top: 5px; }
-.app-note { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .06em; color: var(--text-muted); }
+/* products */
+.product { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 72px; align-items: center; }
+.product + .product { margin-top: 110px; }
+.product.flip > .shot { order: 2; }
+.product .tag { font-size: 9.5px; color: var(--muted); margin-bottom: 14px; display: block; }
+.product h3 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 4vw, 52px); font-weight: 900; line-height: 1; margin-bottom: 18px; }
+.product p { font-size: 15.5px; color: rgba(214,239,199,0.72); max-width: 460px; margin-bottom: 24px; }
+.points { list-style: none; border-top: 1px solid var(--line); margin-bottom: 32px; max-width: 460px; }
+.points li { padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; }
+@media (max-width: 860px) { .product { grid-template-columns: 1fr; gap: 36px; } .product.flip > .shot { order: 0; } .shot { max-width: 420px; } }
 
-/* slot gambar */
-.gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; min-width: 0; }
-.gallery .slot:first-child { grid-column: 1 / -1; aspect-ratio: 16 / 10; }
-.gallery.single { grid-template-columns: 1fr; max-width: 460px; width: 100%; justify-self: center; }
-.gallery.single .slot:first-child { aspect-ratio: 4 / 5; }
-.slot { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--forest-mid); }
-.sec.alt .slot { background: var(--black); }
-.slot img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform .6s; }
-.slot:hover img { transform: scale(1.03); }
-.slot .ph { position: absolute; inset: 10px; border: 1.5px dashed rgba(250,213,134,0.28); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; padding: 12px; }
-.slot.empty .ph { display: flex; }
-.slot .ph i { font-size: 26px; color: var(--amber); opacity: .45; }
-.slot .ph b { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .08em; color: var(--offwhite); opacity: .8; font-weight: 400; word-break: break-all; }
-.slot .ph small { font-size: 11px; color: var(--text-muted); }
+/* image slot */
+.shot { position: relative; aspect-ratio: 4 / 5; background: var(--forest); overflow: hidden; }
+.shot.wide { aspect-ratio: 3 / 2; }
+.shot img { width: 100%; height: 100%; object-fit: cover; }
+.shot .ph { position: absolute; inset: 12px; border: 1px dashed rgba(250,213,134,0.3); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; color: var(--muted); font-size: 11px; }
+.shot .ph i { font-size: 22px; color: var(--amber); opacity: .5; }
+.shot.empty .ph { display: flex; }
 
-/* ── PRICING ── */
-.price-group { margin-bottom: 64px; }
-.price-group:last-child { margin-bottom: 0; }
-.price-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
-.price-head h3 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; }
-.price-head h3 em { color: var(--amber); }
-.price-head span { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); }
-.plans { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 3px; }
-.plans.three { grid-template-columns: repeat(3, minmax(0,1fr)); }
-@media (max-width: 1000px) { .plans { grid-template-columns: repeat(2, minmax(0,1fr)); } }
-@media (max-width: 820px) { .plans.three { grid-template-columns: 1fr; } }
-@media (max-width: 560px) { .plans { grid-template-columns: 1fr; } }
-.plan { background: var(--black); padding: 30px 26px; display: grid; grid-template-rows: auto auto auto 1fr auto; gap: 14px; position: relative; }
-.sec.alt .plan { background: var(--black); }
-.plan.pop { background: linear-gradient(160deg, #23584f, #0D2B27); outline: 1px solid rgba(250,213,134,0.45); outline-offset: -1px; }
-.plan-name { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--amber); }
-.plan-price { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
-.plan-price small { display: block; font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 400; color: var(--text-muted); margin-top: 6px; }
-.plan-price small b { color: var(--amber); font-weight: 600; }
-.plan-for { font-size: 13.5px; color: rgba(214,239,199,0.7); }
-.plan ul { list-style: none; display: grid; gap: 8px; align-content: start; }
-.plan li { font-size: 13.5px; color: rgba(214,239,199,0.85); display: grid; grid-template-columns: 14px 1fr; gap: 8px; }
-.plan li::before { content: '—'; color: var(--amber); opacity: .7; }
-.plan-foot { font-family: 'Space Mono', monospace; font-size: 9.5px; letter-spacing: .08em; color: var(--text-muted); border-top: 1px solid rgba(250,213,134,0.12); padding-top: 12px; }
-.plan .btn-primary, .plan .btn-ghost { justify-content: center; }
-.price-note { margin-top: 18px; font-size: 13.5px; color: var(--text-muted); max-width: 760px; }
-.diff { margin-top: 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 3px; }
-.diff div { background: rgba(250,213,134,0.05); padding: 16px 18px; font-size: 13.5px; color: rgba(214,239,199,0.85); }
-.diff b { display: block; font-family: 'Space Mono', monospace; font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--amber); margin-bottom: 4px; font-weight: 400; }
+/* services */
+.dark { background: var(--forest); }
+.dark .shot { background: var(--black); }
+.services { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 32px; }
+.service h3 { font-family: 'Playfair Display', serif; font-size: 23px; font-weight: 700; margin: 22px 0 8px; }
+.service p { font-size: 14.5px; color: rgba(214,239,199,0.7); }
+@media (max-width: 860px) { .services { grid-template-columns: 1fr; gap: 48px; } }
 
-/* ── OTHER APPS ── */
-.mini-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 3px; }
-@media (max-width: 900px) { .mini-grid { grid-template-columns: 1fr; } }
-.mini { background: var(--forest); display: grid; grid-template-rows: auto 1fr; }
-.mini .slot { aspect-ratio: 16 / 10; background: var(--forest-mid); }
-.mini-body { padding: 22px 24px 26px; display: grid; gap: 8px; align-content: start; }
-.mini-cat { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--amber); }
-.mini h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; }
-.mini p { font-size: 13.5px; color: rgba(214,239,199,0.7); }
+/* pricing */
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 36px; }
+.tabs button { background: none; border: 1px solid var(--line); color: var(--offwhite); font-family: 'Space Mono', monospace; font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; padding: 11px 18px; cursor: pointer; transition: all .3s; }
+.tabs button[aria-selected="true"] { background: var(--amber); color: var(--black); border-color: var(--amber); }
+.panel[hidden] { display: none; }
+.plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); border-top: 1px solid var(--line); }
+.plan { padding: 32px 28px 32px 0; border-bottom: 1px solid var(--line); }
+.plan + .plan { padding-left: 28px; border-left: 1px solid var(--line); }
+.plan .name { font-size: 10px; color: var(--muted); display: block; margin-bottom: 14px; }
+.plan.best .name { color: var(--amber); }
+.price { font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.per { font-size: 12.5px; color: var(--muted); margin: 6px 0 20px; }
+.plan ul { list-style: none; display: grid; gap: 6px; font-size: 14px; color: rgba(214,239,199,0.82); }
+.note { margin-top: 24px; font-size: 13px; color: var(--muted); }
+@media (max-width: 720px) { .plan, .plan + .plan { padding: 26px 0; border-left: 0; } }
 
-/* ── WEBSITE PROJECTS (dari portofolio.js) ── */
-.wd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 3px; }
-.wd-card { position: relative; overflow: hidden; aspect-ratio: 4/5; background: var(--forest-mid); }
-.wd-card-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform .6s; }
-.wd-card:hover .wd-card-img { transform: scale(1.05); }
-.wd-card-gradient { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 30%, rgba(13,43,39,0.6) 60%, rgba(13,43,39,0.97) 100%); }
-.wd-card-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 26px 22px 22px; z-index: 2; display: grid; gap: 6px; }
-.wd-card-cat { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--amber); }
-.wd-card-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; }
-.wd-card-desc { font-size: 12.5px; color: rgba(214,239,199,0.7); line-height: 1.6; }
-.wd-card-link { justify-self: start; font-family: 'Space Mono', monospace; font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--amber); text-decoration: none; border-bottom: 1px solid rgba(250,213,134,0.35); padding-bottom: 2px; }
+/* steps */
+.steps { list-style: none; counter-reset: s; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 32px; }
+.steps li { counter-increment: s; border-top: 1px solid var(--amber); padding-top: 18px; font-size: 14px; color: rgba(214,239,199,0.7); }
+.steps li::before { content: counter(s, decimal-leading-zero); display: block; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--amber); margin-bottom: 10px; }
+.steps b { display: block; font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--offwhite); margin-bottom: 4px; }
+@media (max-width: 860px) { .steps { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 480px) { .steps { grid-template-columns: 1fr; } }
 
-/* ── STEPS ── */
-.steps { list-style: none; counter-reset: s; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 36px 28px; }
-@media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
-.steps li { counter-increment: s; border-top: 1px solid rgba(250,213,134,0.3); padding-top: 18px; display: grid; gap: 8px; }
-.steps li::before { content: counter(s, decimal-leading-zero); font-family: 'Space Mono', monospace; font-size: 12px; color: var(--amber); letter-spacing: .1em; }
-.steps h3 { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; }
-.steps p { font-size: 14px; color: rgba(214,239,199,0.7); }
+/* works */
+.works { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 24px; margin-top: 8px; }
+.work .shot { aspect-ratio: 4 / 3; }
+.work h3 { font-family: 'Playfair Display', serif; font-size: 20px; margin-top: 14px; }
+.work span { font-size: 9.5px; color: var(--muted); }
 
-/* ── FAQ ── */
-.faq { max-width: 820px; }
-.faq details { border-bottom: 1px solid rgba(250,213,134,0.14); padding: 20px 0; }
-.faq details:first-child { border-top: 1px solid rgba(250,213,134,0.14); }
-.faq summary { list-style: none; display: flex; justify-content: space-between; gap: 16px; font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; cursor: pointer; }
+/* faq */
+.faq { max-width: 760px; border-top: 1px solid var(--line); }
+.faq details { border-bottom: 1px solid var(--line); padding: 20px 0; }
+.faq summary { list-style: none; display: flex; justify-content: space-between; gap: 16px; font-size: 16px; font-weight: 500; cursor: pointer; }
 .faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: '+'; color: var(--amber); font-family: 'Space Mono', monospace; }
-.faq details[open] summary::after { content: '–'; }
-.faq p { margin-top: 12px; font-size: 14.5px; color: rgba(214,239,199,0.72); max-width: 68ch; }
-.faq a { color: var(--amber); }
+.faq summary::after { content: '+'; color: var(--amber); }
+.faq details[open] summary::after { content: '−'; }
+.faq p { margin-top: 10px; font-size: 14.5px; color: rgba(214,239,199,0.7); }
 
-/* ── CTA ── */
-.wd-cta { padding: 120px 48px; background: var(--forest); text-align: center; position: relative; overflow: hidden; }
-.wd-cta::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 50%, rgba(250,213,134,0.06), transparent 70%); }
-.wd-cta-inner { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; display: grid; gap: 22px; justify-items: center; }
-.wd-cta-title { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 60px); font-weight: 900; line-height: 1.05; }
-.wd-cta-title em { font-style: italic; color: var(--amber); }
-.wd-cta-desc { font-size: 15px; color: rgba(214,239,199,0.6); line-height: 1.8; }
-.wa-num { font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: .1em; color: var(--text-muted); }
+/* cta */
+.cta { text-align: center; }
+.cta h2 { margin: 0 auto 32px; font-size: clamp(34px, 5vw, 60px); font-weight: 900; }
+.cta .row { justify-content: center; }
+footer { padding: 32px 48px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-top: 1px solid var(--line); font-size: 10px; color: var(--muted); }
+footer .logo { font-size: 12px; }
 
-footer { padding: 36px 48px; background: var(--black); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; border-top: 1px solid rgba(250,213,134,0.08); }
-.footer-logo { font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: .15em; color: var(--amber); }
-.footer-copy { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .1em; color: var(--text-muted); }
+@media (max-width: 860px) { section { padding: 90px 24px; } nav, nav.solid { padding-left: 24px; padding-right: 24px; } footer { padding: 28px 24px; } }
+@media (max-width: 560px) { section { padding: 72px 16px; } nav, nav.solid { padding-left: 16px; padding-right: 16px; } footer { padding: 24px 16px; } .hero { min-height: 88vh; } h2 { margin-bottom: 40px; } }
 
-@media (max-width: 900px) {
-  nav { padding: 16px 24px; }
-  .hero { padding: 120px 24px 64px; }
-  .sec, .wd-cta { padding: 80px 24px; }
-}
-@media (max-width: 599px) {
-  nav { padding: 14px 16px; }
-  .hero { padding: 110px 16px 56px; min-height: 0; }
-  .sec, .wd-cta { padding: 64px 16px; }
-  .hero-stats { gap: 24px; }
-  footer { flex-direction: column; text-align: center; padding: 24px 16px; }
-}
-
-.reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
 .reveal.visible { opacity: 1; transform: none; }
 </style>
 </head>
 <body>
+<div class="cursor" id="cursor"></div><div class="cursor-ring" id="ring"></div>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-
-<nav>
-  <a href="index.html" class="nav-logo">ARUMA STUDIO</a>
-  <ul class="nav-links">
-    <li class="hide-sm"><a href="#aplikasi">Aplikasi</a></li>
-    <li class="hide-sm"><a href="#harga">Harga</a></li>
-    <li class="hide-sm"><a href="#website">Website</a></li>
-    <li><a href="index.html" class="nav-back"><i class="fa-solid fa-arrow-left"></i> Portofolio</a></li>
+<nav id="nav">
+  <a href="index.html" class="logo">ARUMA STUDIO</a>
+  <ul class="nav-links mono">
+    <li class="opt"><a href="#produk">Produk</a></li>
+    <li class="opt"><a href="#layanan">Layanan</a></li>
+    <li class="opt"><a href="#harga">Harga</a></li>
+    <li><a href="index.html">← Portofolio</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
-  <div class="hero-bg" style="--hero-photo:url('images/webdev_hero.jpg')"></div>
-  <div class="hero-pattern"></div>
-  <div class="hero-content">
-    <div class="eyebrow">Aplikasi &amp; Website</div>
-    <h1 class="hero-title">Kerja jadi lebih <em>ringan</em>, tampilan jadi lebih <em>rapi</em>.</h1>
-    <p class="hero-desc">Aplikasi siap pakai dan website profesional untuk sekolah, lembaga, dan usaha. Mudah dipakai, dipasang oleh tim kami, dan didampingi sampai lancar.</p>
-    <div class="ctas">
-      <a class="btn-primary" href="#aplikasi">Lihat aplikasi <i class="fa-solid fa-arrow-down"></i></a>
-      <a class="btn-ghost wa" data-msg="Halo Aruma Studio, saya ingin konsultasi tentang aplikasi/website untuk guru atau sekolah." href="#kontak">Konsultasi gratis</a>
-    </div>
-    <div class="hero-stats">
-      <div><span class="hero-stat-num">2</span><span class="hero-stat-label">Aplikasi inti</span></div>
-      <div><span class="hero-stat-num">Rp0</span><span class="hero-stat-label">Mulai gratis</span></div>
-      <div><span class="hero-stat-num">30</span><span class="hero-stat-label">Hari uji coba sekolah</span></div>
+  <div class="wrap" style="width:100%">
+    <div class="label mono">Aplikasi &amp; Website</div>
+    <h1>Digital yang <em>rapi</em>,<br>kerja yang <em>ringan</em>.</h1>
+    <p>Aplikasi siap pakai dan website profesional untuk sekolah, lembaga, dan usaha.</p>
+    <div class="row">
+      <a class="btn fill" href="#produk">Lihat produk</a>
+      <a class="btn line wa" href="#kontak">Konsultasi</a>
     </div>
   </div>
 </section>
 
-<!-- DUA APLIKASI INTI -->
-<section class="sec" id="aplikasi">
-  <div class="sec-inner">
-    <div class="section-label reveal">Aplikasi inti</div>
-    <h2 class="section-title reveal">Satu untuk <em>guru</em>, satu untuk <em>sekolah</em>.</h2>
-    <p class="section-lead reveal">ZonaKELAS bisa didaftarkan sendiri oleh guru mapel apa pun. ZonaPAI dipasang untuk satu sekolah agar semua guru PAI dan seluruh siswa terpantau dalam satu sistem.</p>
+<section id="produk">
+  <div class="wrap">
+    <div class="label mono reveal">Produk</div>
+    <h2 class="reveal">Aplikasi yang <em>siap dipakai</em>.</h2>
 
-    <article class="app reveal">
-      <div class="app-copy">
-        <span class="tag guru">Untuk semua guru</span>
-        <h3 class="app-name">Zona<span>KELAS</span></h3>
-        <p class="app-desc">Aplikasi kelas untuk guru semua mapel. Daftar dengan akun Google, buat kelas, unggah siswa dari Excel, dan siswa langsung melihat nilai serta presensinya dari HP.</p>
-        <ul class="ticks">
-          <li>Presensi kelas, nilai, tugas, dan jurnal mengajar</li>
-          <li>Siswa masuk dengan kode kelas + NIS + PIN, tanpa akun Google</li>
-          <li>Guru PAI otomatis mendapat modul absensi salat berbasis lokasi dan hafalan</li>
-          <li>Gratis untuk 1 kelas, upgrade ke Pro kapan saja</li>
+    <article class="product reveal">
+      <figure class="shot"><img src="images/zonakelas.jpg" alt="Tampilan ZonaKELAS" loading="lazy"><div class="ph"><i class="fa-regular fa-image"></i>images/zonakelas.jpg<br>4:5</div></figure>
+      <div>
+        <span class="tag mono">Untuk pengajar</span>
+        <h3>Zona<em>KELAS</em></h3>
+        <p>Kelola kelas dari satu tempat. Peserta memantau nilai dan kehadirannya sendiri dari HP.</p>
+        <ul class="points">
+          <li>Presensi, nilai, tugas, dan jurnal</li>
+          <li>Daftar sendiri dengan akun Google</li>
+          <li>Gratis untuk satu kelas</li>
         </ul>
-        <div class="ctas">
-          <a class="btn-primary btn-sm" href="https://claude.ai/artifact/57uFGvYC9XYBfxPJTrHu5Q" target="_blank" rel="noopener">Coba demo <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-          <a class="btn-ghost btn-sm" href="#harga">Lihat harga</a>
+        <div class="row">
+          <a class="btn fill" href="https://claude.ai/artifact/57uFGvYC9XYBfxPJTrHu5Q" target="_blank" rel="noopener">Coba demo</a>
+          <a class="btn line" href="#harga" data-tab="kelas">Harga</a>
         </div>
-      </div>
-      <div class="gallery">
-        <figure class="slot"><img src="images/zonakelas-1.jpg" alt="Tampilan dashboard guru ZonaKELAS" loading="lazy"><div class="ph"><i class="fa-regular fa-image"></i><b>images/zonakelas-1.jpg</b><small>Dashboard guru · 16:10</small></div></figure>
-        <figure class="slot"><img src="images/zonakelas-2.jpg" alt="Tampilan presensi kelas ZonaKELAS" loading="lazy"><div class="ph"><i class="fa-regular fa-image"></i><b>images/zonakelas-2.jpg</b><small>Presensi / nilai · 4:3</small></div></figure>
-        <figure class="slot"><img src="images/zonakelas-3.jpg" alt="Tampilan ZonaKELAS di HP siswa" loading="lazy"><div class="ph"><i class="fa-regular fa-image"></i><b>images/zonakelas-3.jpg</b><small>Tampilan siswa di HP · 4:3</small></div></figure>
       </div>
     </article>
 
-    <article class="app flip reveal">
-      <div class="app-copy">
-        <span class="tag sekolah">Untuk sekolah</span>
-        <h3 class="app-name">Zona<span>PAI</span></h3>
-        <p class="app-desc">Sistem monitoring PAI untuk satu sekolah: semua guru PAI dan seluruh siswa dalam satu aplikasi. Ibadah, nilai, hafalan, dan karakter tercatat tanpa rekap manual.</p>
-        <ul class="ticks">
-          <li>Absensi salat wajib dan sunnah berdasarkan titik masjid sekolah, jadi tidak bisa titip absen</li>
-          <li>Nilai bisa langsung dicek siswa dan orang tua dari HP</li>
-          <li>Hafalan, baca Al-Qur'an, PHBI, karakter, dan Tier S &amp; E</li>
-          <li>Dashboard kepala sekolah dan laporan siap pakai</li>
+    <article class="product flip reveal">
+      <figure class="shot"><img src="images/zonapai.jpg" alt="Tampilan ZonaPAI" loading="lazy"><div class="ph"><i class="fa-regular fa-image"></i>images/zonapai.jpg<br>4:5</div></figure>
+      <div>
+        <span class="tag mono">Untuk sekolah</span>
+        <h3>Zona<em>PAI</em></h3>
+        <p>Pemantauan ibadah dan pembelajaran PAI untuk seluruh siswa dalam satu sistem.</p>
+        <ul class="points">
+          <li>Absensi salat berbasis lokasi masjid</li>
+          <li>Nilai dan hafalan terbuka untuk orang tua</li>
+          <li>Dashboard kepala sekolah</li>
         </ul>
-        <div class="ctas">
-          <a class="btn-primary btn-sm" href="https://claude.ai/artifact/XsNHzcVcraMUSkjw3rf1CH" target="_blank" rel="noopener">Lihat demo <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-          <a class="btn-ghost btn-sm wa" data-msg="Halo Aruma Studio, saya ingin mencoba ZonaPAI gratis 30 hari untuk sekolah kami." href="#kontak">Uji coba 30 hari</a>
+        <div class="row">
+          <a class="btn fill" href="https://claude.ai/artifact/XsNHzcVcraMUSkjw3rf1CH" target="_blank" rel="noopener">Lihat demo</a>
+          <a class="btn line" href="#harga" data-tab="pai">Harga</a>
         </div>
-      </div>
-      <div class="gallery single">
-        <figure class="slot"><img src="images/zonapai.jpg" alt="Tampilan aplikasi ZonaPAI" loading="lazy"><div class="ph"><i class="fa-regular fa-image"></i><b>images/zonapai.jpg</b><small>Foto utama · 4:5</small></div></figure>
       </div>
     </article>
   </div>
 </section>
 
-<!-- HARGA -->
-<section class="sec alt" id="harga">
-  <div class="sec-inner">
-    <div class="section-label reveal">Harga</div>
-    <h2 class="section-title reveal">Jelas untuk <em>masing-masing</em> aplikasi.</h2>
-    <p class="section-lead reveal">Hosting, pembaruan, dan pencadangan data sudah termasuk. Harga perkenalan, dapat berubah sewaktu-waktu.</p>
+<section id="layanan" class="dark">
+  <div class="wrap">
+    <div class="label mono reveal">Layanan</div>
+    <h2 class="reveal">Dibuat sesuai <em>kebutuhan</em> Anda.</h2>
+    <div class="services">
+      <div class="service reveal">
+        <figure class="shot wide"><img src="images/layanan-website.jpg" alt="Website" loading="lazy"><div class="ph"><i class="fa-regular fa-image"></i>images/layanan-website.jpg<br>3:2</div></figure>
+        <h3>Website</h3><p>Profil sekolah, lembaga, atau usaha. Cepat, rapi di HP, dan mudah diperbarui.</p>
+      </div>
+      <div class="service reveal">
+        <figure class="shot wide"><img src="images/layanan-aplikasi.jpg" alt="Aplikasi khusus" loading="lazy"><div class="ph"><i class="fa-regular fa-image"></i>images/layanan-aplikasi.jpg<br>3:2</div></figure>
+        <h3>Aplikasi khusus</h3><p>Presensi, pendaftaran online, ujian, atau sistem lain yang Anda butuhkan.</p>
+      </div>
+      <div class="service reveal">
+        <figure class="shot wide"><img src="images/layanan-data.jpg" alt="Sistem data" loading="lazy"><div class="ph"><i class="fa-regular fa-image"></i>images/layanan-data.jpg<br>3:2</div></figure>
+        <h3>Sistem data</h3><p>Inventaris, monitoring anggota, dan laporan otomatis dari spreadsheet.</p>
+      </div>
+    </div>
+    <div id="worksWrap" style="display:none;margin-top:96px">
+      <div class="label mono">Karya</div>
+      <div class="works" id="works"></div>
+    </div>
+  </div>
+</section>
 
-    <div class="price-group reveal">
-      <div class="price-head"><h3>Zona<em>KELAS</em> · guru perorangan</h3><span>Daftar sendiri dengan akun Google</span></div>
+<section id="harga">
+  <div class="wrap">
+    <div class="label mono reveal">Harga</div>
+    <h2 class="reveal">Transparan, tanpa <em>biaya tersembunyi</em>.</h2>
+    <div class="tabs reveal" role="tablist">
+      <button role="tab" data-tab="kelas" aria-selected="true">ZonaKELAS</button>
+      <button role="tab" data-tab="pai" aria-selected="false">ZonaPAI</button>
+      <button role="tab" data-tab="web" aria-selected="false">Website</button>
+    </div>
+
+    <div class="panel reveal" id="p-kelas">
       <div class="plans">
-        <div class="plan"><span class="plan-name">Gratis</span><div class="plan-price">Rp0<small>selamanya</small></div><p class="plan-for">Untuk mencoba di satu kelas.</p>
-          <ul><li>1 kelas, hingga 40 siswa</li><li>Presensi kelas &amp; nilai</li><li>Unggah siswa dari Excel</li><li>Modul salat untuk guru PAI</li></ul><p class="plan-foot">Tanpa kartu kredit</p></div>
-        <div class="plan"><span class="plan-name">Pro bulanan</span><div class="plan-price">Rp29.000<small>per bulan</small></div><p class="plan-for">Coba Pro tanpa komitmen.</p>
-          <ul><li>Hingga 12 kelas, 450 siswa</li><li>Tugas, jurnal mengajar, catatan siswa</li><li>Peringkat kelas &amp; ekspor laporan</li><li>Hafalan untuk guru PAI</li></ul><p class="plan-foot">QRIS, e-wallet, atau transfer</p></div>
-        <div class="plan"><span class="plan-name">Pro semester</span><div class="plan-price">Rp129.000<small>per 6 bulan</small></div><p class="plan-for">Pas untuk satu semester.</p>
-          <ul><li>Semua fitur Pro</li><li>Hemat ±26% dari bulanan</li></ul><p class="plan-foot">Aktif otomatis setelah bayar</p></div>
-        <div class="plan pop"><span class="plan-name">Pro tahunan · paling hemat</span><div class="plan-price">Rp249.000<small>per tahun · <b>promo pendiri Rp199.000</b></small></div><p class="plan-for">Satu tahun ajaran penuh.</p>
-          <ul><li>Semua fitur Pro</li><li>Harga promo untuk 100 guru pertama</li><li>Bantuan lewat WhatsApp</li></ul><p class="plan-foot">Hemat ±28% dari bulanan</p></div>
+        <div class="plan"><span class="name mono">Gratis</span><div class="price">Rp0</div><div class="per">selamanya</div><ul><li>1 kelas</li><li>Presensi &amp; nilai</li></ul></div>
+        <div class="plan"><span class="name mono">Bulanan</span><div class="price">Rp29rb</div><div class="per">per bulan</div><ul><li>Hingga 12 kelas</li><li>Semua fitur Pro</li></ul></div>
+        <div class="plan"><span class="name mono">Semester</span><div class="price">Rp129rb</div><div class="per">per 6 bulan</div><ul><li>Semua fitur Pro</li><li>Hemat 26%</li></ul></div>
+        <div class="plan best"><span class="name mono">Tahunan · terbaik</span><div class="price">Rp249rb</div><div class="per">per tahun · promo Rp199rb</div><ul><li>Semua fitur Pro</li><li>Hemat 28%</li></ul></div>
       </div>
     </div>
 
-    <div class="price-group reveal">
-      <div class="price-head"><h3>Zona<em>PAI</em> · satu sekolah</h3><span>Dibayar tahunan · bisa dana BOS</span></div>
-      <div class="plans three">
-        <div class="plan"><span class="plan-name">Sekolah S</span><div class="plan-price">Rp2.500.000<small>per tahun</small></div><p class="plan-for">Sekolah hingga 500 siswa.</p>
-          <ul><li>Hingga 2 akun guru PAI</li><li>Semua fitur ZonaPAI</li><li>Impor data siswa oleh tim kami</li><li>Pelatihan guru 1 kali</li></ul><p class="plan-foot">Uji coba gratis 30 hari</p></div>
-        <div class="plan pop"><span class="plan-name">Sekolah M · paling dipilih</span><div class="plan-price">Rp3.500.000<small>per tahun</small></div><p class="plan-for">Sekolah hingga 1.200 siswa.</p>
-          <ul><li>Hingga 4 akun guru PAI</li><li>Semua fitur ZonaPAI</li><li>Akun kepala sekolah untuk memantau</li><li>Pelatihan guru 2 kali</li></ul><p class="plan-foot">Uji coba gratis 30 hari</p></div>
-        <div class="plan"><span class="plan-name">Sekolah L</span><div class="plan-price">Rp5.000.000<small>per tahun</small></div><p class="plan-for">Sekolah di atas 1.200 siswa.</p>
-          <ul><li>Akun guru PAI tidak terbatas</li><li>Logo &amp; nama sekolah di aplikasi</li><li>Dukungan prioritas</li><li>Pelatihan sesuai kebutuhan</li></ul><p class="plan-foot">Uji coba gratis 30 hari</p></div>
+    <div class="panel" id="p-pai" hidden>
+      <div class="plans">
+        <div class="plan"><span class="name mono">Sekolah S</span><div class="price">Rp2,5 jt</div><div class="per">per tahun</div><ul><li>Hingga 500 siswa</li><li>2 akun guru</li></ul></div>
+        <div class="plan best"><span class="name mono">Sekolah M · populer</span><div class="price">Rp3,5 jt</div><div class="per">per tahun</div><ul><li>Hingga 1.200 siswa</li><li>4 akun guru + kepala sekolah</li></ul></div>
+        <div class="plan"><span class="name mono">Sekolah L</span><div class="price">Rp5 jt</div><div class="per">per tahun</div><ul><li>Siswa &amp; guru tak terbatas</li><li>Logo sekolah</li></ul></div>
       </div>
-      <div class="diff">
-        <div><b>Dashboard kepala sekolah</b>Rekap salat dan nilai seluruh sekolah, per kelas dan per guru.</div>
-        <div><b>Akun wali kelas &amp; BK</b>Memantau siswa di kelas masing-masing.</div>
-        <div><b>Data terpusat</b>Seluruh siswa diimpor sekali, terhubung ke semua guru PAI.</div>
-        <div><b>Dokumen resmi</b>Invoice, kuitansi, dan berita acara untuk pertanggungjawaban BOS.</div>
+      <p class="note">Uji coba gratis 30 hari. Dokumen lengkap untuk pembayaran dana BOS.</p>
+    </div>
+
+    <div class="panel" id="p-web" hidden>
+      <div class="plans">
+        <div class="plan"><span class="name mono">Starter</span><div class="price">Rp1 jt</div><div class="per">+ Rp600rb / tahun</div><ul><li>5 halaman</li><li>Domain &amp; SSL</li></ul></div>
+        <div class="plan best"><span class="name mono">Profesional · populer</span><div class="price">Rp2 jt</div><div class="per">+ Rp900rb / tahun</div><ul><li>10 halaman</li><li>Galeri, agenda, formulir</li></ul></div>
+        <div class="plan"><span class="name mono">Premium</span><div class="price">Rp3,5 jt</div><div class="per">+ Rp1,5 jt / tahun</div><ul><li>Desain khusus</li><li>Pendaftaran online</li></ul></div>
+        <div class="plan"><span class="name mono">Aplikasi khusus</span><div class="price">Rp5 jt+</div><div class="per">sesuai kebutuhan</div><ul><li>Fitur dibuat khusus</li><li>Backup harian</li></ul></div>
       </div>
+      <p class="note">Biaya tahunan mencakup hosting, domain, backup, dan perawatan.</p>
     </div>
   </div>
 </section>
 
-<!-- APLIKASI LAIN -->
-<section class="sec">
-  <div class="sec-inner">
-    <div class="section-label reveal">Aplikasi lain</div>
-    <h2 class="section-title reveal">Siap dipakai <em>sekolah</em>.</h2>
-    <p class="section-lead reveal">Harga menyesuaikan kebutuhan. Hubungi kami untuk demo.</p>
-    <div class="mini-grid">
-      <div class="mini reveal"><figure class="slot"><img src="images/berita-generator.jpg" alt="Berita Generator" loading="lazy"><div class="ph"><i class="fa-regular fa-image"></i><b>images/berita-generator.jpg</b><small>16:10</small></div></figure>
-        <div class="mini-body"><span class="mini-cat">Jurnalistik</span><h3>Berita Generator</h3><p>Bantu tim jurnalistik sekolah menyusun draf berita kegiatan dengan cepat dan rapi.</p></div></div>
-      <div class="mini reveal"><figure class="slot"><img src="images/monitoring-pengurus.jpg" alt="Monitoring Pengurus" loading="lazy"><div class="ph"><i class="fa-regular fa-image"></i><b>images/monitoring-pengurus.jpg</b><small>16:10</small></div></figure>
-        <div class="mini-body"><span class="mini-cat">Organisasi</span><h3>Monitoring Pengurus</h3><p>Pantau tugas dan keaktifan pengurus ekstrakurikuler atau organisasi siswa.</p></div></div>
-      <div class="mini reveal"><figure class="slot"><img src="images/inventaris.jpg" alt="Inventaris Sekolah" loading="lazy"><div class="ph"><i class="fa-regular fa-image"></i><b>images/inventaris.jpg</b><small>16:10</small></div></figure>
-        <div class="mini-body"><span class="mini-cat">Sarana prasarana</span><h3>Inventaris Sekolah</h3><p>Catat barang, lokasi, dan kondisi berbasis spreadsheet yang mudah dipakai siapa saja.</p></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- WEBSITE -->
-<section class="sec alt" id="website">
-  <div class="sec-inner">
-    <div class="section-label reveal">Jasa website</div>
-    <h2 class="section-title reveal">Butuh <em>website sekolah</em> juga?</h2>
-    <p class="section-lead reveal">Biaya pembuatan dibayar sekali. Layanan tahunan mencakup hosting, domain .sch.id, SSL, backup, keamanan, dan revisi kecil.</p>
-    <div class="plans reveal">
-      <div class="plan"><span class="plan-name">Starter</span><div class="plan-price">Rp1.000.000<small>+ Rp600.000 / tahun</small></div><p class="plan-for">Sekolah yang baru pertama punya website.</p>
-        <ul><li>5 halaman: beranda, profil, guru, berita, kontak</li><li>Tampil baik di HP</li><li>Domain .sch.id + SSL</li><li>1 akun admin konten</li></ul><p class="plan-foot">Selesai ±7 hari kerja</p></div>
-      <div class="plan pop"><span class="plan-name">Profesional · paling dipilih</span><div class="plan-price">Rp2.000.000<small>+ Rp900.000 / tahun</small></div><p class="plan-for">Sekolah yang aktif berbagi kegiatan.</p>
-        <ul><li>Hingga 10 halaman</li><li>Galeri, agenda, unduhan</li><li>Ekskul &amp; prestasi, formulir kontak</li><li>3 akun admin + pelatihan</li></ul><p class="plan-foot">Selesai ±14 hari kerja</p></div>
-      <div class="plan"><span class="plan-name">Premium</span><div class="plan-price">Rp3.500.000<small>+ Rp1.500.000 / tahun</small></div><p class="plan-for">Sekolah besar dengan kebutuhan khusus.</p>
-        <ul><li>Desain khusus, bukan template</li><li>Pendaftaran SPMB/PPDB online</li><li>Halaman jurusan, e-library</li><li>5 akun admin, dukungan prioritas</li></ul><p class="plan-foot">Selesai 21–30 hari kerja</p></div>
-      <div class="plan"><span class="plan-name">Aplikasi khusus</span><div class="plan-price">mulai Rp5 jt<small>+ mulai Rp3.000.000 / tahun</small></div><p class="plan-for">E-learning, presensi, ujian online, dan lain-lain.</p>
-        <ul><li>Dibuat sesuai kebutuhan</li><li>Akun guru, siswa, dan admin</li><li>Backup harian</li><li>Perjanjian perlindungan data</li></ul><p class="plan-foot">Harga final setelah survei</p></div>
-    </div>
-    <div style="margin-top:72px">
-      <div class="section-label reveal">Karya website</div>
-      <div class="wd-grid" id="wdGrid"></div>
-    </div>
-  </div>
-</section>
-
-<!-- CARA KERJA -->
-<section class="sec">
-  <div class="sec-inner">
-    <div class="section-label reveal">Cara kerja</div>
-    <h2 class="section-title reveal">Dari obrolan sampai <em>dipakai</em>.</h2>
-    <ol class="steps reveal" style="margin-top:40px">
-      <li><h3>Konsultasi gratis</h3><p>Ceritakan kebutuhan lewat WhatsApp. Tanpa biaya dan tanpa kewajiban.</p></li>
-      <li><h3>Demo atau uji coba</h3><p>Guru langsung mencoba ZonaKELAS gratis. Sekolah mendapat uji coba ZonaPAI 30 hari.</p></li>
-      <li><h3>Penawaran tertulis</h3><p>Untuk sekolah dan proyek website: ringkasan kebutuhan dan harga resmi.</p></li>
-      <li><h3>Pemasangan</h3><p>Data siswa diimpor, akun dibuat, atau website dirancang dengan revisi hingga dua kali.</p></li>
-      <li><h3>Pelatihan</h3><p>Guru dan operator dilatih sampai lancar memakai.</p></li>
-      <li><h3>Pendampingan</h3><p>Pembaruan rutin, backup, dan bantuan lewat WhatsApp selama berlangganan.</p></li>
+<section class="dark">
+  <div class="wrap">
+    <div class="label mono reveal">Alur</div>
+    <h2 class="reveal">Empat langkah <em>sederhana</em>.</h2>
+    <ol class="steps reveal">
+      <li><b>Konsultasi</b>Gratis lewat WhatsApp.</li>
+      <li><b>Demo</b>Coba sebelum memutuskan.</li>
+      <li><b>Pemasangan</b>Data dan akun kami siapkan.</li>
+      <li><b>Pendampingan</b>Pelatihan dan bantuan berkelanjutan.</li>
     </ol>
   </div>
 </section>
 
-<!-- FAQ -->
-<section class="sec alt">
-  <div class="sec-inner">
-    <div class="section-label reveal">Pertanyaan umum</div>
-    <h2 class="section-title reveal" style="margin-bottom:40px">Yang sering <em>ditanyakan</em>.</h2>
+<section>
+  <div class="wrap">
+    <div class="label mono reveal">FAQ</div>
+    <h2 class="reveal">Pertanyaan <em>umum</em>.</h2>
     <div class="faq reveal">
-      <details><summary>Apa bedanya ZonaKELAS dan ZonaPAI?</summary><p>ZonaKELAS dipakai guru perorangan untuk kelasnya sendiri, semua mapel, dan bisa didaftarkan sendiri dengan akun Google. ZonaPAI dipakai satu sekolah untuk semua guru PAI dan seluruh siswa, dipasang dan dilatih oleh tim kami, serta dibayar sekolah per tahun.</p></details>
-      <details><summary>Apakah bisa mencoba dulu?</summary><p>Bisa. ZonaKELAS gratis selamanya untuk 1 kelas (<a href="https://claude.ai/artifact/57uFGvYC9XYBfxPJTrHu5Q" target="_blank" rel="noopener">lihat demo</a>). ZonaPAI bisa diuji coba gratis 30 hari dengan data sekolah Anda (<a href="https://claude.ai/artifact/XsNHzcVcraMUSkjw3rf1CH" target="_blank" rel="noopener">lihat demo</a>).</p></details>
-      <details><summary>Bagaimana absensi salat bekerja?</summary><p>Siswa absen dari HP. Absen hanya diterima bila lokasinya berada di area masjid sekolah, baik untuk salat wajib maupun sunnah. Guru dan orang tua bisa melihat rekapnya.</p></details>
-      <details><summary>Bagaimana cara membayar?</summary><p>Guru membayar ZonaKELAS Pro lewat QRIS, e-wallet, atau transfer, dan Pro aktif otomatis. Sekolah membayar ZonaPAI atau website per tahun dengan invoice, kuitansi, dan berita acara, sehingga bisa dari dana BOS.</p></details>
-      <details><summary>Bagaimana keamanan data siswa?</summary><p>Data setiap guru dan sekolah terpisah, hanya dipakai untuk keperluan aplikasi, dicadangkan rutin, dan diatur dalam perjanjian pemrosesan data sesuai UU Pelindungan Data Pribadi.</p></details>
-      <details><summary>Apa yang terjadi bila langganan tidak diperpanjang?</summary><p>Ada masa tenggang 14 hari. Setelah itu fitur berbayar terkunci atau website dinonaktifkan sementara, dan data tetap disimpan 30 hari agar mudah diaktifkan kembali.</p></details>
+      <details><summary>Bisa mencoba dulu?</summary><p>Bisa. ZonaKELAS gratis untuk satu kelas, ZonaPAI gratis 30 hari.</p></details>
+      <details><summary>Bagaimana cara membayar?</summary><p>QRIS, e-wallet, atau transfer. Lembaga mendapat invoice dan kuitansi resmi.</p></details>
+      <details><summary>Apakah data aman?</summary><p>Data setiap pengguna terpisah, dicadangkan rutin, dan tidak dibagikan ke pihak lain.</p></details>
+      <details><summary>Bagaimana jika tidak diperpanjang?</summary><p>Ada masa tenggang 14 hari. Data tetap disimpan 30 hari setelahnya.</p></details>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<section class="wd-cta" id="kontak">
-  <div class="wd-cta-inner">
-    <h2 class="wd-cta-title">Tanya dulu juga <em>boleh.</em></h2>
-    <p class="wd-cta-desc">Konsultasi gratis untuk guru maupun sekolah. Balasan pada hari kerja, biasanya di hari yang sama.</p>
-    <div class="ctas" style="justify-content:center">
-      <a class="btn-primary wa" data-msg="Halo Aruma Studio, saya ingin konsultasi tentang aplikasi/website untuk guru atau sekolah." href="#kontak"><i class="fa-brands fa-whatsapp"></i> Chat WhatsApp</a>
-      <a class="btn-ghost wa" data-msg="Halo Aruma Studio, saya ingin mencoba ZonaPAI gratis 30 hari untuk sekolah kami." href="#kontak">Uji coba ZonaPAI</a>
-    </div>
-    <p class="wa-num">WhatsApp: +62 882-1036-2311</p>
+<section class="cta dark" id="kontak">
+  <div class="wrap">
+    <h2 class="reveal">Mari <em>mulai</em>.</h2>
+    <div class="row reveal"><a class="btn fill wa" href="#kontak"><i class="fa-brands fa-whatsapp"></i> Chat WhatsApp</a></div>
   </div>
 </section>
 
-<footer>
-  <div class="footer-logo">◆ ARUMA STUDIO</div>
-  <div class="footer-copy">© <span id="yr">2026</span> Aplikasi &amp; website sekolah · Kediri</div>
-</footer>
+<footer><span class="logo">◆ ARUMA STUDIO</span><span class="mono">© <span id="yr">2026</span> · Kediri</span></footer>
 
 <script src="portofolio.js"></script>
 <script>
-// ── NOMOR WHATSAPP (format 62…, tanpa + dan spasi) ──
 var WA = '6288210362311';
 document.querySelectorAll('a.wa').forEach(function (a) {
-  a.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(a.getAttribute('data-msg') || 'Halo Aruma Studio');
+  a.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent('Halo Aruma Studio, saya ingin konsultasi aplikasi/website.');
   a.target = '_blank'; a.rel = 'noopener';
 });
 try { document.getElementById('yr').textContent = new Date().getFullYear(); } catch (e) {}
 
-// ── SLOT GAMBAR: tampilkan kotak kosong bila file belum ada ──
-document.querySelectorAll('.slot img').forEach(function (img) {
+// slot gambar kosong
+document.querySelectorAll('.shot img').forEach(function (img) {
   function kosong() { img.parentNode.classList.add('empty'); img.style.display = 'none'; }
   if (img.complete && img.naturalWidth === 0) kosong();
   img.addEventListener('error', kosong);
 });
 
-// ── KARYA WEBSITE dari portofolio.js ──
+// tab harga
+function bukaTab(id) {
+  document.querySelectorAll('.tabs button').forEach(function (b) { b.setAttribute('aria-selected', b.dataset.tab === id); });
+  ['kelas', 'pai', 'web'].forEach(function (t) { var p = document.getElementById('p-' + t); p.hidden = t !== id; if (t === id) p.classList.add('visible'); });
+}
+document.querySelectorAll('[data-tab]').forEach(function (el) { el.addEventListener('click', function () { bukaTab(el.dataset.tab); }); });
+
+// karya lain dari portofolio.js (ZonaPAI sudah tampil di atas)
 (function () {
-  var grid = document.getElementById('wdGrid');
-  var projects = (typeof WEBDEV_PROJECTS !== 'undefined') ? WEBDEV_PROJECTS : [];
-  if (!grid) return;
-  if (!projects.length) { grid.parentNode.style.display = 'none'; return; }
-  projects.forEach(function (p) {
-    var card = document.createElement('div');
-    card.className = 'wd-card reveal';
-    card.innerHTML =
-      (p.gambar ? '<img class="wd-card-img" src="' + p.gambar + '" alt="' + (p.nama || '') + '" loading="lazy">' : '') +
-      '<div class="wd-card-gradient"></div><div class="wd-card-info">' +
-      '<span class="wd-card-cat">' + (p.kategori || '') + ' · ' + (p.tahun || '') + '</span>' +
-      '<div class="wd-card-title">' + (p.nama || '') + '</div>' +
-      '<div class="wd-card-desc">' + (p.deskripsi || '') + '</div>' +
-      (p.link ? '<a class="wd-card-link" href="' + p.link + '" target="_blank" rel="noopener">Kunjungi →</a>' : '') +
-      '</div>';
-    grid.appendChild(card);
+  var list = (typeof WEBDEV_PROJECTS !== 'undefined' ? WEBDEV_PROJECTS : []).filter(function (p) { return p.nama !== 'ZonaPAI'; });
+  if (!list.length) return;
+  var box = document.getElementById('works');
+  list.forEach(function (p) {
+    var a = document.createElement(p.link ? 'a' : 'div');
+    a.className = 'work';
+    if (p.link) { a.href = p.link; a.target = '_blank'; a.rel = 'noopener'; }
+    a.innerHTML = '<figure class="shot"><img src="' + (p.gambar || '') + '" alt="' + p.nama + '" loading="lazy"></figure><h3>' + p.nama + '</h3><span class="mono">' + (p.kategori || '') + ' · ' + (p.tahun || '') + '</span>';
+    box.appendChild(a);
   });
+  document.getElementById('worksWrap').style.display = '';
 })();
 
-// ── SCROLL REVEAL ──
+// nav solid saat scroll
+var nav = document.getElementById('nav');
+addEventListener('scroll', function () { nav.classList.toggle('solid', scrollY > 40); }, { passive: true });
+
+// reveal
 (function () {
   var els = document.querySelectorAll('.reveal');
   if (!('IntersectionObserver' in window)) { els.forEach(function (e) { e.classList.add('visible'); }); return; }
-  var obs = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.08 });
-  els.forEach(function (el) { obs.observe(el); });
+  var o = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('visible'); o.unobserve(e.target); } }); }, { threshold: 0.1 });
+  els.forEach(function (e) { o.observe(e); });
 })();
 
-// ── CURSOR (hanya di perangkat dengan mouse) ──
+// cursor
 (function () {
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
   document.body.classList.add('has-cursor');
-  var cursor = document.getElementById('cursor'), ring = document.getElementById('cursorRing');
-  var mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
-  (function anim() { rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(anim); })();
-  document.querySelectorAll('a, button, summary, .slot').forEach(function (el) {
-    el.addEventListener('mouseenter', function () { cursor.classList.add('hovered'); ring.classList.add('hovered'); });
-    el.addEventListener('mouseleave', function () { cursor.classList.remove('hovered'); ring.classList.remove('hovered'); });
+  var c = document.getElementById('cursor'), r = document.getElementById('ring'), mx = 0, my = 0, rx = 0, ry = 0;
+  addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; c.style.left = mx + 'px'; c.style.top = my + 'px'; });
+  (function loop() { rx += (mx - rx) * .15; ry += (my - ry) * .15; r.style.left = rx + 'px'; r.style.top = ry + 'px'; requestAnimationFrame(loop); })();
+  document.querySelectorAll('a, button, summary').forEach(function (el) {
+    el.addEventListener('mouseenter', function () { r.classList.add('hovered'); });
+    el.addEventListener('mouseleave', function () { r.classList.remove('hovered'); });
   });
 })();
 </script>
