@@ -126,6 +126,8 @@ nav {
 /* slot gambar */
 .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; min-width: 0; }
 .gallery .slot:first-child { grid-column: 1 / -1; aspect-ratio: 16 / 10; }
+.gallery.single { grid-template-columns: 1fr; max-width: 460px; width: 100%; justify-self: center; }
+.gallery.single .slot:first-child { aspect-ratio: 4 / 5; }
 .slot { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--forest-mid); }
 .sec.alt .slot { background: var(--black); }
 .slot img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform .6s; }
@@ -318,12 +320,9 @@ footer { padding: 36px 48px; background: var(--black); display: flex; justify-co
           <a class="btn-primary btn-sm" href="https://claude.ai/artifact/XsNHzcVcraMUSkjw3rf1CH" target="_blank" rel="noopener">Lihat demo <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
           <a class="btn-ghost btn-sm wa" data-msg="Halo Aruma Studio, saya ingin mencoba ZonaPAI gratis 30 hari untuk sekolah kami." href="#kontak">Uji coba 30 hari</a>
         </div>
-        <p class="app-note">Sudah dipakai: <a href="https://zonapai.infinityfree.me" target="_blank" rel="noopener" style="color:var(--amber)">zonapai.infinityfree.me</a></p>
       </div>
-      <div class="gallery">
-        <figure class="slot"><img src="images/zonapai.jpg" alt="Tampilan aplikasi ZonaPAI" loading="lazy"><div class="ph"><i class="fa-regular fa-image"></i><b>images/zonapai.jpg</b><small>Halaman utama · 16:10</small></div></figure>
-        <figure class="slot"><img src="images/zonapai-2.jpg" alt="Absensi salat ZonaPAI" loading="lazy"><div class="ph"><i class="fa-regular fa-image"></i><b>images/zonapai-2.jpg</b><small>Absensi salat · 4:3</small></div></figure>
-        <figure class="slot"><img src="images/zonapai-3.jpg" alt="Dashboard guru ZonaPAI" loading="lazy"><div class="ph"><i class="fa-regular fa-image"></i><b>images/zonapai-3.jpg</b><small>Dashboard guru · 4:3</small></div></figure>
+      <div class="gallery single">
+        <figure class="slot"><img src="images/zonapai.jpg" alt="Tampilan aplikasi ZonaPAI" loading="lazy"><div class="ph"><i class="fa-regular fa-image"></i><b>images/zonapai.jpg</b><small>Foto utama · 4:5</small></div></figure>
       </div>
     </article>
   </div>
